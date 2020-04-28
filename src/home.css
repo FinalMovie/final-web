@@ -2,11 +2,13 @@
 /*    color: #61dafb;*/
 /*    font-size: 200px;*/
 /*}*/
-body {
+.homeBody {
     background: url(http://getwallpapers.com/wallpaper/full/9/8/8/529635.jpg);
     /* Full height */
     height: 100%;
     width: 100%;
     background-size: cover;
 }
-
+.container{
+    background-color: pink;
+}

@@ -1,15 +1,80 @@
+
+
 import React from "react";
 
 export default class Login extends React.Component{
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            user: {
+                username: '',
+                password: ''
+            },
+            flag: false // indicate whether clicked on login button
+        };
+        this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        // this.handleLogout = this.handleLogout.bind(this);
+    }
+
+    handleInputChange(event) {
+        const {name, value} = event.target;
+        // this.state.user[name] = value;
+        this.setState({
+            user: {
+                ...this.state.user,
+                [name]: value
+            }
+        });
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        this.setState(
+            {flag:true}
+        );
+        // this.props.login(this.state.user);// this line will finish immediately
+    }
+
     render() {
         return(
             <React.Fragment>
-                {/* React.Component> Login组件已经继承了component，这里不能出现compoment 他不是一个html元素，应该使用Fragment*/}
-                {/* <body> */}
-                <p>SHUT OFF</p>
-                <h1>CCCCCC</h1>
-                {/* </body>  body标签不能出现在组件当中 一个html页面只能有一个body */}
+                <div className="container">
+                    <h2>Login</h2>
+                    <form onSubmit={this.handleSubmit}>
+                        <div className="form-group">
+                            <label>
+                                Username
+                                <input type="text"
+                                       className="form-control"
+                                       name="username"
+                                       value={this.state.user.username}
+                                       onChange={this.handleInputChange}
+                                />
+                            </label>
+                        </div>
+                        <div className="form-group">
+                            <label>
+                                Password
+                                <input type="password"
+                                       className="form-control"
+                                       name="password"
+                                       value={this.state.user.password}
+                                       onChange={this.handleInputChange}
+                                />
+                            </label>
+                        </div>
+                        {
+                            // this.props.authUser
+                            //     ? <button className="btn btn-danger" type="button" onClick={this.handleLogout}>Logout</button>
+                            //     :
+                                <button className="btn btn-primary" type="submit">Login</button>
+                        }
+
+                    </form>
+                </div>
+
             </React.Fragment>
         );
     }

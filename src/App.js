@@ -4,6 +4,7 @@ import Home from "./home";
 import {Route, Switch} from "react-router";
 import {BrowserRouter} from "react-router-dom";
 import Login from "./Login";
+import Header from "./Header";
 
 
 export default class App extends React.Component {
@@ -14,8 +15,9 @@ export default class App extends React.Component {
         return (
             <React.Fragment>
                 <BrowserRouter>
+                    <Header/>
                     <Switch>
-                        {/* exact 精确匹配  */}
+                        <Route exact path="/Home" component={Home}/>
                         <Route exact path="/Login" component={Login}/>
                         <Route exact path="/" component={Home}/>
                     </Switch>
