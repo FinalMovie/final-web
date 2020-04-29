@@ -7,7 +7,7 @@ class Header extends React.Component {
     render() {
 
         return (
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <nav className="navbar navbar-expand-lg navbar-light bg-light navbar-collapse">
 
                 <svg className="bi bi-camera-video-fill" width="2em" height="2em" viewBox="0 0 16 16"
                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -29,7 +29,7 @@ class Header extends React.Component {
                             <Link to="/Home"className="nav-link">Home</Link>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" href="#">Movies</a>
+                            <Link to="/Movie" className="nav-link">Movies</Link>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="#">What's New</a>

@@ -5,6 +5,7 @@ import {Route, Switch} from "react-router";
 import {BrowserRouter} from "react-router-dom";
 import Login from "./Login";
 import Header from "./Header";
+import Movie from "./Movie";
 
 
 export default class App extends React.Component {
@@ -19,6 +20,7 @@ export default class App extends React.Component {
                     <Switch>
                         <Route exact path="/Home" component={Home}/>
                         <Route exact path="/Login" component={Login}/>
+                        <Route exact path="/Movie" component={Movie}/>
                         <Route exact path="/" component={Home}/>
                     </Switch>
                 </BrowserRouter>

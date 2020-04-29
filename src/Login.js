@@ -13,24 +13,24 @@ export default class Login extends React.Component{
                 password: ''
             },
             flag: false // indicate whether clicked on login button
+
         };
         this.handleChangeUsername = this.handleChangeUsername.bind(this);
         this.handleChangePassword = this.handleChangePassword.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        // this.handleLogout = this.handleLogout.bind(this);
+        this.handleLogout = this.handleLogout.bind(this);
     }
 
-    // 做了修改，username和password分别绑定不同的点击事件
+    handleLogout(event) {
+        event.preventDefault();
+        this.setState({
+            flag:false
+        })
+    }
+
+
     handleChangeUsername(event) {
         let username = event.target.value;
-        // const {name, value} = event.target;
-        // this.state.user[name] = value;
-        // this.setState({
-        //     user: {
-        //         ...this.state.user,
-        //         [name]: value
-        //     }
-        // });
         this.setState({
             user: {
                 ...this.state.user,
@@ -51,26 +51,30 @@ export default class Login extends React.Component{
 
     handleSubmit(event) {
         event.preventDefault();
-        this.setState(
-            {flag:true}
-        );
+        // this.setState(
+        //     {flag:true}
+        // );
 
         let formData=new FormData();
-        // 请求头
         let header = {     
           headers: { 'content-type': 'multipart/form-data' }
         };
 
-        // form表单必须使用formdata提交请求
+
         formData.append("username",this.state.user.username);
         formData.append("password",this.state.user.password);
 
         // 请求后端接口 进行登陆 form表单登陆
         axios.post("/api/login",formData,header).then(res=>{
+            console.log(this.state.user.password);
             if(res.data.success){
-                alert("登陆成功！")
+                this.setState(
+                    {flag:true}
+                );
+                alert("Welcome "+this.state.user.username)
+
             }else{
-                alert("登陆失败！")
+                alert("FAILED to LOGIN！")
             }
         })
         // this.props.login(this.state.user);// this line will finish immediately
@@ -105,12 +109,11 @@ export default class Login extends React.Component{
                             </label>
                         </div>
                         {
-                            // this.props.authUser
-                            //     ? <button className="btn btn-danger" type="button" onClick={this.handleLogout}>Logout</button>
-                            //     :
+                            this.state.flag
+                                ?<button className="btn btn-danger" type="button" onClick={this.handleLogout}>Logout</button>
+                                :
                                 <button className="btn btn-primary" type="submit">Login</button>
                         }
-
                     </form>
                 </div>
 
