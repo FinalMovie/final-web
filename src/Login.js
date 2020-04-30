@@ -1,9 +1,7 @@
-
-
 import React from "react";
 import axios from 'axios';
 
-export default class Login extends React.Component{
+export default class Login extends React.Component {
 
     constructor(props) {
         super(props);
@@ -24,7 +22,14 @@ export default class Login extends React.Component{
     handleLogout(event) {
         event.preventDefault();
         this.setState({
-            flag:false
+            flag: false
+        })
+        axios.get("/api/logout").then(res => {
+            if (res.data.success) {
+                alert("SUCCESS TO LOGOUT! ");
+            } else {
+                alert("FAILED to LOGIN！");
+            }
         })
     }
 
@@ -34,17 +39,17 @@ export default class Login extends React.Component{
         this.setState({
             user: {
                 ...this.state.user,
-                username:username
+                username: username
             }
         })
     }
 
-    handleChangePassword(event){
+    handleChangePassword(event) {
         let password = event.target.value;
         this.setState({
             user: {
                 ...this.state.user,
-                password:password
+                password: password
             }
         })
     }
@@ -55,25 +60,23 @@ export default class Login extends React.Component{
         //     {flag:true}
         // );
 
-        let formData=new FormData();
-        let header = {     
-          headers: { 'content-type': 'multipart/form-data' }
+        let formData = new FormData();
+        let header = {
+            headers: {'content-type': 'multipart/form-data'}
         };
 
 
-        formData.append("username",this.state.user.username);
-        formData.append("password",this.state.user.password);
+        formData.append("username", this.state.user.username);
+        formData.append("password", this.state.user.password);
 
         // 请求后端接口 进行登陆 form表单登陆
-        axios.post("/api/login",formData,header).then(res=>{
-            console.log(this.state.user.password);
-            if(res.data.success){
+        axios.post("/api/login", formData, header).then(res => {
+            if (res.data.success) {
                 this.setState(
-                    {flag:true}
+                    {flag: true}
                 );
-                alert("Welcome "+this.state.user.username)
-
-            }else{
+                alert("Welcome " + this.state.user.username)
+            } else {
                 alert("FAILED to LOGIN！")
             }
         })
@@ -81,7 +84,7 @@ export default class Login extends React.Component{
     }
 
     render() {
-        return(
+        return (
             <React.Fragment>
                 <div className="container">
                     <h2>Login</h2>
@@ -110,7 +113,7 @@ export default class Login extends React.Component{
                         </div>
                         {
                             this.state.flag
-                                ?<button className="btn btn-danger" type="button" onClick={this.handleLogout}>Logout</button>
+                                ? <button className="btn btn-danger" type="button" onClick={this.handleLogout}>Logout</button>
                                 :
                                 <button className="btn btn-primary" type="submit">Login</button>
                         }

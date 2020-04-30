@@ -26,7 +26,7 @@ class Header extends React.Component {
                     <ul className="nav navbar-nav">
                         <li className="nav-item active">
                             {/*<a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>*/}
-                            <Link to="/Home"className="nav-link">Home</Link>
+                            <Link to="/Home" className="nav-link">Home</Link>
                         </li>
                         <li className="nav-item">
                             <Link to="/Movie" className="nav-link">Movies</Link>
@@ -43,7 +43,7 @@ class Header extends React.Component {
                                       d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z"
                                       clipRule="evenodd"/>
                             </svg>
-                            <Link to="/Login" >Login</Link>
+                            <Link to="/Login">Login</Link>
                         </li>
                         <li className="nav-item">
                             <svg className="bi bi-person-plus-fill" width="1em" height="1em" viewBox="0 0 16 16"
@@ -55,7 +55,7 @@ class Header extends React.Component {
                                       d="M13 7.5a.5.5 0 01.5-.5h2a.5.5 0 010 1H14v1.5a.5.5 0 01-1 0v-2z"
                                       clipRule="evenodd"/>
                             </svg>
-                            <Link to="/Login" >Signup</Link></li>
+                            <Link to="/Login">Signup</Link></li>
                     </ul>
                 </div>
             </nav>
@@ -63,4 +63,5 @@ class Header extends React.Component {
         );
     }
 }
+
 export default Header;
