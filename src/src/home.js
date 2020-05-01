@@ -33,7 +33,7 @@ export default class home extends React.Component {
                 {/*</body>*/}
                 <div className= "bg">
                     <div className="content">
-                        <h1>Welcome</h1>
+                        <h1>Welcome333</h1>
                         <h3>The Best Place to Enjoy Movies</h3>
                             <button className="btn btn-info btn-lg" onClick={this.handleDirect}> Get Started!
                             </button>

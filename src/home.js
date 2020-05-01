@@ -35,8 +35,10 @@ export default class home extends React.Component {
                     <div className="content">
                         <h1>Welcome</h1>
                         <h3>The Best Place to Enjoy Movies</h3>
-                            <button className="btn btn-info btn-lg" onClick={this.handleDirect}> Get Started!
-                            </button>
+                            <Link to="/Movie">
+                                <button className="btn btn-info btn-lg"> Get Started!
+                                </button>
+                            </Link>
                     </div>
                     <p className="copyright">@Copyright 2020 Reserved By Triton</p>
                 </div>

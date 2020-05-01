@@ -75,8 +75,10 @@ export default class Login extends React.Component {
                 this.setState(
                     {flag: true}
                 );
+                this.props.getLoginStatus(true);
                 alert("Welcome " + this.state.user.username)
             } else {
+                this.props.getLoginStatus(false);
                 alert("FAILED to LOGIN！")
             }
         })

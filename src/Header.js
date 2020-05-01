@@ -3,9 +3,12 @@ import {Link} from "react-router-dom";
 
 
 class Header extends React.Component {
-
+    constructor(props) {
+        super(props);
+        this.state={}
+    }
+    
     render() {
-
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light navbar-collapse">
 
@@ -43,7 +46,13 @@ class Header extends React.Component {
                                       d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z"
                                       clipRule="evenodd"/>
                             </svg>
-                            <Link to="/Login">Login</Link>
+                            {
+                                this.props.loginStatus?
+                                <Link to="/Logout">Logout</Link>
+                                :
+                                <Link to="/Login">Login</Link>
+                            }
+                            
                         </li>
                         <li className="nav-item">
                             <svg className="bi bi-person-plus-fill" width="1em" height="1em" viewBox="0 0 16 16"
