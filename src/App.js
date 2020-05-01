@@ -6,6 +6,8 @@ import {BrowserRouter} from "react-router-dom";
 import Login from "./Login";
 import Header from "./Header";
 import Movie from "./Movie";
+import Food from "./Food";
+import Signup from "./Signup";
 import 'bootstrap/dist/css/bootstrap.css';
 
 
@@ -40,6 +42,9 @@ export default class App extends React.Component {
                         <Route exact path="/Home" component={Home}/>
                         <Route exact path="/Login" component={login}/>
                         <Route exact path="/Movie" component={Movie}/>
+                        <Route exact path="/Food" component={Food}/>
+                        <Route exact path="/Login" component={login}/>
+                        <Route exact path="/Signup" component={Signup}/>
                         <Route exact path="/" component={Home}/>
                     </Switch>
                 </BrowserRouter>

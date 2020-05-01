@@ -14,15 +14,7 @@ export default class home extends React.Component {
         };
     }
 
-    handleDirect(event){
-        event.preventDefault();
-        // if (!this.state.isClicked) {
-        //     return <Redirect to='/Login' />
-        // }
-        // this.setState({
-        //     isClicked:true
-        // })
-    }
+
 
     render() {
         return (

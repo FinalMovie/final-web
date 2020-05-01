@@ -35,6 +35,9 @@ class Header extends React.Component {
                             <Link to="/Movie" className="nav-link">Movies</Link>
                         </li>
                         <li className="nav-item">
+                            <Link to="/Food" className="nav-link">Food</Link>
+                        </li>
+                        <li className="nav-item">
                             <a className="nav-link" href="#">What's New</a>
                         </li>
                     </ul>
@@ -64,7 +67,7 @@ class Header extends React.Component {
                                       d="M13 7.5a.5.5 0 01.5-.5h2a.5.5 0 010 1H14v1.5a.5.5 0 01-1 0v-2z"
                                       clipRule="evenodd"/>
                             </svg>
-                            <Link to="/Login">Signup</Link></li>
+                            <Link to="/Signup">Signup</Link></li>
                     </ul>
                 </div>
             </nav>
