@@ -1,5 +1,6 @@
 import React from "react";
 import axios from 'axios';
+import {Link} from "react-router-dom";
 
 export default class Login extends React.Component {
 
@@ -21,9 +22,6 @@ export default class Login extends React.Component {
 
     handleLogout(event) {
         event.preventDefault();
-        this.setState({
-            flag: false
-        })
         axios.get("/api/logout").then(res => {
             if (res.data.success) {
                 alert("SUCCESS TO LOGOUT! ");
@@ -56,33 +54,30 @@ export default class Login extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        // this.setState(
-        //     {flag:true}
-        // );
-
         let formData = new FormData();
         let header = {
             headers: {'content-type': 'multipart/form-data'}
         };
 
-
         formData.append("username", this.state.user.username);
         formData.append("password", this.state.user.password);
 
-        // 请求后端接口 进行登陆 form表单登陆
         axios.post("/api/login", formData, header).then(res => {
             if (res.data.success) {
                 this.setState(
                     {flag: true}
                 );
                 this.props.getLoginStatus(true);
+                if(this.state.username === 'admin'){
+                    this.props.isAdminUser(true);
+                }
                 alert("Welcome " + this.state.user.username)
+
             } else {
                 this.props.getLoginStatus(false);
                 alert("FAILED to LOGIN！")
             }
         })
-        // this.props.login(this.state.user);// this line will finish immediately
     }
 
     render() {
@@ -119,6 +114,7 @@ export default class Login extends React.Component {
                                 :
                                 <button className="btn btn-primary" type="submit">Login</button>
                         }
+
                     </form>
                 </div>
 

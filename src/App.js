@@ -8,7 +8,9 @@ import Header from "./Header";
 import Movie from "./Movie";
 import Food from "./Food";
 import Signup from "./Signup";
+import ShoppingCart from "./ShoppingCart";
 import 'bootstrap/dist/css/bootstrap.css';
+import Edit from "./Edit";
 
 
 export default class App extends React.Component {
@@ -16,7 +18,8 @@ export default class App extends React.Component {
     constructor(props){
         super(props);
         this.state={
-            loginStatus: false
+            loginStatus: false,
+            isAdmin: false
         }
     }
 
@@ -26,24 +29,33 @@ export default class App extends React.Component {
             loginStatus:value
         })
     }
+    isAdminUser=(value)=>{
+        this.setState({
+            isAdmin:value
+        })
+    }
+
 
     render () {
-        // 传递登陆状态获取方法 给login组件
-        // login 成功之后 返回值回来， 同时把状态传递给header组件，header组件根据状态决定显示那个
         const login = props=>{
             return <Login getLoginStatus={this.getLoginStatus}/>
         }
+        // const admin = props=>{
+        //     return <Header isAdminUser={this.isAdminUser}>
+        // }
+
         // virtual root element will not be rendered to DOM tree. 
         return (
             <React.Fragment>
                 <BrowserRouter>
-                    <Header loginStatus={this.state.loginStatus} />
+                    <Header loginStatus={this.state.loginStatus} isAdmin={this.state.isAdmin}/>
                     <Switch>
                         <Route exact path="/Home" component={Home}/>
+                        <Route exact path="/Edit" component={Edit}/>
                         <Route exact path="/Login" component={login}/>
                         <Route exact path="/Movie" component={Movie}/>
                         <Route exact path="/Food" component={Food}/>
-                        <Route exact path="/Login" component={login}/>
+                        <Route exact path="/ShoppingCart" component={ShoppingCart}/>
                         <Route exact path="/Signup" component={Signup}/>
                         <Route exact path="/" component={Home}/>
                     </Switch>

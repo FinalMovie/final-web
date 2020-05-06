@@ -5,13 +5,12 @@ import {Link} from "react-router-dom";
 class Header extends React.Component {
     constructor(props) {
         super(props);
-        this.state={}
     }
+
     
     render() {
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light navbar-collapse">
-
                 <svg className="bi bi-camera-video-fill" width="2em" height="2em" viewBox="0 0 16 16"
                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -21,14 +20,10 @@ class Header extends React.Component {
                 </svg>
 
                 <a className="navbar-brand">TheLegend27</a>
-                {/*<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"*/}
-                {/*        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">*/}
-                {/*    <span className="navbar-toggler-icon"></span>*/}
-                {/*</button>*/}
+
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="nav navbar-nav">
                         <li className="nav-item active">
-                            {/*<a className="nav-link" href="#">Home <span className="sr-only">(current)</span></a>*/}
                             <Link to="/Home" className="nav-link">Home</Link>
                         </li>
                         <li className="nav-item">
@@ -40,34 +35,64 @@ class Header extends React.Component {
                         <li className="nav-item">
                             <a className="nav-link" href="#">What's New</a>
                         </li>
+
+                        <li className="nav-item">
+                            <Link to="/Edit" className="nav-link">Edit</Link>
+                        </li>
+
                     </ul>
                     <ul className="nav navbar-nav ml-auto">
                         <li className="nav-item">
-                            <svg className="bi bi-person-fill" width="1em" height="1em" viewBox="0 0 16 16"
-                                 fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path fillRule="evenodd"
-                                      d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z"
-                                      clipRule="evenodd"/>
-                            </svg>
                             {
-                                this.props.loginStatus?
-                                <Link to="/Logout">Logout</Link>
-                                :
-                                <Link to="/Login">Login</Link>
+                                this.props.loginStatus ?
+                                    <Link to="/Home">Logout</Link>
+                                    :
+                                    <Link to="/Login">Login</Link>
                             }
-                            
+                            {
+                                this.props.loginStatus ?
+                                    <svg className="bi bi-person-dash-fill" width="1em" height="1em" viewBox="0 0 16 16"
+                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fill-rule="evenodd"
+                                              d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 100-6 3 3 0 000 6zm5-.5a.5.5 0 01.5-.5h4a.5.5 0 010 1h-4a.5.5 0 01-.5-.5z"
+                                              clip-rule="evenodd"/>
+                                    </svg>
+                                    :
+                                    <svg className="bi bi-person-fill" width="1em" height="1em" viewBox="0 0 16 16"
+                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                            <path fillRule="evenodd"
+                                              d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z"
+                                              clipRule="evenodd"/>
+                                    </svg>
+                            }
+
                         </li>
                         <li className="nav-item">
-                            <svg className="bi bi-person-plus-fill" width="1em" height="1em" viewBox="0 0 16 16"
-                                 fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path fillRule="evenodd"
-                                      d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 100-6 3 3 0 000 6zm7.5-3a.5.5 0 01.5.5v2a.5.5 0 01-.5.5h-2a.5.5 0 010-1H13V5.5a.5.5 0 01.5-.5z"
-                                      clipRule="evenodd"/>
-                                <path fillRule="evenodd"
-                                      d="M13 7.5a.5.5 0 01.5-.5h2a.5.5 0 010 1H14v1.5a.5.5 0 01-1 0v-2z"
-                                      clipRule="evenodd"/>
-                            </svg>
-                            <Link to="/Signup">Signup</Link></li>
+                            {
+                                this.props.loginStatus ?
+                                    <Link to="/ShoppingCart">My Cart</Link>
+                                    :
+                                    <Link to="/Signup">Signup</Link>
+                            }
+                            {
+                                this.props.loginStatus ?
+                                    <svg className="bi bi-bag-fill" width="1em" height="1em" viewBox="0 0 16 16"
+                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M1 4h14v10a2 2 0 01-2 2H3a2 2 0 01-2-2V4zm7-2.5A2.5 2.5 0 005.5 4h-1a3.5 3.5 0 117 0h-1A2.5 2.5 0 008 1.5z"/>
+                                    </svg>
+                                    :
+                                    <svg className="bi bi-person-plus-fill" width="1em" height="1em" viewBox="0 0 16 16"
+                                        fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fillRule="evenodd"
+                                        d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 100-6 3 3 0 000 6zm7.5-3a.5.5 0 01.5.5v2a.5.5 0 01-.5.5h-2a.5.5 0 010-1H13V5.5a.5.5 0 01.5-.5z"
+                                        clipRule="evenodd"/>
+                                        <path fillRule="evenodd"
+                                        d="M13 7.5a.5.5 0 01.5-.5h2a.5.5 0 010 1H14v1.5a.5.5 0 01-1 0v-2z"
+                                        clipRule="evenodd"/>
+                                </svg>
+                            }
+                        </li>
                     </ul>
                 </div>
             </nav>

@@ -13,7 +13,6 @@ export default class Movie extends React.Component {
     }
 
     componentDidMount() {
-        // TODO 1. 装载state后显示；2. 设置全局登录拦截器，如果未登录会返回{success:false,msg:need login}
         axios.get("/api/movieList").then(res => {
             console.log(res.data)
             if (res.data.success) {
@@ -22,6 +21,10 @@ export default class Movie extends React.Component {
                 alert("FAILED to LOAD DATA！");
             }
         })
+    }
+    addToCart(event) {
+        event.preventDefault();
+        // this.props.functionCallFromParent();
     }
 
     render() {
@@ -35,9 +38,8 @@ export default class Movie extends React.Component {
                                     <h1>{value.name}</h1>
                                     <p className="price">${value.price}</p>
                                     <p>{value.description}</p>
-
                                     <p>
-                                        <button>Add to Cart</button>
+                                        <button onClick={this.addToCart.bind(this)}>Add to Cart</button>
                                     </p>
                                 </div>
                         )

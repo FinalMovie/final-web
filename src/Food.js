@@ -13,7 +13,6 @@ export default class Food extends React.Component {
     }
 
     componentDidMount() {
-        // TODO 1. 装载state后显示；2. 设置全局登录拦截器，如果未登录会返回{success:false,msg:need login}
         axios.get("/api/foodList").then(res => {
             console.log(res.data)
             if (res.data.success) {
@@ -41,6 +40,7 @@ export default class Food extends React.Component {
                                         <button>Add to Cart</button>
                                     </p>
                                 </div>
+
                             )
                         })
                     }
