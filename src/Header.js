@@ -5,8 +5,24 @@ import {Link} from "react-router-dom";
 class Header extends React.Component {
     constructor(props) {
         super(props);
+        this.state={
+            loginStatus:window.localStorage.getItem("islogin")==="true"?true:false
+        }
     }
 
+    handleLogout(){
+        let storage = window.localStorage;
+        storage.setItem("islogin",false);
+        console.log("12");
+        this.setState({
+            loginStatus:false
+        })
+    }
+    componentWillReceiveProps(){
+        this.setState({
+            loginStatus:this.props.loginStatus
+        })
+    }
     
     render() {
         return (
@@ -44,13 +60,13 @@ class Header extends React.Component {
                     <ul className="nav navbar-nav ml-auto">
                         <li className="nav-item">
                             {
-                                this.props.loginStatus ?
-                                    <Link to="/Home">Logout</Link>
+                                this.state.loginStatus ?
+                                    <Link to="/Home" onClick={this.handleLogout.bind(this)}>Logout</Link>
                                     :
                                     <Link to="/Login">Login</Link>
                             }
                             {
-                                this.props.loginStatus ?
+                                this.state.loginStatus ?
                                     <svg className="bi bi-person-dash-fill" width="1em" height="1em" viewBox="0 0 16 16"
                                          fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd"
@@ -69,13 +85,13 @@ class Header extends React.Component {
                         </li>
                         <li className="nav-item">
                             {
-                                this.props.loginStatus ?
+                                this.state.loginStatus ?
                                     <Link to="/ShoppingCart">My Cart</Link>
                                     :
                                     <Link to="/Signup">Signup</Link>
                             }
                             {
-                                this.props.loginStatus ?
+                                this.state.loginStatus ?
                                     <svg className="bi bi-bag-fill" width="1em" height="1em" viewBox="0 0 16 16"
                                          fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                         <path

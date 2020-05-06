@@ -1,7 +1,8 @@
 import React from "react";
 import axios from 'axios';
+import {withRouter} from 'react-router-dom';
 
-export default class Signup extends React.Component {
+class Signup extends React.Component {
 
     constructor(props) {
         super(props);
@@ -19,6 +20,7 @@ export default class Signup extends React.Component {
         this.handleChangeUsername = this.handleChangeUsername.bind(this);
         this.handleChangePassword = this.handleChangePassword.bind(this);
         this.handleChangeEmail = this.handleChangeEmail.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
 
@@ -50,6 +52,27 @@ export default class Signup extends React.Component {
             user: {
                 ...this.state.user,
                 email: email
+            }
+        })
+    }
+
+    handleSubmit(event){
+        event.preventDefault();
+        let formData = new FormData();
+        let header = {
+            headers: {'content-type': 'multipart/form-data'}
+        };
+        formData.append("username", this.state.user.username);
+        formData.append("password", this.state.user.password);
+        formData.append("email", this.state.user.email);
+        axios.post("/api/register",formData,header).then(res=>{
+            if(res.data.success){
+                alert("注册成功！");
+                let storage = window.localStorage;
+                storage.setItem("islogin",true);
+                this.props.history.push("/Home");
+            }else{
+                alert("注册失败！",res.data.msg);
             }
         })
     }
@@ -104,3 +127,5 @@ export default class Signup extends React.Component {
         );
     }
 }
+
+export default withRouter(Signup);

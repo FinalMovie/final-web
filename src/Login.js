@@ -1,8 +1,8 @@
 import React from "react";
 import axios from 'axios';
-import {Link} from "react-router-dom";
+import {Link,withRouter} from "react-router-dom";
 
-export default class Login extends React.Component {
+class Login extends React.Component {
 
     constructor(props) {
         super(props);
@@ -11,6 +11,7 @@ export default class Login extends React.Component {
                 username: '',
                 password: ''
             },
+            loginFailed: false,
             flag: false // indicate whether clicked on login button
 
         };
@@ -54,15 +55,16 @@ export default class Login extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
+        let storage = window.localStorage;
         let formData = new FormData();
         let header = {
             headers: {'content-type': 'multipart/form-data'}
         };
-
         formData.append("username", this.state.user.username);
         formData.append("password", this.state.user.password);
 
         axios.post("/api/login", formData, header).then(res => {
+            console.log(res);
             if (res.data.success) {
                 this.setState(
                     {flag: true}
@@ -72,10 +74,13 @@ export default class Login extends React.Component {
                     this.props.isAdminUser(true);
                 }
                 alert("Welcome " + this.state.user.username)
-
+                storage.setItem("username",this.state.user.username);
+                this.props.history.push('/Home');
             } else {
                 this.props.getLoginStatus(false);
-                alert("FAILED to LOGIN！")
+                this.setState({
+                    loginFailed:true
+                })
             }
         })
     }
@@ -109,6 +114,14 @@ export default class Login extends React.Component {
                             </label>
                         </div>
                         {
+                            this.state.loginFailed?
+                            <div>
+                                <p style={{"color":"red"}}>username or password was incorrect！</p>
+                            </div>
+                            :
+                            ""
+                        }
+                        {
                             this.state.flag
                                 ? <button className="btn btn-danger" type="button" onClick={this.handleLogout}>Logout</button>
                                 :
@@ -117,8 +130,9 @@ export default class Login extends React.Component {
 
                     </form>
                 </div>
-
             </React.Fragment>
         );
     }
 }
+
+export default withRouter(Login);
