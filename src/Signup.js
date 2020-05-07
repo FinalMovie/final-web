@@ -10,12 +10,14 @@ class Signup extends React.Component {
             user: {
                 username: '',
                 password: '',
+                confirmedPassword:'',
                 email:''
             },
             flag: false, // indicate whether clicked on login button
             status: false, // check if the username and password valid or not
-            isClicked: false // check the first time when login button is being clicked
-
+            isClicked: false, // check the first time when login button is being clicked
+            duplicateUsernameFailed: false,// the username is already in database/failed
+            passwordNotMatchFailed: false// confirm password doesn't match password
         };
         this.handleChangeUsername = this.handleChangeUsername.bind(this);
         this.handleChangePassword = this.handleChangePassword.bind(this);
@@ -46,6 +48,8 @@ class Signup extends React.Component {
         })
     }
 
+
+
     handleChangeEmail(event) {
         let email = event.target.value;
         this.setState({
@@ -65,14 +69,17 @@ class Signup extends React.Component {
         formData.append("username", this.state.user.username);
         formData.append("password", this.state.user.password);
         formData.append("email", this.state.user.email);
+
         axios.post("/api/register",formData,header).then(res=>{
             if(res.data.success){
-                alert("注册成功！");
+                alert("Register Succeed！");
                 let storage = window.localStorage;
                 storage.setItem("islogin",true);
                 this.props.history.push("/Home");
             }else{
-                alert("注册失败！",res.data.msg);
+                this.setState({
+                    duplicateUsernameFailed: true,
+                })
             }
         })
     }
@@ -80,7 +87,7 @@ class Signup extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className="container">
+                <div className="container-md">
                     <h2>Signup</h2>
 
                     <form onSubmit={this.handleSubmit}>
@@ -96,6 +103,12 @@ class Signup extends React.Component {
                                 />
                             </label>
                         </div>
+                        {
+                            this.state.duplicateUsernameFailed ?
+                                <p style={{"color":"red"}}>Username is already in use, please try again</p>
+                                :
+                                ""
+                        }
                         <div className="form-group">
                             <label>
                                 Password
@@ -107,6 +120,7 @@ class Signup extends React.Component {
                                 />
                             </label>
                         </div>
+
                         <div className="form-group">
                             <label>
                                 Email
@@ -118,7 +132,6 @@ class Signup extends React.Component {
                                 />
                             </label>
                         </div>
-
                         <button className="btn btn-primary" type="submit">Submit</button>
                     </form>
                 </div>

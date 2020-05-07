@@ -12,7 +12,9 @@ class Movie extends React.Component {
         super(props);
         this.state = {
             list: [],
-            show: false
+            show: false,
+            isDateSelected:false,//check if the date is being selected
+            selectedTime:""
         };
         this.handleSelectDate = this.handleSelectDate.bind(this);
     }
@@ -21,7 +23,7 @@ class Movie extends React.Component {
         let storage = window.localStorage;
         console.log(storage.getItem("islogin"));
         if(storage.getItem("islogin") !== 'true'){
-            alert("请登陆！");
+            alert("Please Login First！");
             this.props.history.push("/Login");
         }else{
             axios.get("/api/movieList").then(res => {
@@ -55,9 +57,10 @@ class Movie extends React.Component {
         storage.setItem("movie_name",value.name)
         // this.props.functionCallFromParent();
     }
-    handleColse(){
+    handleClose(){
         this.setState({
-            show:false
+            show:false,
+            isDateSelected:false
         })
     }
     handleShowModal(){
@@ -69,6 +72,10 @@ class Movie extends React.Component {
         console.log(value);
         let storage = window.localStorage;
         storage.setItem("start_time",value);
+        this.setState({
+            isDateSelected:true,
+            selectedTime: value
+        })
     }
     render() {
         return (
@@ -86,26 +93,31 @@ class Movie extends React.Component {
                                         <p>{value.description}</p>
                                         <p>
                                             <Button onClick={this.handleShowModal.bind(this)}>Add to Cart</Button>
-                                            {/* <button onClick={this.addToCart.bind(this,value)}>Add to Cart</button> */}
                                         </p>
                                     </div>
-                                    <Modal show={this.state.show} onHide={this.handleColse.bind(this)}>
+                                    <Modal show={this.state.show} onHide={this.handleClose.bind(this)}>
                                         <Modal.Header closeButton>
-                                        <Modal.Title>选择电影场次</Modal.Title>
+                                        <Modal.Title>Select the time</Modal.Title>
                                         </Modal.Header>
                                         <Modal.Body>
-                                        <DropdownButton id="dropdown-item-button" title="可选择的时间场次">
+                                        <DropdownButton id="dropdown-item-button" title="Available Time">
                                             <Dropdown.Item as="button" eventKey="2020-01-01 15:30" onSelect={(key)=>{this.handleSelectDate(key)}}>2020-01-01 15:30</Dropdown.Item>
                                             <Dropdown.Item as="button" eventKey="2020-01-02 15:30" onSelect={(key)=>{this.handleSelectDate(key)}}>2020-01-02 15:30</Dropdown.Item>
                                             <Dropdown.Item as="button" eventKey="2020-01-03 15:30" onSelect={(key)=>{this.handleSelectDate(key)}}>2020-01-03 15:30</Dropdown.Item>
                                         </DropdownButton>
+                                            {
+                                                this.state.isDateSelected ?
+                                                    <Modal.Title>Time Selected: {this.state.selectedTime}</Modal.Title>
+                                                    :
+                                                    ""
+                                            }
                                         </Modal.Body>
                                         <Modal.Footer>
-                                        <Button variant="secondary" onClick={this.handleColse.bind(this)}>
-                                            取消
+                                        <Button variant="secondary" onClick={this.handleClose.bind(this)}>
+                                            Cancel
                                         </Button>
                                         <Button variant="primary" onClick={this.addToCart.bind(this,value)}>
-                                            确定
+                                            Add
                                         </Button>
                                         </Modal.Footer>
                                     </Modal>

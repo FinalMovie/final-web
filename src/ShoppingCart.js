@@ -1,6 +1,7 @@
 import * as React from "react";
 import {Container,Row,Col,Button} from 'react-bootstrap';
 import {withRouter} from 'react-router-dom';
+import './ShoppingCart.css';
 
 class ShoppingCart extends React.Component {
 
@@ -8,7 +9,8 @@ class ShoppingCart extends React.Component {
         super(props);
         this.state={
             carts: window.localStorage.getItem("cart")!== null?JSON.parse(window.localStorage.getItem("cart")):[],
-            total:0
+            total:0,
+            subtotal:0
         }
     }
 
@@ -18,36 +20,68 @@ class ShoppingCart extends React.Component {
             total += value.price;
         }
         this.setState({
-            total:total
+            total:total,
+            subtotal: (total * 0.0625 + total).toFixed(2)
         })
     }
     pay(){
-        this.props.history.push({ pathname: "/Pay", state: { total:this.state.total,lists:this.state.carts} })
+        this.props.history.push({ pathname: "/Pay", state: { total:this.state.subtotal,lists:this.state.carts} })
     }
     render() {
         return (
             <React.Fragment>
-                <Container>
+                <div className="container-md">
                     <Row>
-                    {
-                        this.state.carts.map((value,index) => {
-                            return (
-                                <Col key={index}>
-                                    <div className="card">
-                                        <img src={value.image} height={300} width={300}/>
-                                        <h1>{value.name}</h1>
-                                        <p className="price">${value.price}</p>
-                                        <p>{value.description}</p>
-                                    </div>
-                                </Col>
-                                )
-                            })
-                        }
+                    {/*{*/}
+                    {/*    this.state.carts.map((value,index) => {*/}
+                    {/*        return (*/}
+                    {/*            <Col key={index}>*/}
+                    {/*                <div className="card">*/}
+                    {/*                    <img src={value.image} height={300} width={300}/>*/}
+                    {/*                    <h1>{value.name}</h1>*/}
+                    {/*                    <p className="price">${value.price}</p>*/}
+                    {/*                    <p>{value.description}</p>*/}
+                    {/*                </div>*/}
+                    {/*            </Col>*/}
+                    {/*            )*/}
+                    {/*        })*/}
+                    {/*    }*/}
+                        <table className="table table-dark">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Price</th>
+                                <th scope ="col">Info</th>
+                                <th scope ="col">Image</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {
+                                this.state.carts.map((value,index) => {
+                                    return (
+                                        <tr>
+                                            <th>{index + 1}</th>
+                                            <th>{value.name}</th>
+                                            <th>${value.price}</th>
+                                            <th>{ window.localStorage.getItem("start_time")}</th>
+                                            <th>{<img src={value.image} height={100} width={100}/>}</th>
+                                        </tr>
+                                    );
+                                })
+                            }
+                            </tbody>
+                        </table>
                     </Row>
-                    <Row>
-                    <Button onClick={this.pay.bind(this)}>结算：{this.state.total}</Button>
-                    </Row>
-                </Container>
+                    <div align="right">
+                        <Row className="form-check">
+                            <p>Subtotal: {this.state.total} USD</p>
+                            <p>Tax: 7.5%</p>
+                            <p>Total: {this.state.subtotal} USD</p>
+                            <Button onClick={this.pay.bind(this)}>CHECKOUT</Button>
+                        </Row>
+                    </div>
+                </div>
 
             </React.Fragment>
         );

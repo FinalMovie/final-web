@@ -88,7 +88,7 @@ class Login extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className="container">
+                <div className="container-md">
                     <h2>Login</h2>
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group">
@@ -116,7 +116,7 @@ class Login extends React.Component {
                         {
                             this.state.loginFailed?
                             <div>
-                                <p style={{"color":"red"}}>username or password was incorrect！</p>
+                                <p style={{"color":"red"}}>username or password is incorrect！</p>
                             </div>
                             :
                             ""
