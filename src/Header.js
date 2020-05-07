@@ -6,25 +6,32 @@ class Header extends React.Component {
     constructor(props) {
         super(props);
         this.state={
-            loginStatus:window.localStorage.getItem("islogin")==="true"?true:false
+            loginStatus:window.localStorage.getItem("islogin")==="true"?true:false,
+            isAdmin:window.localStorage.getItem("isadmin")==="true"?true:false
         }
     }
 
     handleLogout(){
         let storage = window.localStorage;
         storage.setItem("islogin",false);
+        storage.setItem("isadmin",false);
         console.log("12");
         this.setState({
-            loginStatus:false
+            loginStatus:false,
+            isAdmin:false
         })
     }
     componentWillReceiveProps(){
+        console.log(window.localStorage.getItem("isadmin"),window.localStorage.getItem("islogin"),1213);
         this.setState({
-            loginStatus:this.props.loginStatus
+            loginStatus:this.props.loginStatus,
+            isAdmin: this.props.isAdmin || window.localStorage.getItem("islogin") === "true"?true:false
         })
     }
     
+
     render() {
+
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light navbar-collapse">
                 <svg className="bi bi-camera-video-fill" width="2em" height="2em" viewBox="0 0 16 16"
@@ -51,10 +58,14 @@ class Header extends React.Component {
                         <li className="nav-item">
                             <a className="nav-link" href="#">What's New</a>
                         </li>
-
-                        <li className="nav-item">
-                            <Link to="/Edit" className="nav-link">Edit</Link>
-                        </li>
+                        {
+                            this.state.isAdmin?
+                            <li className="nav-item">
+                                <Link to="/Edit" className="nav-link">Edit</Link>
+                            </li>
+                            :
+                            ""
+                        }
 
                     </ul>
                     <ul className="nav navbar-nav ml-auto">

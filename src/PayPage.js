@@ -15,9 +15,21 @@ export default class Pay extends React.Component {
 
     componentDidMount(){
         console.log(this.props.location.state.total,this.props.location.state.lists)
+        let movieList = [];
+        let foodList = [];
+        for(let value of this.props.location.state.lists){
+            if(value["type"]==="movie"){
+                movieList.push(value);
+            }else{
+                foodList.push(value);
+            }
+        }
+        
         this.setState({
             total:this.props.location.state.total,
-            lists:this.props.location.state.lists
+            lists:this.props.location.state.lists,
+            movieList: movieList,
+            foodList: foodList
         })
     }
 
@@ -32,6 +44,8 @@ export default class Pay extends React.Component {
     }
 
     render() {
+
+
         return (
             <React.Fragment>
             {/*    <Container>*/}
@@ -132,9 +146,13 @@ export default class Pay extends React.Component {
                                 <Row>
                                 {
                                     this.state.payFlag?
-                                    <p>尊敬的{this.state.username},您的电影{this.state.movie_name},在{this.state.start_time}时间开始播放,订购食品：
+                                    <p>尊敬的{this.state.username},您的电影{
+                                            this.state.movieList.map((value,index)=>{
+                                                return value.name+","+"在"+value.start_time+"时间开始播放;"
+                                            })
+                                        },订购食品：
                                         {
-                                            this.state.lists.map((value,index)=>{
+                                            this.state.foodList.map((value,index)=>{
                                                 return value.name+","
                                             })
                                         }

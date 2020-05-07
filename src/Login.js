@@ -70,9 +70,6 @@ class Login extends React.Component {
                     {flag: true}
                 );
                 this.props.getLoginStatus(true);
-                if(this.state.username === 'admin'){
-                    this.props.isAdminUser(true);
-                }
                 alert("Welcome " + this.state.user.username)
                 storage.setItem("username",this.state.user.username);
                 this.props.history.push('/Home');
@@ -82,6 +79,17 @@ class Login extends React.Component {
                     loginFailed:true
                 })
             }
+        }).then(res=>{
+            axios.get("/api/currentUser").then(res=>{
+                if(res.status === 200){
+                    console.log(res.data.role===0,1111)
+                    if(res.data.role === 0){
+                        this.props.isAdminUser(true)
+                    }else{
+                        this.props.isAdminUser(false)
+                    }
+                }
+            })
         })
     }
 

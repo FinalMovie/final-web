@@ -24,6 +24,23 @@ export default class Food extends React.Component {
         })
     }
 
+    addToCart(value) {
+        let storage = window.localStorage;
+        let cart = storage.getItem("cart");
+        if(cart===null){
+            let cart = [];
+            value["type"] = "food";
+            cart.push(value);
+            storage.setItem("cart",JSON.stringify(cart));
+        }else{
+            let cart = JSON.parse(storage.getItem("cart"));
+            value["type"] = "food";
+            cart.push(value);
+            storage.setItem("cart",JSON.stringify(cart));
+        }
+        alert("添加成功！")
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -39,7 +56,7 @@ export default class Food extends React.Component {
                                             <p className="price">${value.price}</p>
                                             <p className="price">{value.calories} Calories</p>
                                             <p>
-                                                <button>Add to Cart</button>
+                                                <button onClick={this.addToCart.bind(this,value)}>Add to Cart</button>
                                             </p>
                                         </div>
                                     </Col>

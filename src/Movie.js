@@ -14,7 +14,8 @@ class Movie extends React.Component {
             list: [],
             show: false,
             isDateSelected:false,//check if the date is being selected
-            selectedTime:""
+            selectedTime:"",
+            scheduleInfo:[]
         };
         this.handleSelectDate = this.handleSelectDate.bind(this);
     }
@@ -42,11 +43,15 @@ class Movie extends React.Component {
         let cart = storage.getItem("cart");
         if(cart===null){
             let cart = [];
+            value["type"] = "movie";
+            value["start_time"] = this.state.selectedTime;
             cart.push(value);
             storage.setItem("cart",JSON.stringify(cart));
             console.log(111);
         }else{
             console.log(222);
+            value["type"] = "movie";
+            value["start_time"] = this.state.selectedTime;
             let cart = JSON.parse(storage.getItem("cart"));
             cart.push(value);
             storage.setItem("cart",JSON.stringify(cart));
@@ -57,26 +62,51 @@ class Movie extends React.Component {
         storage.setItem("movie_name",value.name)
         // this.props.functionCallFromParent();
     }
+
     handleClose(){
         this.setState({
             show:false,
             isDateSelected:false
         })
     }
-    handleShowModal(){
-        this.setState({
-            show:true
+
+    handleShowModal(value){
+        console.log(value);
+        axios.get("/api/movieSchedule?id="+value.id).then(res=>{
+            if(res.data.success){
+                this.setState({
+                    scheduleInfo: res.data.data
+                })
+                console.log(res.data.data);
+            }else{
+                this.setState({
+                    scheduleInfo:[]
+                })
+            }
+        }).then(res=>{
+            this.setState({
+                show:true
+            })
         })
     }
+
     handleSelectDate(value){
         console.log(value);
-        let storage = window.localStorage;
-        storage.setItem("start_time",value);
-        this.setState({
-            isDateSelected:true,
-            selectedTime: value
-        })
+        let movieInfo = value.split("@");
+        // 超卖判断
+        if (movieInfo[2] <= 0){
+            alert("该场次电影已经无票了");
+            return false
+        }else{
+            let storage = window.localStorage;
+            storage.setItem("start_time",value);
+            this.setState({
+                isDateSelected:true,
+                selectedTime: movieInfo[0]
+            })
+        }
     }
+
     render() {
         return (
             <React.Fragment>
@@ -92,7 +122,7 @@ class Movie extends React.Component {
                                         <p className="price">${value.price}</p>
                                         <p>{value.description}</p>
                                         <p>
-                                            <Button onClick={this.handleShowModal.bind(this)}>Add to Cart</Button>
+                                            <Button onClick={this.handleShowModal.bind(this,value)}>Add to Cart</Button>
                                         </p>
                                     </div>
                                     <Modal show={this.state.show} onHide={this.handleClose.bind(this)}>
@@ -101,9 +131,18 @@ class Movie extends React.Component {
                                         </Modal.Header>
                                         <Modal.Body>
                                         <DropdownButton id="dropdown-item-button" title="Available Time">
-                                            <Dropdown.Item as="button" eventKey="2020-01-01 15:30" onSelect={(key)=>{this.handleSelectDate(key)}}>2020-01-01 15:30</Dropdown.Item>
+                                            {
+                                                this.state.scheduleInfo.map((value,index)=>{
+                                                    return (
+                                                        <Dropdown.Item as="button" key={index} eventKey={value.startTime+"@"+value.movie.name+"@"+value.room.capacity} onSelect={(key)=>{this.handleSelectDate(key)}}>
+                                                            {value.startTime}
+                                                        </Dropdown.Item>
+                                                    )
+                                                })
+                                            }
+                                            {/* <Dropdown.Item as="button" eventKey="2020-01-01 15:30" onSelect={(key)=>{this.handleSelectDate(key)}}>2020-01-01 15:30</Dropdown.Item>
                                             <Dropdown.Item as="button" eventKey="2020-01-02 15:30" onSelect={(key)=>{this.handleSelectDate(key)}}>2020-01-02 15:30</Dropdown.Item>
-                                            <Dropdown.Item as="button" eventKey="2020-01-03 15:30" onSelect={(key)=>{this.handleSelectDate(key)}}>2020-01-03 15:30</Dropdown.Item>
+                                            <Dropdown.Item as="button" eventKey="2020-01-03 15:30" onSelect={(key)=>{this.handleSelectDate(key)}}>2020-01-03 15:30</Dropdown.Item> */}
                                         </DropdownButton>
                                             {
                                                 this.state.isDateSelected ?

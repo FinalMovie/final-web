@@ -37,6 +37,9 @@ export default class App extends React.Component {
     }
 
     isAdminUser=(value)=>{
+        let storage = window.localStorage;
+        storage.setItem("isadmin",value);
+        console.log(value,11212121)
         this.setState({
             isAdmin:value
         })
@@ -45,7 +48,7 @@ export default class App extends React.Component {
 
     render () {
         const login = props=>{
-            return <Login getLoginStatus={this.getLoginStatus} />
+            return <Login getLoginStatus={this.getLoginStatus} isAdminUser={this.isAdminUser}/>
         }
         // const admin = props=>{
         //     return <Header isAdminUser={this.isAdminUser}>
@@ -55,7 +58,7 @@ export default class App extends React.Component {
         return (
             <React.Fragment>
                 <BrowserRouter>
-                    <Header loginStatus={this.state.loginStatus || window.localStorage.getItem("islogin")?true:false} isAdmin={this.state.isAdmin} />
+                    <Header loginStatus={this.state.loginStatus || window.localStorage.getItem("islogin")?true:false} isAdmin={this.state.isAdmin || window.localStorage.getItem("isadmin")==="true"?true:false} ></Header>}
                     <Switch>
                         <Route exact path="/Home" component={Home}/>
                         <Route exact path="/Edit" component={Edit}/>

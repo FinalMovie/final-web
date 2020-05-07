@@ -1,6 +1,7 @@
 import React from "react";
 import axios from 'axios';
 import "./Movie.css";
+import {Modal,Button,Form} from 'react-bootstrap';
 import {unstable_batchedUpdates} from "react-dom";
 
 
@@ -10,8 +11,20 @@ export default class Edit extends React.Component {
         super(props);
         this.state = {
             listMovie: [],
-            listFood: []
+            listFood: [],
+            movieEidtShow: false,
+            foodEditShow: false,
+            current:{},
+            movieAddFlag:false,
+            foodAddFlag:false
         };
+        this.handleChange = this.handleChange.bind(this);
+        this.handleMovieEditClose = this.handleMovieEditClose.bind(this);
+        this.handleFoodEditClose = this.handleFoodEditClose.bind(this);
+        this.handleMovieEditSubmit = this.handleMovieEditSubmit.bind(this);
+        this.handleFoodEditSubmit = this.handleFoodEditSubmit.bind(this);
+        this.handleshowMovieAdd = this.handleshowMovieAdd.bind(this);
+        this.handleshowFoodAdd = this.handleshowFoodAdd.bind(this);
     }
 
     componentDidMount() {
@@ -38,10 +51,182 @@ export default class Edit extends React.Component {
         // this.props.functionCallFromParent();
     }
 
+    handleMovieEditClose(){
+        this.setState({
+            movieEidtShow: false
+        })
+    }
+
+    handleFoodEditClose(){
+        this.setState({
+            foodEditShow: false
+        })
+    }
+
+    handleshowMovieEdit(value){
+        console.log(value);
+        this.setState({
+            movieEidtShow: true,
+            current:value
+        })
+    }
+
+    
+    handleshowFoodEdit(value){
+        console.log(value);
+        this.setState({
+            foodEditShow: true,
+            current:value
+        })
+    }
+
+    handleMovieEditSubmit(){
+        if(this.state.movieAddFlag){
+            let formData = new FormData();
+            formData.append("name",this.state.current.name);
+            formData.append("price",this.state.current.price);
+            formData.append("description",this.state.current.description);
+            formData.append("image",this.state.current.image);
+            let header = {
+                headers: {'content-type': 'multipart/form-data'}
+            };
+            axios.post("/api/addMovie",formData,header).then(res=>{
+                if(res.data.success){
+                    alert("添加成功")
+                }else{
+                    alert(res.data.msg);
+                }
+            }).then(res=>{this.setState({
+                movieEidtShow: false,
+                movieAddFlag: false,
+                current:{}
+            })})
+        }else{
+            console.log(this.state.current)
+            let formData = new FormData();
+            formData.append("name",this.state.current.name);
+            formData.append("price",this.state.current.price);
+            formData.append("id",this.state.current.id);
+            formData.append("description",this.state.current.description);
+            formData.append("image",this.state.current.image);
+            let header = {
+                headers: {'content-type': 'multipart/form-data'}
+            };
+            axios.post("/api/editMovie",formData,header).then(res=>{
+                if(res.data.success){
+                    alert("修改成功")
+                }else{
+                    alert(res.data.msg);
+                }
+            })
+        }
+    }
+
+    handleFoodEditSubmit(){
+        if(this.state.foodAddflag){
+            let formData = new FormData();
+            console.log(this.state.current.name,this.state.current.price,this.state.current.calories,this.state.current.image)
+            formData.append("name",this.state.current.name);
+            formData.append("price",parseInt(this.state.current.price));
+            formData.append("calories",this.state.current.calories);
+            formData.append("image",this.state.current.image);
+            let header = {
+                headers: {'content-type': 'multipart/form-data'}
+            };
+            axios.post("/api/addFood",formData,header).then(res=>{
+                if(res.data.success){
+                    alert("添加成功")
+                }else{
+                    alert(res.data.msg);
+                }
+            }).then(res=>{
+                this.setState({
+                    foodAddFlag:false,
+                    foodEditShow:false,
+                    current:{}
+                })
+            })
+        }else{
+            let formData = new FormData();
+            formData.append("name",this.state.current.name);
+            formData.append("price",this.state.current.price);
+            formData.append("id",this.state.current.id);
+            formData.append("calories",this.state.current.calories);
+            formData.append("image",this.state.current.image);
+            let header = {
+                headers: {'content-type': 'multipart/form-data'}
+            };
+            axios.post("/api/editFood",formData,header).then(res=>{
+                if(res.data.success){
+                    alert("修改成功")
+                }else{
+                    alert(res.data.msg);
+                }
+            })
+        } 
+    }
+
+    handleChange(event){
+        event.preventDefault();
+        this.setState({
+            current: {
+                ...this.state.current,
+                [event.target.name]: event.target.value
+            }
+        })
+    }
+    DeleteMovie(value){
+        console.log(value);
+        let formData = new FormData();
+        let header = {
+            headers: {'content-type': 'multipart/form-data'}
+        };
+        formData.append("id",parseInt(value.id));
+
+        axios.post("/api/deleteMovie",formData,header).then(res=>{
+            if(res.data.success){
+                alert("删除成功！")
+            }else{
+                alert("删除失败！")
+            }
+        })
+    }
+
+    DeleteFood(value){
+        let formData = new FormData();
+        let header = {
+            headers: {'content-type': 'multipart/form-data'}
+        };
+        formData.append("id",parseInt(value.id));
+        
+        axios.post("/api/deleteFood",formData,header).then(res=>{
+            if(res.data.success){
+                alert("删除成功！")
+            }else{
+                alert("删除失败！")
+            }
+        })
+    }
+
+    handleshowMovieAdd(){
+        this.setState({
+            movieEidtShow: true,
+            movieAddFlag: true,
+        })
+    }
+
+    handleshowFoodAdd(){
+        this.setState({
+            foodEditShow: true,
+            foodAddflag: true,
+        })
+    }
+
     render() {
         return (
             <React.Fragment>
                 <div className="container-md">
+                        <button onClick={this.handleshowMovieAdd}>添加电影</button><button onClick={this.handleshowFoodAdd}>添加食品</button>
                         <table className="table table-dark">
                             <thead>
                             <tr>
@@ -56,16 +241,18 @@ export default class Edit extends React.Component {
                             {
                                 this.state.listMovie.map((value,index) => {
                                     return (
-                                    <tr>
+                                    <tr key={index}>
                                         <th>{value.id}</th>
                                         <th>{value.name}</th>
                                         <th>{value.price}</th>
                                         <th>{value.description}</th>
                                         <th>{<img src={value.image} height={100} width={100}/>}</th>
+                                        <th><button onClick={this.handleshowMovieEdit.bind(this,value)}>编辑</button>|<button onClick={this.DeleteMovie.bind(this,value)}>删除</button></th>
                                     </tr>
                                     );
                                 })
                             }
+
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Name</th>
@@ -76,21 +263,151 @@ export default class Edit extends React.Component {
                             {
                                 this.state.listFood.map((value,index) => {
                                     return (
-                                        <tr>
+                                        <tr key={index}>
                                             <th>{value.id}</th>
                                             <th>{value.name}</th>
                                             <th>{value.price}</th>
                                             <th>{value.calories}</th>
                                             <th>{<img src={value.image} height={100} width={100}/>}</th>
+                                            <th><button onClick={this.handleshowFoodEdit.bind(this,value)}>编辑</button>|<button onClick={this.DeleteFood.bind(this,value)}>删除</button></th>
                                         </tr>
                                     );
                                 })
                             }
+                            <Modal show={this.state.movieEidtShow} onHide={this.handleMovieEditClose}>
+                                <Modal.Header closeButton>
+                                <Modal.Title>修改电影信息</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                <form >
+                                    <div className="form-group">
+                                        <label>
+                                            电影id
+                                            <input type="text"
+                                                className="form-control"
+                                                name="id"
+                                                value={this.state.current.id}
+                                                onChange={this.handleChange}
+                                            />
+                                        </label>
+                                    </div>
+                                    <div className="form-group">
+                                        <label>
+                                            电影名称
+                                            <input type="text"
+                                                className="form-control"
+                                                name="name"
+                                                value={this.state.current.name}
+                                                onChange={this.handleChange}
+                                            />
+                                        </label>
+                                    </div>
+                                    <div className="form-group">
+                                        <label>
+                                            价格
+                                            <input type="text"
+                                                className="form-control"
+                                                name="price"
+                                                value={this.state.current.price}
+                                                onChange={this.handleChange}
+                                            />
+                                        </label>
+                                    </div>
+                                    <div className="form-group">
+                                        <label>
+                                            描述
+                                            <input type="text"
+                                                className="form-control"
+                                                name="description"
+                                                value={this.state.current.description}
+                                                onChange={this.handleChange}
+                                            />
+                                        </label>
+                                    </div>
+                                    <div className="form-group">
+                                        <label>
+                                            图片
+                                            <input type="text"
+                                                className="form-control"
+                                                name="image"
+                                                value={this.state.current.image}
+                                                onChange={this.handleChange}
+                                            />
+                                        </label>
+                                    </div>
+                                    </form>
+                                    <button className="btn btn-primary" onClick={this.handleMovieEditSubmit}>Submit</button>
+                                </Modal.Body>
+                            </Modal>
+                            <Modal show={this.state.foodEditShow} onHide={this.handleFoodEditClose}>
+                                    <Modal.Header closeButton>
+                                    <Modal.Title>修改食品信息</Modal.Title>
+                                    </Modal.Header>
+                                    <Modal.Body>
+                                    <form>
+                                        <div className="form-group">
+                                            <label>
+                                               食品id
+                                                <input type="text"
+                                                    className="form-control"
+                                                    name="id"
+                                                    value={this.state.current.id}
+                                                    onChange={this.handleChange}
+                                                />
+                                            </label>
+                                        </div>
+                                        <div className="form-group">
+                                            <label>
+                                                食品名称
+                                                <input type="text"
+                                                    className="form-control"
+                                                    name="name"
+                                                    value={this.state.current.name}
+                                                    onChange={this.handleChange}
+                                                />
+                                            </label>
+                                        </div>
+                                        <div className="form-group">
+                                            <label>
+                                                价格
+                                                <input type="text"
+                                                    className="form-control"
+                                                    name="price"
+                                                    value={this.state.current.price}
+                                                    onChange={this.handleChange}
+                                                />
+                                            </label>
+                                        </div>
+                                        <div className="form-group">
+                                            <label>
+                                                分类
+                                                <input type="text"
+                                                    className="form-control"
+                                                    name="calories"
+                                                    value={this.state.current.calories}
+                                                    onChange={this.handleChange}
+                                                />
+                                            </label>
+                                        </div>
+                                        <div className="form-group">
+                                            <label>
+                                                图片
+                                                <input type="text"
+                                                    className="form-control"
+                                                    name="image"
+                                                    value={this.state.current.image}
+                                                    onChange={this.handleChange}
+                                                />
+                                            </label>
+                                        </div>
+                                    </form>
+                                    <button className="btn btn-primary" onClick={this.handleFoodEditSubmit}>Submit</button>
+                                    </Modal.Body>
+                                </Modal>
                             </tbody>
                         </table>
                 </div>
-
-                    })
+            })
             </React.Fragment>
         );
     }
