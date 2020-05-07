@@ -38,7 +38,7 @@ export default class Food extends React.Component {
             cart.push(value);
             storage.setItem("cart",JSON.stringify(cart));
         }
-        alert("添加成功！")
+        alert("Successfully Added！")
     }
 
     render() {

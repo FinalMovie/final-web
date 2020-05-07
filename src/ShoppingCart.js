@@ -20,7 +20,7 @@ class ShoppingCart extends React.Component {
             total += value.price;
         }
         this.setState({
-            total:total,
+            total:total.toFixed(2),
             subtotal: (total * 0.0625 + total).toFixed(2)
         })
     }

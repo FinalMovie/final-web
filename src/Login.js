@@ -65,6 +65,7 @@ class Login extends React.Component {
 
         axios.post("/api/login", formData, header).then(res => {
             console.log(res);
+            console.log(res.data+"this is data object")
             if (res.data.success) {
                 this.setState(
                     {flag: true}
@@ -84,9 +85,12 @@ class Login extends React.Component {
                 if(res.status === 200){
                     console.log(res.data.role===0,1111)
                     if(res.data.role === 0){
+                        console.log(res.data)
                         this.props.isAdminUser(true)
+                        console.log("ADMINNNNNNNN")
                     }else{
                         this.props.isAdminUser(false)
+                        console.log("REGULARRRRRR")
                     }
                 }
             })

@@ -48,40 +48,7 @@ export default class Pay extends React.Component {
 
         return (
             <React.Fragment>
-            {/*    <Container>*/}
-            {/*        <Row>*/}
-            {/*            <Col>*/}
-            {/*            <InputGroup className="mb-3">*/}
-            {/*                <InputGroup.Prepend>*/}
-            {/*                    <InputGroup.Text id="basic-addon1">Total：{this.state.total}</InputGroup.Text>*/}
-            {/*                </InputGroup.Prepend>*/}
-            {/*                <FormControl*/}
-            {/*                placeholder="Credit Card"*/}
-            {/*                aria-label="card number"*/}
-            {/*                aria-describedby="basic-addon1"*/}
-            {/*                />*/}
-            {/*            </InputGroup>*/}
-            {/*            </Col>*/}
-            {/*        </Row>*/}
-            {/*        <Row>*/}
-            {/*            <Button onClick={this.paySubmit.bind(this)}>Submit</Button>*/}
-            {/*        </Row>*/}
-            {/*        <Row>*/}
-            {/*        {*/}
-            {/*            this.state.payFlag?*/}
-            {/*            <p>尊敬的{this.state.username},您的电影{this.state.movie_name},在{this.state.start_time}时间开始播放,订购食品： */}
-            {/*                {*/}
-            {/*                    this.state.lists.map((value,index)=>{*/}
-            {/*                        return value.name+","*/}
-            {/*                    })*/}
-            {/*                }*/}
-            {/*                <span>总价为：{this.state.total},订购成功，感谢支持！</span>*/}
-            {/*            </p>*/}
-            {/*            :*/}
-            {/*            ""*/}
-            {/*        }*/}
-            {/*        </Row>*/}
-            {/*</Container>*/}
+
             <div className="container-md">
                 <div className="card">
                     <div className="card-header"><strong className="paymentInfo">Payment Info</strong>
@@ -146,18 +113,19 @@ export default class Pay extends React.Component {
                                 <Row>
                                 {
                                     this.state.payFlag?
-                                    <p>尊敬的{this.state.username},您的电影{
-                                            this.state.movieList.map((value,index)=>{
-                                                return value.name+","+"在"+value.start_time+"时间开始播放;"
-                                            })
-                                        },订购食品：
-                                        {
-                                            this.state.foodList.map((value,index)=>{
-                                                return value.name+","
-                                            })
-                                        }
-                                        <span>总价为：{this.state.total},订购成功，感谢支持！</span>
-                                    </p>
+                                    // <p>尊敬的{this.state.username},您的电影{
+                                    //         this.state.movieList.map((value,index)=>{
+                                    //             return value.name+","+"在"+value.start_time+"时间开始播放;"
+                                    //         })
+                                    //     },订购食品：
+                                    //     {
+                                    //         this.state.foodList.map((value,index)=>{
+                                    //             return value.name+","
+                                    //         })
+                                    //     }
+                                    //     <span>总价为：{this.state.total},订购成功，感谢支持！</span>
+                                    // </p>
+                                        <p> Dear {this.state.username}, you have paid {this.state.total} USD</p>
                                     :
                                     ""
                                 }

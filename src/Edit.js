@@ -92,7 +92,7 @@ export default class Edit extends React.Component {
             };
             axios.post("/api/addMovie",formData,header).then(res=>{
                 if(res.data.success){
-                    alert("添加成功")
+                    alert("Add Succeed")
                 }else{
                     alert(res.data.msg);
                 }
@@ -114,7 +114,7 @@ export default class Edit extends React.Component {
             };
             axios.post("/api/editMovie",formData,header).then(res=>{
                 if(res.data.success){
-                    alert("修改成功")
+                    alert("Edit Succeed")
                 }else{
                     alert(res.data.msg);
                 }
@@ -135,7 +135,7 @@ export default class Edit extends React.Component {
             };
             axios.post("/api/addFood",formData,header).then(res=>{
                 if(res.data.success){
-                    alert("添加成功")
+                    alert("Add Succeed")
                 }else{
                     alert(res.data.msg);
                 }
@@ -158,7 +158,7 @@ export default class Edit extends React.Component {
             };
             axios.post("/api/editFood",formData,header).then(res=>{
                 if(res.data.success){
-                    alert("修改成功")
+                    alert("Edit Succeed")
                 }else{
                     alert(res.data.msg);
                 }
@@ -185,9 +185,9 @@ export default class Edit extends React.Component {
 
         axios.post("/api/deleteMovie",formData,header).then(res=>{
             if(res.data.success){
-                alert("删除成功！")
+                alert("Delete Succeed！")
             }else{
-                alert("删除失败！")
+                alert("Delete Failed！")
             }
         })
     }
@@ -201,9 +201,9 @@ export default class Edit extends React.Component {
         
         axios.post("/api/deleteFood",formData,header).then(res=>{
             if(res.data.success){
-                alert("删除成功！")
+                alert("Delete Succeed！")
             }else{
-                alert("删除失败！")
+                alert("Delete Failed！")
             }
         })
     }
@@ -226,7 +226,7 @@ export default class Edit extends React.Component {
         return (
             <React.Fragment>
                 <div className="container-md">
-                        <button onClick={this.handleshowMovieAdd}>添加电影</button><button onClick={this.handleshowFoodAdd}>添加食品</button>
+                        <button onClick={this.handleshowMovieAdd}>Add Movie</button><button onClick={this.handleshowFoodAdd}>Add Food</button>
                         <table className="table table-dark">
                             <thead>
                             <tr>
@@ -247,7 +247,7 @@ export default class Edit extends React.Component {
                                         <th>{value.price}</th>
                                         <th>{value.description}</th>
                                         <th>{<img src={value.image} height={100} width={100}/>}</th>
-                                        <th><button onClick={this.handleshowMovieEdit.bind(this,value)}>编辑</button>|<button onClick={this.DeleteMovie.bind(this,value)}>删除</button></th>
+                                        <th><button onClick={this.handleshowMovieEdit.bind(this,value)}>Modify</button> - <button onClick={this.DeleteMovie.bind(this,value)}>Delete</button></th>
                                     </tr>
                                     );
                                 })
@@ -269,31 +269,33 @@ export default class Edit extends React.Component {
                                             <th>{value.price}</th>
                                             <th>{value.calories}</th>
                                             <th>{<img src={value.image} height={100} width={100}/>}</th>
-                                            <th><button onClick={this.handleshowFoodEdit.bind(this,value)}>编辑</button>|<button onClick={this.DeleteFood.bind(this,value)}>删除</button></th>
+                                            <th><button onClick={this.handleshowFoodEdit.bind(this,value)}>Modify</button> - <button onClick={this.DeleteFood.bind(this,value)}>Delete</button></th>
                                         </tr>
                                     );
                                 })
                             }
                             <Modal show={this.state.movieEidtShow} onHide={this.handleMovieEditClose}>
                                 <Modal.Header closeButton>
-                                <Modal.Title>修改电影信息</Modal.Title>
+                                <Modal.Title>Edit Movie Info</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
                                 <form >
+                                    ID
                                     <div className="form-group">
                                         <label>
-                                            电影id
-                                            <input type="text"
-                                                className="form-control"
-                                                name="id"
-                                                value={this.state.current.id}
-                                                onChange={this.handleChange}
-                                            />
+
+                                            {/*<input type="text"*/}
+                                            {/*    className="form-control"*/}
+                                            {/*    name="id"*/}
+                                            {/*    value={this.state.current.id}*/}
+                                            {/*    onChange={this.handleChange}*/}
+                                            {/*/>*/}
+                                            {this.state.current.id}
                                         </label>
                                     </div>
                                     <div className="form-group">
                                         <label>
-                                            电影名称
+                                            Name
                                             <input type="text"
                                                 className="form-control"
                                                 name="name"
@@ -304,7 +306,7 @@ export default class Edit extends React.Component {
                                     </div>
                                     <div className="form-group">
                                         <label>
-                                            价格
+                                            Price
                                             <input type="text"
                                                 className="form-control"
                                                 name="price"
@@ -315,7 +317,7 @@ export default class Edit extends React.Component {
                                     </div>
                                     <div className="form-group">
                                         <label>
-                                            描述
+                                            Description
                                             <input type="text"
                                                 className="form-control"
                                                 name="description"
@@ -326,7 +328,7 @@ export default class Edit extends React.Component {
                                     </div>
                                     <div className="form-group">
                                         <label>
-                                            图片
+                                            Image
                                             <input type="text"
                                                 className="form-control"
                                                 name="image"
@@ -341,24 +343,26 @@ export default class Edit extends React.Component {
                             </Modal>
                             <Modal show={this.state.foodEditShow} onHide={this.handleFoodEditClose}>
                                     <Modal.Header closeButton>
-                                    <Modal.Title>修改食品信息</Modal.Title>
+                                    <Modal.Title>Edit Food Info</Modal.Title>
                                     </Modal.Header>
                                     <Modal.Body>
                                     <form>
+                                        ID
                                         <div className="form-group">
                                             <label>
-                                               食品id
-                                                <input type="text"
-                                                    className="form-control"
-                                                    name="id"
-                                                    value={this.state.current.id}
-                                                    onChange={this.handleChange}
-                                                />
+
+                                                {/*<input type="text"*/}
+                                                {/*    className="form-control"*/}
+                                                {/*    name="id"*/}
+                                                {/*    value={this.state.current.id}*/}
+                                                {/*    onChange={this.handleChange}*/}
+                                                {/*/>*/}
+                                                {this.state.current.id}
                                             </label>
                                         </div>
                                         <div className="form-group">
                                             <label>
-                                                食品名称
+                                                Name
                                                 <input type="text"
                                                     className="form-control"
                                                     name="name"
@@ -369,7 +373,7 @@ export default class Edit extends React.Component {
                                         </div>
                                         <div className="form-group">
                                             <label>
-                                                价格
+                                                Price
                                                 <input type="text"
                                                     className="form-control"
                                                     name="price"
@@ -380,7 +384,7 @@ export default class Edit extends React.Component {
                                         </div>
                                         <div className="form-group">
                                             <label>
-                                                分类
+                                                Calories
                                                 <input type="text"
                                                     className="form-control"
                                                     name="calories"
@@ -391,7 +395,7 @@ export default class Edit extends React.Component {
                                         </div>
                                         <div className="form-group">
                                             <label>
-                                                图片
+                                                Image
                                                 <input type="text"
                                                     className="form-control"
                                                     name="image"

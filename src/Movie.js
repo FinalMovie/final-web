@@ -93,9 +93,9 @@ class Movie extends React.Component {
     handleSelectDate(value){
         console.log(value);
         let movieInfo = value.split("@");
-        // 超卖判断
+
         if (movieInfo[2] <= 0){
-            alert("该场次电影已经无票了");
+            alert("Tickets sold out");
             return false
         }else{
             let storage = window.localStorage;

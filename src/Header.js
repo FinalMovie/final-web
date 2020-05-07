@@ -25,7 +25,7 @@ class Header extends React.Component {
         console.log(window.localStorage.getItem("isadmin"),window.localStorage.getItem("islogin"),1213);
         this.setState({
             loginStatus:this.props.loginStatus,
-            isAdmin: this.props.isAdmin || window.localStorage.getItem("islogin") === "true"?true:false
+            isAdmin: this.props.isAdmin || window.localStorage.getItem("islogin") === "true" ? true:false
         })
     }
     
