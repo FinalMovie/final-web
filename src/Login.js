@@ -149,7 +149,7 @@ class Login extends React.Component {
                 </div>
                 <div className="split right">
                     <div className="centered">
-                        <p>The Legend 27</p>
+
                     </div>
                 </div>
 

@@ -1,6 +1,7 @@
 import React from "react";
 import axios from 'axios';
 import {withRouter} from 'react-router-dom';
+import "./Signup.css";
 
 class Signup extends React.Component {
 
@@ -87,7 +88,8 @@ class Signup extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className="container-md">
+                <div className="splitSignup leftSignup">
+                    <div className="centeredSignup">
                     <h2>Signup</h2>
 
                     <form onSubmit={this.handleSubmit}>
@@ -134,6 +136,13 @@ class Signup extends React.Component {
                         </div>
                         <button className="btn btn-primary" type="submit">Submit</button>
                     </form>
+                </div>
+                    </div>
+                <div className="splitSignup rightSignup">
+                    <div className="centeredSignup">
+                        <p>on the right</p>
+
+                    </div>
                 </div>
 
             </React.Fragment>

@@ -29,7 +29,6 @@ export default class home extends React.Component {
                                 </button>
                             </Link>
                     </div>
-                    <p className="copyright">@Copyright 2020 Reserved By Triton</p>
                 </div>
             </React.Fragment>
         );

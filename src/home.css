@@ -4,7 +4,11 @@
     height: 100%;
     width: 100%;
     backgroundRepeat: 'no-repeat';
-    /*top:0;*/
+    position: fixed;
+    z-index: 1;
+    top: 8%;
+    overflow-x: hidden;
+    padding-top: 20px;
 }
 
 .content{
@@ -15,10 +19,6 @@
     0px 18px 23px rgba(0,0,0,0.1);
 }
 
-.copyright{
-    padding-bottom: 65px;
-    text-align: center;
-}
 
 h1, h3{
     color: antiquewhite;

@@ -59,7 +59,8 @@ export default class App extends React.Component {
         return (
             <React.Fragment>
                 <BrowserRouter>
-                    <Header loginStatus={this.state.loginStatus || window.localStorage.getItem("islogin")?true:false} isAdmin={this.state.isAdmin || window.localStorage.getItem("isadmin")==="true"?true:false} ></Header>}
+                    <Header loginStatus={this.state.loginStatus || window.localStorage.getItem("islogin")?true:false} isAdmin={this.state.isAdmin || window.localStorage.getItem("isadmin")==="true"?true:false} >
+                    </Header>
                     <Switch>
                         <Route exact path="/Home" component={Home}/>
                         <Route exact path="/Edit" component={Edit}/>

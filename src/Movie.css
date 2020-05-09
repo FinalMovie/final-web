@@ -26,3 +26,18 @@
 .card button:hover {
     opacity: 0.7;
 }
+
+.movieBG{
+    /*top: 8%;*/
+    /*padding-top: 20px;*/
+    height: 100%;
+    width: 100%;
+    background-image: url('https://image.freepik.com/free-vector/movie-cartoon-background_1284-9181.jpg');
+    backgroundRepeat: 'no-repeat';
+    /*position: absolute;*/
+    /*z-index: 1;*/
+    /*top: 8%;*/
+    /*overflow-x: hidden;*/
+    /*padding-top: 20px;*/
+
+}

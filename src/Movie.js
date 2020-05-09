@@ -110,6 +110,7 @@ class Movie extends React.Component {
     render() {
         return (
             <React.Fragment>
+                <div className="movieBG">
                 <Container>
                     <Row>
                     {
@@ -176,6 +177,7 @@ class Movie extends React.Component {
                     }
                     </Row>
                 </Container>
+                </div>
 
             </React.Fragment>
         );
