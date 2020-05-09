@@ -19,9 +19,15 @@ class ShoppingCart extends React.Component {
         for(let value of this.state.carts){
             total += value.price;
         }
+        let storeage = window.localStorage;
+        let membership = storeage.getItem("membership") === null?1: parseInt(storeage.getItem("membership"))
+        let discount = 1;
+        if(membership >= 100){
+            discount = 0.9;
+        }
         this.setState({
             total:total.toFixed(2),
-            subtotal: (total * 0.0625 + total).toFixed(2)
+            subtotal: (total * discount).toFixed(2)
         })
     }
     pay(){

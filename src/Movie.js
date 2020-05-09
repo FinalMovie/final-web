@@ -15,7 +15,8 @@ class Movie extends React.Component {
             show: false,
             isDateSelected:false,//check if the date is being selected
             selectedTime:"",
-            scheduleInfo:[]
+            scheduleInfo:[],
+            currentMovie:{}
         };
         this.handleSelectDate = this.handleSelectDate.bind(this);
     }
@@ -38,9 +39,10 @@ class Movie extends React.Component {
         }
     }
 
-    addToCart(value) {
+    addToCart() {
         let storage = window.localStorage;
         let cart = storage.getItem("cart");
+        let value = this.state.currentMovie;
         if(cart===null){
             let cart = [];
             value["type"] = "movie";
@@ -71,8 +73,12 @@ class Movie extends React.Component {
     }
 
     handleShowModal(value){
-        console.log(value);
+        console.log(666666,value);
+        this.setState({
+            currentMovie: value
+        });
         axios.get("/api/movieSchedule?id="+value.id).then(res=>{
+            console.log(3333,res.data);
             if(res.data.success){
                 this.setState({
                     scheduleInfo: res.data.data
@@ -99,7 +105,7 @@ class Movie extends React.Component {
             return false
         }else{
             let storage = window.localStorage;
-            storage.setItem("start_time",value);
+            storage.setItem("start_time",value[0]);
             this.setState({
                 isDateSelected:true,
                 selectedTime: movieInfo[0]
@@ -131,21 +137,18 @@ class Movie extends React.Component {
                                         <Modal.Title>Select the time</Modal.Title>
                                         </Modal.Header>
                                         <Modal.Body>
-                                        {/*<DropdownButton id="dropdown-item-button" title="Available Time">*/}
-                                        {/*    {*/}
-                                        {/*        this.state.scheduleInfo.map((value,index)=>{*/}
-                                        {/*            return (*/}
-                                        {/*                <Dropdown.Item as="button" key={index} eventKey={value.startTime+"@"+value.movie.name+"@"+value.room.capacity} onSelect={(key)=>{this.handleSelectDate(key)}}>*/}
-                                        {/*                    {value.startTime}*/}
-                                        {/*                </Dropdown.Item>*/}
-                                        {/*            )*/}
-                                        {/*        })*/}
-                                        {/*    }*/}
-                                        {/*    */}
-                                        {/*       */}
-                                        {/*    */}
-                                        {/*</DropdownButton>*/}
-                                            <DropdownButton id="dropdown-item-button" title="Available Time">
+                                        <DropdownButton id="dropdown-item-button" title="Available Time">
+                                            {
+                                               this.state.scheduleInfo.map((value,index)=>{
+                                                  return (
+                                                     <Dropdown.Item as="button" key={index} eventKey={value.startTime+"@"+value.movie.name+"@"+value.room.capacity} onSelect={(key)=>{this.handleSelectDate(key)}}>
+                                                         {value.startTime}
+                                                       </Dropdown.Item>
+                                                 )
+                                                })
+                                            }
+                                        </DropdownButton>
+                                            {/* <DropdownButton id="dropdown-item-button" title="Available Time">
                                                 <Dropdown.Item as="button" eventKey="10:00AM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 10:00AM</Dropdown.Item>
                                                 <Dropdown.Item as="button" eventKey="11:00AM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 11:00AM</Dropdown.Item>
                                                 <Dropdown.Item as="button" eventKey="13:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 13:00PM</Dropdown.Item>
@@ -154,7 +157,7 @@ class Movie extends React.Component {
                                                 <Dropdown.Item as="button" eventKey="16:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 16:00PM</Dropdown.Item>
                                                 <Dropdown.Item as="button" eventKey="17:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 17:00PM</Dropdown.Item>
                                                 <Dropdown.Item as="button" eventKey="18:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 18:00PM</Dropdown.Item>
-                                            </DropdownButton>
+                                            </DropdownButton> */}
                                             {
                                                 this.state.isDateSelected ?
                                                     <Modal.Title>Time Selected: {this.state.selectedTime}</Modal.Title>
@@ -166,7 +169,7 @@ class Movie extends React.Component {
                                         <Button variant="secondary" onClick={this.handleClose.bind(this)}>
                                             Cancel
                                         </Button>
-                                        <Button variant="primary" onClick={this.addToCart.bind(this,value)}>
+                                        <Button variant="primary" onClick={this.addToCart.bind(this)}>
                                             Add
                                         </Button>
                                         </Modal.Footer>

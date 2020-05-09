@@ -28,8 +28,6 @@ export default class App extends React.Component {
 
     getLoginStatus=(value)=>{
         console.log("child:",value);
-        let storage = window.localStorage;
-        storage.setItem("islogin",value);
         if(value){
             this.setState({
                 loginStatus:value
@@ -38,12 +36,12 @@ export default class App extends React.Component {
     }
 
     isAdminUser=(value)=>{
-        let storage = window.localStorage;
-        storage.setItem("isadmin",value);
         console.log(value,11212121)
-        this.setState({
-            isAdmin:value
-        })
+        if(value){
+            this.setState({
+                isAdmin:value
+            })
+        }
     }
 
 
@@ -59,7 +57,7 @@ export default class App extends React.Component {
         return (
             <React.Fragment>
                 <BrowserRouter>
-                    <Header loginStatus={this.state.loginStatus || window.localStorage.getItem("islogin")?true:false} isAdmin={this.state.isAdmin || window.localStorage.getItem("isadmin")==="true"?true:false} >
+                    <Header loginStatus={this.state.loginStatus || window.localStorage.getItem("islogin") === "true"?true:false} isAdmin={this.state.isAdmin || window.localStorage.getItem("isadmin") === "true"?true:false} >
                     </Header>
                     <Switch>
                         <Route exact path="/Home" component={Home}/>

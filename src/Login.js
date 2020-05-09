@@ -72,6 +72,7 @@ class Login extends React.Component {
                     {flag: true}
                 );
                 this.props.getLoginStatus(true);
+                storage.setItem("islogin",true);
                 alert("Welcome " + this.state.user.username)
                 storage.setItem("username",this.state.user.username);
                 this.props.history.push('/Home');
@@ -84,15 +85,20 @@ class Login extends React.Component {
         }).then(res=>{
             axios.get("/api/currentUser").then(res=>{
                 if(res.status === 200){
-                    console.log(res.data.role===0,1111)
-                    if(res.data.role === 0){
-                        console.log(res.data)
+                    console.log(res.data.role==="admin",1111)
+                    console.log(res.data)
+                    storage.setItem("membership",res.data.membership);
+                    storage.setItem("email",res.data.email);
+                    // 待后端bug修复之后 将这里的null改成 "admin"
+                    if(res.data.role === "admin"){
+                        storage.setItem("isadmin",true);
                         this.props.isAdminUser(true)
                         console.log("ADMINNNNNNNN")
                     }else{
                         this.props.isAdminUser(false)
                         console.log("REGULARRRRRR")
                     }
+
                 }
             })
         })
