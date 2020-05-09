@@ -31,23 +31,10 @@ class ShoppingCart extends React.Component {
         return (
             <React.Fragment>
                 <div className="container-md">
+                    <h2 align="center">CHECK OUT</h2>
                     <Row>
-                    {/*{*/}
-                    {/*    this.state.carts.map((value,index) => {*/}
-                    {/*        return (*/}
-                    {/*            <Col key={index}>*/}
-                    {/*                <div className="card">*/}
-                    {/*                    <img src={value.image} height={300} width={300}/>*/}
-                    {/*                    <h1>{value.name}</h1>*/}
-                    {/*                    <p className="price">${value.price}</p>*/}
-                    {/*                    <p>{value.description}</p>*/}
-                    {/*                </div>*/}
-                    {/*            </Col>*/}
-                    {/*            )*/}
-                    {/*        })*/}
-                    {/*    }*/}
-                        <table className="table table-dark">
-                            <thead>
+                        <table className="table table-striped">
+                            <thead className="table-secondary">
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Name</th>

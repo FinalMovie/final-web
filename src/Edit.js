@@ -227,7 +227,7 @@ export default class Edit extends React.Component {
             <React.Fragment>
                 <div className="container-md">
                         <button onClick={this.handleshowMovieAdd}>Add Movie</button><button onClick={this.handleshowFoodAdd}>Add Food</button>
-                        <table className="table table-dark">
+                        <table className="table table-dark table-striped">
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -283,13 +283,6 @@ export default class Edit extends React.Component {
                                     ID
                                     <div className="form-group">
                                         <label>
-
-                                            {/*<input type="text"*/}
-                                            {/*    className="form-control"*/}
-                                            {/*    name="id"*/}
-                                            {/*    value={this.state.current.id}*/}
-                                            {/*    onChange={this.handleChange}*/}
-                                            {/*/>*/}
                                             {this.state.current.id}
                                         </label>
                                     </div>
@@ -350,13 +343,6 @@ export default class Edit extends React.Component {
                                         ID
                                         <div className="form-group">
                                             <label>
-
-                                                {/*<input type="text"*/}
-                                                {/*    className="form-control"*/}
-                                                {/*    name="id"*/}
-                                                {/*    value={this.state.current.id}*/}
-                                                {/*    onChange={this.handleChange}*/}
-                                                {/*/>*/}
                                                 {this.state.current.id}
                                             </label>
                                         </div>

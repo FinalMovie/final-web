@@ -12,6 +12,7 @@ import Pay from "./PayPage";
 import ShoppingCart from "./ShoppingCart";
 import 'bootstrap/dist/css/bootstrap.css';
 import Edit from "./Edit";
+import Staff from "./Staff";
 
 
 
@@ -68,6 +69,7 @@ export default class App extends React.Component {
                         <Route exact path="/ShoppingCart" component={ShoppingCart}/>
                         <Route exact path="/Pay" component={Pay}/>
                         <Route exact path="/Signup" component={Signup}/>
+                        <Route exact path="/Staff" component={Staff}/>
                         <Route exact path="/" component={Home}/>
                     </Switch>
                 </BrowserRouter>

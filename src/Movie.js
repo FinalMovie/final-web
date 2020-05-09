@@ -130,20 +130,30 @@ class Movie extends React.Component {
                                         <Modal.Title>Select the time</Modal.Title>
                                         </Modal.Header>
                                         <Modal.Body>
-                                        <DropdownButton id="dropdown-item-button" title="Available Time">
-                                            {
-                                                this.state.scheduleInfo.map((value,index)=>{
-                                                    return (
-                                                        <Dropdown.Item as="button" key={index} eventKey={value.startTime+"@"+value.movie.name+"@"+value.room.capacity} onSelect={(key)=>{this.handleSelectDate(key)}}>
-                                                            {value.startTime}
-                                                        </Dropdown.Item>
-                                                    )
-                                                })
-                                            }
-                                            {/* <Dropdown.Item as="button" eventKey="2020-01-01 15:30" onSelect={(key)=>{this.handleSelectDate(key)}}>2020-01-01 15:30</Dropdown.Item>
-                                            <Dropdown.Item as="button" eventKey="2020-01-02 15:30" onSelect={(key)=>{this.handleSelectDate(key)}}>2020-01-02 15:30</Dropdown.Item>
-                                            <Dropdown.Item as="button" eventKey="2020-01-03 15:30" onSelect={(key)=>{this.handleSelectDate(key)}}>2020-01-03 15:30</Dropdown.Item> */}
-                                        </DropdownButton>
+                                        {/*<DropdownButton id="dropdown-item-button" title="Available Time">*/}
+                                        {/*    {*/}
+                                        {/*        this.state.scheduleInfo.map((value,index)=>{*/}
+                                        {/*            return (*/}
+                                        {/*                <Dropdown.Item as="button" key={index} eventKey={value.startTime+"@"+value.movie.name+"@"+value.room.capacity} onSelect={(key)=>{this.handleSelectDate(key)}}>*/}
+                                        {/*                    {value.startTime}*/}
+                                        {/*                </Dropdown.Item>*/}
+                                        {/*            )*/}
+                                        {/*        })*/}
+                                        {/*    }*/}
+                                        {/*    */}
+                                        {/*       */}
+                                        {/*    */}
+                                        {/*</DropdownButton>*/}
+                                            <DropdownButton id="dropdown-item-button" title="Available Time">
+                                                <Dropdown.Item as="button" eventKey="10:00AM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 10:00AM</Dropdown.Item>
+                                                <Dropdown.Item as="button" eventKey="11:00AM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 11:00AM</Dropdown.Item>
+                                                <Dropdown.Item as="button" eventKey="13:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 13:00PM</Dropdown.Item>
+                                                <Dropdown.Item as="button" eventKey="14:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 14:00PM</Dropdown.Item>
+                                                <Dropdown.Item as="button" eventKey="15:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 15:00PM</Dropdown.Item>
+                                                <Dropdown.Item as="button" eventKey="16:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 16:00PM</Dropdown.Item>
+                                                <Dropdown.Item as="button" eventKey="17:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 17:00PM</Dropdown.Item>
+                                                <Dropdown.Item as="button" eventKey="18:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 18:00PM</Dropdown.Item>
+                                            </DropdownButton>
                                             {
                                                 this.state.isDateSelected ?
                                                     <Modal.Title>Time Selected: {this.state.selectedTime}</Modal.Title>

@@ -1,6 +1,7 @@
 import React from "react";
 import axios from 'axios';
 import {Link,withRouter} from "react-router-dom";
+import "./login.css"
 
 class Login extends React.Component {
 
@@ -97,10 +98,13 @@ class Login extends React.Component {
         })
     }
 
+
     render() {
         return (
             <React.Fragment>
-                <div className="container-md">
+
+                <div className="split left">
+                    <div className="centered">
                     <h2>Login</h2>
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group">
@@ -141,7 +145,15 @@ class Login extends React.Component {
                         }
 
                     </form>
+                    </div>
                 </div>
+                <div className="split right">
+                    <div className="centered">
+                        <p>The Legend 27</p>
+                    </div>
+                </div>
+
+
             </React.Fragment>
         );
     }

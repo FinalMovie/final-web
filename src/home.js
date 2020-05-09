@@ -19,10 +19,7 @@ export default class home extends React.Component {
     render() {
         return (
             <React.Fragment>
-                {/*<body>*/}
 
-
-                {/*</body>*/}
                 <div className= "bg">
                     <div className="content">
                         <h1>Welcome</h1>
