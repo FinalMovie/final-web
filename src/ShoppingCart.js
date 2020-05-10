@@ -45,6 +45,26 @@ class ShoppingCart extends React.Component {
     pay(){
         this.props.history.push({ pathname: "/Pay", state: { total:this.state.subtotal,lists:this.state.carts} })
     }
+
+    deleteCarts(value){
+        console.log(value);
+        let storeage = window.localStorage;
+        let carts = JSON.parse(storeage.getItem("cart"));
+        console.log(typeof(carts));
+        let newCarts = [];
+        console.log(carts);
+        for(let _value of carts){
+            console.log(_value);
+            if(value.id != _value.id && value.name != _value.name){
+                newCarts.push(_value);
+            }
+        }
+        storeage.setItem("cart",JSON.stringify(newCarts));
+        this.setState({
+            carts: newCarts
+        })
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -59,6 +79,7 @@ class ShoppingCart extends React.Component {
                                 <th scope="col">Price</th>
                                 <th scope ="col">Info</th>
                                 <th scope ="col">Image</th>
+                                <th scope ="col">Operate</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -71,6 +92,7 @@ class ShoppingCart extends React.Component {
                                             <th>${value.price}</th>
                                             <th>{ window.localStorage.getItem("start_time")}</th>
                                             <th>{<img src={value.image} height={100} width={100}/>}</th>
+                                            <th><button onClick={this.deleteCarts.bind(this,value)}>delete</button></th>
                                         </tr>
                                     );
                                 })

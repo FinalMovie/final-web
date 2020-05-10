@@ -155,13 +155,63 @@ class Staff extends React.Component {
     }
 
     handleChangeEmail(event) {
+        event.preventDefault();
         let email = event.target.value;
+        console.log(email);
         this.setState({
             user: {
                 ...this.state.user,
                 email: email
             }
         })
+    }
+
+    staffSubmit(){
+        let email = this.state.user.email;
+        console.log(email);
+        let formData = new FormData();
+        formData.append("email",email);
+        let header = {
+            headers: {'content-type': 'multipart/form-data'}
+        };
+        if(email !== undefined && email.length !== 0){
+            axios.post("/api/userByEmail",formData,header).then(res=>{
+                console.log(res.data);
+                if(res.status === 200){
+                    this.setState({
+                        userMembership: res.data.membership
+                    })
+                }else{
+                    alert("server is busy now!")
+                }
+            }).then(res=>{
+
+                let discount = 1
+                if(this.state.userMembership >= 100 < 200){
+                    discount = 0.9;
+                    this.setState({
+                        discountPassdown:0.9
+                    })
+        
+                } else if( this.state.userMembership >= 200) {
+                    discount = 0.8;
+                    this.setState({
+                        discountPassdown:0.8
+                    })
+                }
+                let total = 0;
+                for(let value of JSON.parse(window.localStorage.getItem("cart"))){
+                    total += value.price;
+                }
+                this.setState({
+                    total:total.toFixed(2),
+                    subtotal: (total * discount + total * 0.075).toFixed(2)
+                })
+            })
+        }else{
+            alert("pleast input user email!")
+        }
+
     }
 
     render() {
@@ -266,7 +316,7 @@ class Staff extends React.Component {
                                value={this.state.user.email}
                                onChange={this.handleChangeEmail}
                         />
-                        <button>Submit</button>
+                        <button onClick={this.staffSubmit.bind(this)}>Submit</button>
                     </div>
                     <div align="right">
                         <Row className="form-check">

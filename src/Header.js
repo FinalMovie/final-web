@@ -16,7 +16,8 @@ class Header extends React.Component {
         let storage = window.localStorage;
         storage.setItem("islogin",false);
         storage.setItem("isadmin",false);
-        storage.setItem("isstaff",false)
+        storage.setItem("isstaff",false);
+        storage.setItem("cart",JSON.stringify([]));
         this.setState({
             loginStatus:false,
             isAdmin:false,

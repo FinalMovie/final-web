@@ -2,7 +2,9 @@ import * as React from "react";
 import axios from "axios";
 import {Link,withRouter} from "react-router-dom";
 import {Container,Row,Col,Modal,Button,DropdownButton,Dropdown} from 'react-bootstrap';
-
+import Details from "./seat/Details";
+import Datetime from 'react-datetime';
+import moment from 'moment';
 import "./Movie.css";
 
 
@@ -16,9 +18,34 @@ class Movie extends React.Component {
             isDateSelected:false,//check if the date is being selected
             selectedTime:"",
             scheduleInfo:[],
-            currentMovie:{}
+            currentMovie:{},
+            showSelectDate:false,
+            isDateSelected:false,
+            showSelectSeat:false,
+            selectedDate: moment().format("YYYY-MM-DD")
         };
         this.handleSelectDate = this.handleSelectDate.bind(this);
+        this.handleDateClose = this.handleDateClose.bind(this);
+        this.handleConfirmDate = this.handleConfirmDate.bind(this);
+        this.handleSeatClose = this.handleSeatClose.bind(this);
+    }
+
+    handleSeatClose(){
+        this.setState({
+            showSelectSeat:false
+        })
+    }
+
+    handleDateClose(){
+        this.setState({
+            showSelectDate:false
+        })
+    }
+    handleConfirmDate(){
+        this.setState({
+            showSelectDate: false,
+            show: true,
+        })
     }
 
     componentDidMount() {
@@ -37,6 +64,13 @@ class Movie extends React.Component {
                 }
             })
         }
+    }
+
+    handleSelectTime(){
+        this.setState({
+            show:false,
+            showSelectSeat:true
+        })
     }
 
     addToCart() {
@@ -58,8 +92,9 @@ class Movie extends React.Component {
             cart.push(value);
             storage.setItem("cart",JSON.stringify(cart));
         }
+        alert("add success！")
         this.setState({
-            show:false
+            showSelectSeat:false
         })
         storage.setItem("movie_name",value.name)
         // this.props.functionCallFromParent();
@@ -75,8 +110,9 @@ class Movie extends React.Component {
     handleShowModal(value){
         console.log(666666,value);
         this.setState({
-            currentMovie: value
+            currentMovie: value,
         });
+        
         axios.get("/api/movieSchedule?id="+value.id).then(res=>{
             console.log(3333,res.data);
             if(res.data.success){
@@ -91,7 +127,7 @@ class Movie extends React.Component {
             }
         }).then(res=>{
             this.setState({
-                show:true
+                showSelectDate:true
             })
         })
     }
@@ -112,7 +148,12 @@ class Movie extends React.Component {
             })
         }
     }
-
+    handleDateChange(value){
+        console.log(moment(value).format("YYYY-MM-DD"));
+        this.setState({
+            selectedDate: moment(value).format("YYYY-MM-DD"),
+        })
+    }
     render() {
         return (
             <React.Fragment>
@@ -132,6 +173,24 @@ class Movie extends React.Component {
                                             <Button onClick={this.handleShowModal.bind(this,value)}>Add to Cart</Button>
                                         </p>
                                     </div>
+                                    <Modal show={this.state.showSelectDate} onHide={this.handleDateClose}>
+                                        <Modal.Header closeButton>
+                                        <Modal.Title>Select the date</Modal.Title>
+                                        </Modal.Header>
+                                        <Modal.Body>
+                                        <Datetime dateFormat="YYYY-MM-DD" defaultValue={moment().format("YYYY-MM-DD")} timeFormat={false} onChange={(e)=>this.handleDateChange(e)}>
+                                        </Datetime>
+                                        <Modal.Title>date Selected: {this.state.selectedDate}</Modal.Title>
+                                        </Modal.Body>
+                                        <Modal.Footer>
+                                        <Button variant="secondary" onClick={this.handleDateClose}>
+                                            Cancel
+                                        </Button>
+                                        <Button variant="primary" onClick={this.handleConfirmDate}>
+                                            next
+                                        </Button>
+                                        </Modal.Footer>
+                                    </Modal>
                                     <Modal show={this.state.show} onHide={this.handleClose.bind(this)}>
                                         <Modal.Header closeButton>
                                         <Modal.Title>Select the time</Modal.Title>
@@ -148,16 +207,6 @@ class Movie extends React.Component {
                                                 })
                                             }
                                         </DropdownButton>
-                                            {/* <DropdownButton id="dropdown-item-button" title="Available Time">
-                                                <Dropdown.Item as="button" eventKey="10:00AM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 10:00AM</Dropdown.Item>
-                                                <Dropdown.Item as="button" eventKey="11:00AM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 11:00AM</Dropdown.Item>
-                                                <Dropdown.Item as="button" eventKey="13:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 13:00PM</Dropdown.Item>
-                                                <Dropdown.Item as="button" eventKey="14:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 14:00PM</Dropdown.Item>
-                                                <Dropdown.Item as="button" eventKey="15:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 15:00PM</Dropdown.Item>
-                                                <Dropdown.Item as="button" eventKey="16:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 16:00PM</Dropdown.Item>
-                                                <Dropdown.Item as="button" eventKey="17:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 17:00PM</Dropdown.Item>
-                                                <Dropdown.Item as="button" eventKey="18:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 18:00PM</Dropdown.Item>
-                                            </DropdownButton> */}
                                             {
                                                 this.state.isDateSelected ?
                                                     <Modal.Title>Time Selected: {this.state.selectedTime}</Modal.Title>
@@ -169,8 +218,8 @@ class Movie extends React.Component {
                                         <Button variant="secondary" onClick={this.handleClose.bind(this)}>
                                             Cancel
                                         </Button>
-                                        <Button variant="primary" onClick={this.addToCart.bind(this)}>
-                                            Add
+                                        <Button variant="primary" onClick={this.handleSelectTime.bind(this)}>
+                                            Next
                                         </Button>
                                         </Modal.Footer>
                                     </Modal>
@@ -178,6 +227,22 @@ class Movie extends React.Component {
                             )
                         })
                     }
+                     <Modal show={this.state.showSelectSeat} onHide={this.handleSeatClose}>
+                        <Modal.Header closeButton>
+                        <Modal.Title>Select the Seat</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Details></Details>
+                        </Modal.Body>
+                        <Modal.Footer>
+                        <Button variant="secondary" onClick={this.handleSeatClose}>
+                            Cancel
+                        </Button>
+                        <Button variant="primary" onClick={this.addToCart.bind(this)}>
+                            Add
+                        </Button>
+                        </Modal.Footer>
+                    </Modal>
                     </Row>
                 </Container>
                 </div>
