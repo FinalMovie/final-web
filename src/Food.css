@@ -29,3 +29,10 @@
 .card button:hover {
     opacity: 0.7;
 }
+
+.foodBG{
+    height: 100%;
+    width: 100%;
+    background-image: url('https://pic.pikbest.com/00/64/81/45B888piCMg3.jpg-0.jpg!bw700');
+    backgroundRepeat: 'no-repeat';
+}

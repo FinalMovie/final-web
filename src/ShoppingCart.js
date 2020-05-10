@@ -10,24 +10,36 @@ class ShoppingCart extends React.Component {
         this.state={
             carts: window.localStorage.getItem("cart")!== null?JSON.parse(window.localStorage.getItem("cart")):[],
             total:0,
-            subtotal:0
+            subtotal:0,
+            discountPassdown:0
+
         }
     }
 
     componentDidMount(){
         let total = 0;
+        let discount = 1;
         for(let value of this.state.carts){
             total += value.price;
         }
         let storeage = window.localStorage;
         let membership = storeage.getItem("membership") === null?1: parseInt(storeage.getItem("membership"))
-        let discount = 1;
-        if(membership >= 100){
+
+        if(membership >= 100 < 200){
             discount = 0.9;
+            this.setState({
+                discountPassdown:0.9
+            })
+
+        } else if( membership >= 200) {
+            discount = 0.8;
+            this.setState({
+                discountPassdown:0.8
+            })
         }
         this.setState({
             total:total.toFixed(2),
-            subtotal: (total * discount).toFixed(2)
+            subtotal: (total * discount + total * 0.075).toFixed(2)
         })
     }
     pay(){
@@ -70,6 +82,7 @@ class ShoppingCart extends React.Component {
                         <Row className="form-check">
                             <p>Subtotal: {this.state.total} USD</p>
                             <p>Tax: 7.5%</p>
+                            <p>Membership Discount: {(this.state.total - this.state.total * this.state.discountPassdown).toFixed(2)} USD</p>
                             <p>Total: {this.state.subtotal} USD</p>
                             <Button onClick={this.pay.bind(this)}>CHECKOUT</Button>
                         </Row>
