@@ -41,7 +41,6 @@ class Select extends Component {
 	}
 
 	componentDidUpdate(){
-
 		this.ctx.clearRect(0,0,CANVAS_WIDTH,CANVAS_HEIGHT);
 		this.drawAllImage();
 		this.drawSelectImage();
@@ -94,7 +93,7 @@ class Select extends Component {
 		//3. 获取点击到的对象，  根据x和y和data中的x和y对比
 		let seat = data.find(item=>item.x ===xPos && item.y ===yPos);
 		//4. 已经被选的座位不可以进行任何操作
-		if(seat.isSold){
+		if(seat === undefined || seat.isSold){
 			return;
 		}
 		//5. 查找当前点击的数据库在数组中是否存在

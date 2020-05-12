@@ -181,39 +181,45 @@ class Staff extends React.Component {
         };
         if(email !== undefined && email.length !== 0){
             axios.post("/api/userByEmail",formData,header).then(res=>{
-                console.log(res.data);
-                if(res.status === 200){
+                if(res.status === 200 && res.data.membership !== undefined){
                     this.setState({
                         userMembership: res.data.membership,
                         isInvalidEmail:false
                     })
                 }else{
-                    alert("NO USER")
                     this.setState({
-                        isInvalidEmail:true
+                        isInvalidEmail:true,
+                        userMembership: 0
                     })
+                    alert("NO USER")
+                    return
                 }
             }).then(res=>{
-
                 let discount = 1;
-                if(this.state.userMembership >= 100 < 200){
+                console.log(this.state.userMembership);
+                if(this.state.userMembership >= 100 && this.state.userMembership < 200){
                     discount = 0.9;
                     this.setState({
                         discountPassdown:0.9
                     })
-
                 } else if( this.state.userMembership >= 200) {
                     discount = 0.8;
                     this.setState({
                         discountPassdown:0.8
+                    })
+                }else{
+                    discount = 1;
+                    this.setState({
+                        discountPassdown:1
                     })
                 }
                 let total = 0;
                 for(let value of JSON.parse(window.localStorage.getItem("cart"))){
                     total += value.price;
                 }
+                console.log(discount);
                 this.setState({
-                    total:total.toFixed(2),
+                    total: total.toFixed(2),
                     subtotal: (total * discount + total * 0.075).toFixed(2)
                 })
             })

@@ -5,6 +5,7 @@ class Details extends Component {
 	state = {
 		selectSeat:[]
 	}
+	
 	//添加操作
 	addSeat = (seat)=>{
 		this.setState(prevState=>({

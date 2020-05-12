@@ -49,6 +49,7 @@ class Movie extends React.Component {
     }
 
     componentDidMount() {
+        document.body.scrollIntoView(true);        
         let storage = window.localStorage;
         console.log(storage.getItem("islogin"));
         if(storage.getItem("islogin") !== 'true'){
