@@ -1,8 +1,7 @@
 import React from "react";
 import axios from 'axios';
 import "./Movie.css";
-import {Modal,Button,Form} from 'react-bootstrap';
-import {unstable_batchedUpdates} from "react-dom";
+import {Modal} from 'react-bootstrap';
 
 
 export default class AddFood extends React.Component {
@@ -12,8 +11,8 @@ export default class AddFood extends React.Component {
         this.state = {
             listFood: [],
             foodEditShow: false,
-            current:{},
-            foodAddFlag:false
+            current: {},
+            foodAddFlag: false
         };
         this.handleChange = this.handleChange.bind(this);
 
@@ -36,68 +35,67 @@ export default class AddFood extends React.Component {
         })
     }
 
-    handleFoodEditClose(){
+    handleFoodEditClose() {
         this.setState({
             foodEditShow: false
         })
     }
 
 
-
-    handleshowFoodEdit(value){
+    handleshowFoodEdit(value) {
         console.log(value);
         this.setState({
             foodEditShow: true,
-            current:value
+            current: value
         })
     }
 
 
-    handleFoodEditSubmit(){
-        if(this.state.foodAddflag){
+    handleFoodEditSubmit() {
+        if (this.state.foodAddflag) {
             let formData = new FormData();
-            console.log(this.state.current.name,this.state.current.price,this.state.current.calories,this.state.current.image)
-            formData.append("name",this.state.current.name);
-            formData.append("price",parseInt(this.state.current.price));
-            formData.append("calories",this.state.current.calories);
-            formData.append("image",this.state.current.image);
+            console.log(this.state.current.name, this.state.current.price, this.state.current.calories, this.state.current.image)
+            formData.append("name", this.state.current.name);
+            formData.append("price", parseInt(this.state.current.price));
+            formData.append("calories", this.state.current.calories);
+            formData.append("image", this.state.current.image);
             let header = {
                 headers: {'content-type': 'multipart/form-data'}
             };
-            axios.post("/api/addFood",formData,header).then(res=>{
-                if(res.data.success){
+            axios.post("/api/addFood", formData, header).then(res => {
+                if (res.data.success) {
                     alert("Add Succeed")
-                }else{
+                } else {
                     alert(res.data.msg);
                 }
-            }).then(res=>{
+            }).then(res => {
                 this.setState({
-                    foodAddFlag:false,
-                    foodEditShow:false,
-                    current:{}
+                    foodAddFlag: false,
+                    foodEditShow: false,
+                    current: {}
                 })
             })
-        }else{
+        } else {
             let formData = new FormData();
-            formData.append("name",this.state.current.name);
-            formData.append("price",this.state.current.price);
-            formData.append("id",this.state.current.id);
-            formData.append("calories",this.state.current.calories);
-            formData.append("image",this.state.current.image);
+            formData.append("name", this.state.current.name);
+            formData.append("price", this.state.current.price);
+            formData.append("id", this.state.current.id);
+            formData.append("calories", this.state.current.calories);
+            formData.append("image", this.state.current.image);
             let header = {
                 headers: {'content-type': 'multipart/form-data'}
             };
-            axios.post("/api/editFood",formData,header).then(res=>{
-                if(res.data.success){
+            axios.post("/api/editFood", formData, header).then(res => {
+                if (res.data.success) {
                     alert("Edit Succeed")
-                }else{
+                } else {
                     alert(res.data.msg);
                 }
             })
         }
     }
 
-    handleChange(event){
+    handleChange(event) {
         event.preventDefault();
         this.setState({
             current: {
@@ -107,24 +105,24 @@ export default class AddFood extends React.Component {
         })
     }
 
-    DeleteFood(value){
+    DeleteFood(value) {
         let formData = new FormData();
         let header = {
             headers: {'content-type': 'multipart/form-data'}
         };
-        formData.append("id",parseInt(value.id));
+        formData.append("id", parseInt(value.id));
 
-        axios.post("/api/deleteFood",formData,header).then(res=>{
-            if(res.data.success){
+        axios.post("/api/deleteFood", formData, header).then(res => {
+            if (res.data.success) {
                 alert("Delete Succeed！")
-            }else{
+            } else {
                 alert("Delete Failed！")
             }
         })
     }
 
 
-    handleshowFoodAdd(){
+    handleshowFoodAdd() {
         this.setState({
             foodEditShow: true,
             foodAddflag: true,
@@ -146,7 +144,7 @@ export default class AddFood extends React.Component {
                             <th scope="col">Image</th>
                         </tr>
                         {
-                            this.state.listFood.map((value,index) => {
+                            this.state.listFood.map((value, index) => {
                                 return (
                                     <tr key={index}>
                                         <th>{value.id}</th>
@@ -154,7 +152,9 @@ export default class AddFood extends React.Component {
                                         <th>${value.price}</th>
                                         <th>{value.calories}</th>
                                         <th>{<img src={value.image} height={100} width={100}/>}</th>
-                                        <th><button onClick={this.handleshowFoodEdit.bind(this,value)}>Modify</button> - <button onClick={this.DeleteFood.bind(this,value)}>Delete</button></th>
+                                        <th>
+                                            <button onClick={this.handleshowFoodEdit.bind(this, value)}>Modify</button>
+                                            - <button onClick={this.DeleteFood.bind(this, value)}>Delete</button></th>
                                     </tr>
                                 );
                             })

@@ -1,5 +1,4 @@
 import React from "react";
-import axios from 'axios';
 
 export default class Signup extends React.Component {
 
@@ -9,7 +8,7 @@ export default class Signup extends React.Component {
             user: {
                 username: '',
                 password: '',
-                email:''
+                email: ''
             },
             flag: false, // indicate whether clicked on login button
             status: false, // check if the username and password valid or not
@@ -20,8 +19,6 @@ export default class Signup extends React.Component {
         this.handleChangePassword = this.handleChangePassword.bind(this);
         this.handleChangeEmail = this.handleChangeEmail.bind(this);
     }
-
-
 
 
     handleChangeUsername(event) {
@@ -96,7 +93,7 @@ export default class Signup extends React.Component {
                             </label>
                         </div>
 
-                                <button className="btn btn-primary" type="submit">Submit</button>
+                        <button className="btn btn-primary" type="submit">Submit</button>
                     </form>
                 </div>
 

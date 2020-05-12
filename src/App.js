@@ -18,46 +18,45 @@ import AddMovie from "./AddMovie";
 import AddFood from "./AddFood";
 
 
-
 export default class App extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             isAdmin: false,
-            loginStatus:false,
-            isStaff:false
+            loginStatus: false,
+            isStaff: false
         }
     }
 
-    getLoginStatus=(value)=>{
-        console.log("child:",value);
-        if(value){
+    getLoginStatus = (value) => {
+        console.log("child:", value);
+        if (value) {
             this.setState({
-                loginStatus:value
+                loginStatus: value
             })
         }
     }
 
-    isAdminUser=(value)=>{
-        if(value){
+    isAdminUser = (value) => {
+        if (value) {
             this.setState({
-                isAdmin:value
+                isAdmin: value
             })
         }
     }
 
-    isStaffUser=(value)=>{
-        if(value){
+    isStaffUser = (value) => {
+        if (value) {
             this.setState({
-                isStaff:value
+                isStaff: value
             })
         }
     }
 
 
-    render () {
-        const login = props=>{
+    render() {
+        const login = props => {
             return <Login getLoginStatus={this.getLoginStatus} isAdminUser={this.isAdminUser} isStaffUser={this.isStaffUser}/>
         }
         // const admin = props=>{
@@ -68,9 +67,10 @@ export default class App extends React.Component {
         return (
             <React.Fragment>
                 <BrowserRouter>
-                    <Header loginStatus={this.state.loginStatus || window.localStorage.getItem("islogin") === "true"?true:false}
-                            isAdmin={this.state.isAdmin || window.localStorage.getItem("isadmin") === "true"?true:false}
-                            isStaff={this.state.isStaff || window.localStorage.getItem("isstaff") === "true"?true:false}>
+                    <Header
+                        loginStatus={this.state.loginStatus || window.localStorage.getItem("islogin") === "true" ? true : false}
+                        isAdmin={this.state.isAdmin || window.localStorage.getItem("isadmin") === "true" ? true : false}
+                        isStaff={this.state.isStaff || window.localStorage.getItem("isstaff") === "true" ? true : false}>
                     </Header>
                     <Switch>
                         <Route exact path="/Home" component={Home}/>

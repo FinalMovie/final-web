@@ -1,8 +1,7 @@
 import React from "react";
 import axios from 'axios';
 import "./Movie.css";
-import {Modal,Button,Form} from 'react-bootstrap';
-import {unstable_batchedUpdates} from "react-dom";
+import {Modal} from 'react-bootstrap';
 
 
 export default class AddMovie extends React.Component {
@@ -14,8 +13,8 @@ export default class AddMovie extends React.Component {
 
             movieEidtShow: false,
             foodEditShow: false,
-            current:{},
-            movieAddFlag:false,
+            current: {},
+            movieAddFlag: false,
 
         };
         this.handleChange = this.handleChange.bind(this);
@@ -40,56 +39,58 @@ export default class AddMovie extends React.Component {
     }
 
 
-    handleMovieEditClose(){
+    handleMovieEditClose() {
         this.setState({
             movieEidtShow: false
         })
     }
 
-    handleshowMovieEdit(value){
+    handleshowMovieEdit(value) {
         console.log(value);
         this.setState({
             movieEidtShow: true,
-            current:value
+            current: value
         })
     }
 
-    handleMovieEditSubmit(){
-        if(this.state.movieAddFlag){
+    handleMovieEditSubmit() {
+        if (this.state.movieAddFlag) {
             let formData = new FormData();
-            formData.append("name",this.state.current.name);
-            formData.append("price",this.state.current.price);
-            formData.append("description",this.state.current.description);
-            formData.append("image",this.state.current.image);
+            formData.append("name", this.state.current.name);
+            formData.append("price", this.state.current.price);
+            formData.append("description", this.state.current.description);
+            formData.append("image", this.state.current.image);
             let header = {
                 headers: {'content-type': 'multipart/form-data'}
             };
-            axios.post("/api/addMovie",formData,header).then(res=>{
-                if(res.data.success){
+            axios.post("/api/addMovie", formData, header).then(res => {
+                if (res.data.success) {
                     alert("Add Succeed")
-                }else{
+                } else {
                     alert(res.data.msg);
                 }
-            }).then(res=>{this.setState({
-                movieEidtShow: false,
-                movieAddFlag: false,
-                current:{}
-            })})
-        }else{
+            }).then(res => {
+                this.setState({
+                    movieEidtShow: false,
+                    movieAddFlag: false,
+                    current: {}
+                })
+            })
+        } else {
             console.log(this.state.current)
             let formData = new FormData();
-            formData.append("name",this.state.current.name);
-            formData.append("price",this.state.current.price);
-            formData.append("id",this.state.current.id);
-            formData.append("description",this.state.current.description);
-            formData.append("image",this.state.current.image);
+            formData.append("name", this.state.current.name);
+            formData.append("price", this.state.current.price);
+            formData.append("id", this.state.current.id);
+            formData.append("description", this.state.current.description);
+            formData.append("image", this.state.current.image);
             let header = {
                 headers: {'content-type': 'multipart/form-data'}
             };
-            axios.post("/api/editMovie",formData,header).then(res=>{
-                if(res.data.success){
+            axios.post("/api/editMovie", formData, header).then(res => {
+                if (res.data.success) {
                     alert("Edit Succeed")
-                }else{
+                } else {
                     alert(res.data.msg);
                 }
             })
@@ -97,8 +98,7 @@ export default class AddMovie extends React.Component {
     }
 
 
-
-    handleChange(event){
+    handleChange(event) {
         event.preventDefault();
         this.setState({
             current: {
@@ -107,26 +107,26 @@ export default class AddMovie extends React.Component {
             }
         })
     }
-    DeleteMovie(value){
+
+    DeleteMovie(value) {
         console.log(value);
         let formData = new FormData();
         let header = {
             headers: {'content-type': 'multipart/form-data'}
         };
-        formData.append("id",parseInt(value.id));
+        formData.append("id", parseInt(value.id));
 
-        axios.post("/api/deleteMovie",formData,header).then(res=>{
-            if(res.data.success){
+        axios.post("/api/deleteMovie", formData, header).then(res => {
+            if (res.data.success) {
                 alert("Delete Succeed！")
-            }else{
+            } else {
                 alert("Delete Failed！")
             }
         })
     }
 
 
-
-    handleshowMovieAdd(){
+    handleshowMovieAdd() {
         this.setState({
             movieEidtShow: true,
             movieAddFlag: true,
@@ -144,13 +144,13 @@ export default class AddMovie extends React.Component {
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
                             <th scope="col">Price</th>
-                            <th scope ="col">Description</th>
-                            <th scope ="col">Image</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Image</th>
                         </tr>
                         </thead>
                         <tbody>
                         {
-                            this.state.listMovie.map((value,index) => {
+                            this.state.listMovie.map((value, index) => {
                                 return (
                                     <tr key={index}>
                                         <th>{value.id}</th>
@@ -158,7 +158,9 @@ export default class AddMovie extends React.Component {
                                         <th>{value.price}</th>
                                         <th>{value.description}</th>
                                         <th>{<img src={value.image} height={100} width={100}/>}</th>
-                                        <th><button onClick={this.handleshowMovieEdit.bind(this,value)}>Modify</button> - <button onClick={this.DeleteMovie.bind(this,value)}>Delete</button></th>
+                                        <th>
+                                            <button onClick={this.handleshowMovieEdit.bind(this, value)}>Modify</button>
+                                            - <button onClick={this.DeleteMovie.bind(this, value)}>Delete</button></th>
                                     </tr>
                                 );
                             })
@@ -168,7 +170,7 @@ export default class AddMovie extends React.Component {
                                 <Modal.Title>Edit Movie Info</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
-                                <form >
+                                <form>
                                     ID
                                     <div className="form-group">
                                         <label>

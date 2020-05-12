@@ -13,7 +13,7 @@ import Signup from "./components/Signup";
 export default class App extends React.Component {
 
 
-    render () {
+    render() {
         // virtual root element will not be rendered to DOM tree.
         return (
             <React.Fragment>

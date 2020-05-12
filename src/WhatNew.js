@@ -1,12 +1,12 @@
 import React from "react";
 import "./WhatNew.css";
 
-export default class WhatNew extends  React.Component {
+export default class WhatNew extends React.Component {
 
 
-    render () {
+    render() {
 
-        return(
+        return (
             <React.Fragment>
                 <div className="newBG">
                     <div className="slidershow middle">
@@ -23,10 +23,14 @@ export default class WhatNew extends  React.Component {
                                 <img src="https://i.pinimg.com/474x/a2/5b/4a/a25b4ae8e03c4b2ebd06d861a082956a.jpg" alt=""/>
                             </div>
                             <div className="slide">
-                                <img src="https://i.pinimg.com/474x/2b/22/92/2b2292624333d5ab668197c00abb087f--screen-shot-popcorn.jpg" alt=""/>
+                                <img
+                                    src="https://i.pinimg.com/474x/2b/22/92/2b2292624333d5ab668197c00abb087f--screen-shot-popcorn.jpg"
+                                    alt=""/>
                             </div>
                             <div className="slide">
-                                <img src="https://i.pinimg.com/474x/c0/13/46/c013463378daafa078374a000684a520--poster-design-art-design.jpg" alt=""/>
+                                <img
+                                    src="https://i.pinimg.com/474x/c0/13/46/c013463378daafa078374a000684a520--poster-design-art-design.jpg"
+                                    alt=""/>
                             </div>
                             <div className="slide">
                                 <img src="https://i.pinimg.com/474x/2a/c3/cc/2ac3cc627d0200f4c748c845b4cd9d1b.jpg" alt=""/>
@@ -41,7 +45,7 @@ export default class WhatNew extends  React.Component {
                             <label htmlFor="r5" className="bar"></label>
                         </div>
                     </div>
-                    <div className = "slides r">
+                    <div className="slides r">
                         <p>More Movies Coming Soon</p>
                     </div>
                 </div>
