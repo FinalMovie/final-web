@@ -1,8 +1,8 @@
 import * as React from "react";
 import {Button, Col, Container, Dropdown, DropdownButton, Modal, Row} from "react-bootstrap";
 import axios from "axios";
-import {withRouter} from "react-router-dom";
-
+import {Link, withRouter} from "react-router-dom";
+import "./Staff.css"
 
 class Staff extends React.Component {
 
@@ -18,6 +18,12 @@ class Staff extends React.Component {
             carts: window.localStorage.getItem("cart")!== null?JSON.parse(window.localStorage.getItem("cart")):[],
             total:0,
             subtotal:0,
+            isMember:false,
+            isInvalidEmail:false,
+            discountPassdown:1,
+            userMembership:0,
+            displayFood:false,
+            displayMovie:false,
             user: {
                 email: ''
             }
@@ -65,7 +71,6 @@ class Staff extends React.Component {
             total:total.toFixed(2),
             subtotal: (total * 0.0625 + total).toFixed(2)
         })
-
     }
 
     addToCart(value) {
@@ -179,20 +184,24 @@ class Staff extends React.Component {
                 console.log(res.data);
                 if(res.status === 200){
                     this.setState({
-                        userMembership: res.data.membership
+                        userMembership: res.data.membership,
+                        isInvalidEmail:false
                     })
                 }else{
-                    alert("server is busy now!")
+                    alert("NO USER")
+                    this.setState({
+                        isInvalidEmail:true
+                    })
                 }
             }).then(res=>{
 
-                let discount = 1
+                let discount = 1;
                 if(this.state.userMembership >= 100 < 200){
                     discount = 0.9;
                     this.setState({
                         discountPassdown:0.9
                     })
-        
+
                 } else if( this.state.userMembership >= 200) {
                     discount = 0.8;
                     this.setState({
@@ -209,126 +218,184 @@ class Staff extends React.Component {
                 })
             })
         }else{
-            alert("pleast input user email!")
+            alert("please input user email!")
+            this.setState({
+                isInvalidEmail:true
+            })
         }
 
     }
+
+    handleGetFood() {
+        this.setState({
+            displayFood:true,
+            displayMovie:false,
+        })
+    }
+
+    handleGetMovie() {
+        this.setState({
+            displayMovie:true,
+            displayFood:false,
+        })
+    }
+
+
 
     render() {
         return (
             <React.Fragment>
 
                 <Container>
-                    <table className="table table-hover table-active">
-                        <thead className="thead-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Price</th>
-                            <th scope ="col">Calories</th>
-                            <th scope ="col">Image</th>
-                            <th scope ="col"></th>
-                        </tr>
-                        </thead>
-                       <tbody>
-                       {
-                           this.state.foodList.map((value,index) =>{
-                               return (
-                                   <tr key={index}>
-                                       <th>{value.id}</th>
-                                       <th>{value.name}</th>
-                                       <th>${value.price}</th>
-                                       <th>{value.calories}</th>
-                                       <th><img src={value.image} height={90} width={90}/></th>
-                                       <th> <button onClick={this.addFoodToCart.bind(this,value)}>Add</button></th>
-                                   </tr>
-                               )
-                           })
-                       }
-                       </tbody>
-                   </table>
+                    <div className="staffBG">
+                    {
+                        this.state.displayFood || this.state.displayMovie ?
+                            ""
+                            :
+                            <div>
+                                <p>Your Login session is: </p>
+                                <p>{new Date().getHours()} : {new Date().getMinutes()} : {new Date().getSeconds()} {new Date().toDateString()} </p>
 
+                            </div>
+                    }
+                    <button className="btn-primary" onClick={this.handleGetFood.bind(this)}>Get Food</button>
+                    <button className="btn-primary" onClick={this.handleGetMovie.bind(this)}>Get Movie</button>
+                    <Link to="/Signup">
+                        <button className="btn-primary">Register  Customer</button>
+                    </Link>
 
-                    <table className="table table-hover table-active">
-                        <thead className="thead-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Price</th>
-                            <th scope ="col">Description</th>
-                            <th scope ="col">Image</th>
-                            <th scope ="col"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {
-                            this.state.list.map((value,index) => {
-                                return (
-                                    <tr key={index}>
-                                       <th>{value.id}</th>
-                                        <th>{value.name}</th>
-                                        <th>{value.price}</th>
-                                        <th>{value.description}</th>
-                                        <th> <img src={value.image} height={100} width={100}/></th>
-                                        <th> <button onClick={this.handleShowModal.bind(this,value)}>Add</button></th>
-                                        <Modal show={this.state.show} onHide={this.handleClose.bind(this)}>
-                                            <Modal.Header closeButton>
-                                                <Modal.Title>Select the time</Modal.Title>
-                                            </Modal.Header>
-                                            <Modal.Body>
-                                                <DropdownButton id="dropdown-item-button" title="Available Time">
-                                                    <Dropdown.Item as="button" eventKey="10:00AM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 10:00AM</Dropdown.Item>
-                                                    <Dropdown.Item as="button" eventKey="11:00AM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 11:00AM</Dropdown.Item>
-                                                    <Dropdown.Item as="button" eventKey="13:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 13:00PM</Dropdown.Item>
-                                                    <Dropdown.Item as="button" eventKey="14:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 14:00PM</Dropdown.Item>
-                                                    <Dropdown.Item as="button" eventKey="15:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 15:00PM</Dropdown.Item>
-                                                    <Dropdown.Item as="button" eventKey="16:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 16:00PM</Dropdown.Item>
-                                                    <Dropdown.Item as="button" eventKey="17:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 17:00PM</Dropdown.Item>
-                                                    <Dropdown.Item as="button" eventKey="18:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 18:00PM</Dropdown.Item>
-                                                </DropdownButton>
-                                                {
-                                                    this.state.isDateSelected ?
-                                                        <Modal.Title>Time Selected: {this.state.selectedTime}</Modal.Title>
-                                                        :
-                                                        ""
-                                                }
-                                            </Modal.Body>
-                                            <Modal.Footer>
-                                                <Button variant="secondary" onClick={this.handleClose.bind(this)}>
-                                                    Cancel
-                                                </Button>
-                                                <Button variant="primary" onClick={this.addToCart.bind(this,value)}>
-                                                    Add
-                                                </Button>
-                                            </Modal.Footer>
-                                        </Modal>
-                                    </tr>
-                                )
-                            })
-                        }
-                        </tbody>
-                    </table>
-                    <div align="left">
-                        <p> Customer Email: </p>
-                        <input type="text"
-                               className="form-control"
-                               name="email"
-                               value={this.state.user.email}
-                               onChange={this.handleChangeEmail}
-                        />
-                        <button onClick={this.staffSubmit.bind(this)}>Submit</button>
-                    </div>
-                    <div align="right">
-                        <Row className="form-check">
-                            <p>Subtotal: {this.state.total} USD</p>
-                            <p>Tax: 7.5%</p>
-                            <p>Total: {this.state.subtotal} USD</p>
-                            <Button onClick={this.pay.bind(this)}>CHECKOUT</Button>
-                        </Row>
+                    {
+                        this.state.displayFood ?
+                            <table className="table table-hover table-active">
+                                <thead className="thead-dark">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Price</th>
+                                    <th scope ="col">Calories</th>
+                                    <th scope ="col">Image</th>
+                                    <th scope ="col"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {
+                                    this.state.foodList.map((value,index) =>{
+                                        return (
+                                            <tr key={index}>
+                                                <th>{value.id}</th>
+                                                <th>{value.name}</th>
+                                                <th>${value.price}</th>
+                                                <th>{value.calories}</th>
+                                                <th><img src={value.image} height={90} width={90}/></th>
+                                                <th> <button onClick={this.addFoodToCart.bind(this,value)}>Add</button></th>
+                                            </tr>
+                                        )
+                                    })
+                                }
+                                </tbody>
+                            </table>
+                            :
+                            ""
+                    }
+                    {
+                        this.state.displayMovie ?
+                            <table className="table table-hover table-active">
+                                <thead className="thead-dark">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Price</th>
+                                    <th scope ="col">Description</th>
+                                    <th scope ="col">Image</th>
+                                    <th scope ="col"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {
+                                    this.state.list.map((value,index) => {
+                                        return (
+                                            <tr key={index}>
+                                                <th>{value.id}</th>
+                                                <th>{value.name}</th>
+                                                <th>${value.price}</th>
+                                                <th>{value.description}</th>
+                                                <th> <img src={value.image} height={100} width={100}/></th>
+                                                <th> <button onClick={this.handleShowModal.bind(this,value)}>Add</button></th>
+                                                <Modal show={this.state.show} onHide={this.handleClose.bind(this)}>
+                                                    <Modal.Header closeButton>
+                                                        <Modal.Title>Select the time</Modal.Title>
+                                                    </Modal.Header>
+                                                    <Modal.Body>
+                                                        <DropdownButton id="dropdown-item-button" title="Available Time">
+                                                            <Dropdown.Item as="button" eventKey="10:00AM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 10:00AM</Dropdown.Item>
+                                                            <Dropdown.Item as="button" eventKey="11:00AM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 11:00AM</Dropdown.Item>
+                                                            <Dropdown.Item as="button" eventKey="13:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 13:00PM</Dropdown.Item>
+                                                            <Dropdown.Item as="button" eventKey="14:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 14:00PM</Dropdown.Item>
+                                                            <Dropdown.Item as="button" eventKey="15:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 15:00PM</Dropdown.Item>
+                                                            <Dropdown.Item as="button" eventKey="16:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 16:00PM</Dropdown.Item>
+                                                            <Dropdown.Item as="button" eventKey="17:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 17:00PM</Dropdown.Item>
+                                                            <Dropdown.Item as="button" eventKey="18:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 18:00PM</Dropdown.Item>
+                                                        </DropdownButton>
+                                                        {
+                                                            this.state.isDateSelected ?
+                                                                <Modal.Title>Time Selected: {this.state.selectedTime}</Modal.Title>
+                                                                :
+                                                                ""
+                                                        }
+                                                    </Modal.Body>
+                                                    <Modal.Footer>
+                                                        <Button variant="secondary" onClick={this.handleClose.bind(this)}>
+                                                            Cancel
+                                                        </Button>
+                                                        <Button variant="primary" onClick={this.addToCart.bind(this,value)}>
+                                                            Add
+                                                        </Button>
+                                                    </Modal.Footer>
+                                                </Modal>
+                                            </tr>
+                                        )
+                                    })
+                                }
+                                </tbody>
+                            </table>
+                            :
+                            ""
+                    }
+                    {
+                        this.state.displayMovie || this.state.displayFood ?
+                            <div>
+                                <div align="left">
+                                    <p> Customer Email: </p>
+                                    <input type="text"
+                                           className="form-control"
+                                           name="email"
+                                           value={this.state.user.email}
+                                           onChange={this.handleChangeEmail}
+                                    />
+                                    <button onClick={this.staffSubmit.bind(this)}>Submit</button>
+                                </div>
+                                {
+                                    this.state.isInvalidEmail ?
+                                        <p>No matched user found</p> :
+                                        ""
+                                }
+                                <div align="right">
+                                    <Row className="form-check">
+                                        <p>Subtotal: {this.state.total} USD</p>
+                                        <p>Tax: 7.5%</p>
+                                        <p>Total: {(this.state.subtotal)} USD</p>
+                                        <Link to="/ShoppingCart">
+                                            <Button onClick={this.pay.bind(this)}>CHECKOUT</Button>
+                                        </Link>
+
+                                    </Row>
+                                </div>
+                            </div>
+                            :
+                            ""
+                    }
                     </div>
                 </Container>
-
-
             </React.Fragment>
         );
     }

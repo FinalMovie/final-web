@@ -101,12 +101,12 @@ class Select extends Component {
 		const selectIndex = this.props.selectSeat.findIndex(item=>item.id == seat.id);
 
 		if(selectIndex>-1){
-		//5.1 数组中有的 【删除掉】
+		//5.1 IF in the list 【DELETE】
 			this.props.onRemove(seat.id);
 		}else{
-		//5.2 数组中没有  【添加上】
+		//5.2 IF NOT IN THE LIST  【ADD】
 			if(this.props.selectSeat.length >=6){
-				alert("不能超过6个");
+				alert("Max 6 tickets per order!");
 			}else{
 				this.props.onAdd(seat);
 			}

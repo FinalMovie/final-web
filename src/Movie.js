@@ -20,7 +20,7 @@ class Movie extends React.Component {
             scheduleInfo:[],
             currentMovie:{},
             showSelectDate:false,
-            isDateSelected:false,
+            // isDateSelected:false,
             showSelectSeat:false,
             selectedDate: moment().format("YYYY-MM-DD")
         };
@@ -178,8 +178,9 @@ class Movie extends React.Component {
                                         <Modal.Title>Select the date</Modal.Title>
                                         </Modal.Header>
                                         <Modal.Body>
-                                        <Datetime dateFormat="YYYY-MM-DD" defaultValue={moment().format("YYYY-MM-DD")} timeFormat={false} onChange={(e)=>this.handleDateChange(e)}>
+                                        <Datetime dateFormat="YYYY-MM-DD" defaultValue={moment().format("YYYY-MM-DD")} minYear={new Date().getUTCFullYear()} minMonth={new Date().getUTCMonth() + 1} minDate={new Date().getDate()} timeFormat={false} onChange={(e)=>this.handleDateChange(e)}>
                                         </Datetime>
+
                                         <Modal.Title>date Selected: {this.state.selectedDate}</Modal.Title>
                                         </Modal.Body>
                                         <Modal.Footer>
@@ -200,12 +201,17 @@ class Movie extends React.Component {
                                             {
                                                this.state.scheduleInfo.map((value,index)=>{
                                                   return (
-                                                     <Dropdown.Item as="button" key={index} eventKey={value.startTime+"@"+value.movie.name+"@"+value.room.capacity} onSelect={(key)=>{this.handleSelectDate(key)}}>
+                                                     <Dropdown.Item as="button" key={index}
+                                                                    eventKey={value.startTime+"@"+value.movie.name+"@"+value.room.capacity}
+                                                                    onSelect={(key)=>{this.handleSelectDate(key)}}>
                                                          {value.startTime}
                                                        </Dropdown.Item>
                                                  )
                                                 })
                                             }
+                                            <Dropdown.Item as="button" eventKey="16:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>3:00PM</Dropdown.Item>
+                                            <Dropdown.Item as="button" eventKey="17:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>5:00PM</Dropdown.Item>
+                                            <Dropdown.Item as="button" eventKey="18:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>6:00PM</Dropdown.Item>
                                         </DropdownButton>
                                             {
                                                 this.state.isDateSelected ?

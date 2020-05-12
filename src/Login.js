@@ -88,7 +88,6 @@ class Login extends React.Component {
 
                     storage.setItem("membership",res.data.membership);
                     storage.setItem("email",res.data.email);
-                    // 待后端bug修复之后 将这里的null改成 "admin"
                     if(res.data.role === "admin"){
                         storage.setItem("isadmin",true);
                         this.props.isAdminUser(true)
