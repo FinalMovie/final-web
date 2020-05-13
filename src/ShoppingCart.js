@@ -78,7 +78,8 @@ class ShoppingCart extends React.Component {
                                 <th scope="col">#</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Price</th>
-                                <th scope ="col">Info</th>
+                                <th scope="col">Info</th>
+                                <th scope="col">time</th>
                                 <th scope ="col">Image</th>
                                 <th scope ="col"></th>
                             </tr>
@@ -91,7 +92,8 @@ class ShoppingCart extends React.Component {
                                             <th>{index + 1}</th>
                                             <th>{value.name}</th>
                                             <th>${value.price}</th>
-                                            <th>{ window.localStorage.getItem("start_time")}</th>
+                                            <th>{ value.roomname }:{value.start_time}</th>
+                                            <th>{ value.lasttime }</th>
                                             <th>{<img src={value.image} height={100} width={100}/>}</th>
                                             <th><button onClick={this.deleteCarts.bind(this,value)}>
                                                 <svg className="bi bi-trash-fill" width="1em" height="1em"

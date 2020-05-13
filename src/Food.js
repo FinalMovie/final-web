@@ -17,7 +17,7 @@ export default class Food extends React.Component {
         axios.get("/api/foodList").then(res => {
             console.log(res.data)
             if (res.data.success) {
-                this.setState({list: res.data.data});
+                this.setState({list: res.data.data.content});
                 console.log(res.data.data);
             } else {
                 alert("FAILED to LOAD DATA！");

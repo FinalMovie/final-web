@@ -2,6 +2,7 @@ import React from "react";
 import axios from 'axios';
 import "./Movie.css";
 import {Modal,Button,Form} from 'react-bootstrap';
+import Pagination from 'rc-pagination';
 import {unstable_batchedUpdates} from "react-dom";
 
 
@@ -11,6 +12,9 @@ export default class AddFood extends React.Component {
         super(props);
         this.state = {
             listFood: [],
+            currentPage:0,
+            pageSize: 10,
+            total:10,
             foodEditShow: false,
             current:{},
             foodAddFlag:false
@@ -25,10 +29,13 @@ export default class AddFood extends React.Component {
     }
 
     componentDidMount() {
-        axios.get("/api/foodList").then(res => {
+        axios.get("/api/foodList?size="+this.state.pageSize+"&page="+this.state.currentPage).then(res => {
             console.log(res.data)
             if (res.data.success) {
-                this.setState({listFood: res.data.data});
+                this.setState({
+                    listFood: res.data.data.content,
+                    total: res.data.data.totalPages*this.state.pageSize
+                });
                 console.log(res.data.data);
             } else {
                 alert("FAILED to LOAD DATA！");
@@ -131,6 +138,26 @@ export default class AddFood extends React.Component {
         })
     }
 
+
+    onPageNumChange(value){
+        console.log(value);
+        this.setState({
+            currentPage: value-1,
+        })
+        let page = value - 1;
+        axios.get("/api/foodList?size="+this.state.pageSize+"&page="+page).then(res => {
+            console.log(123,res.data,res.data.data.totalPages)
+            if (res.data.success) {
+                this.setState({
+                    listMovie: res.data.data.content,
+                    total: res.data.data.totalPages*this.state.pageSize
+                });
+            } else {
+                alert("FAILED to LOAD DATA！");
+            }
+        })  
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -221,6 +248,11 @@ export default class AddFood extends React.Component {
                             </Modal.Body>
                         </Modal>
                         </tbody>
+                        <tfoot>      
+                            <Pagination current={this.state.currentPage+1}
+                                            total={this.state.total}
+                                            onChange={(pageNum) => {this.onPageNumChange(pageNum)}}/>
+                        </tfoot>
                     </table>
                 </div>
                 })

@@ -1,6 +1,7 @@
 import React from "react";
 import axios from 'axios';
 import "./Movie.css";
+import Pagination from './pagination/index';
 import {Modal,Button,Form} from 'react-bootstrap';
 import {unstable_batchedUpdates} from "react-dom";
 
@@ -222,6 +223,10 @@ export default class Edit extends React.Component {
         })
     }
 
+    onPageNumChange(value){
+        console.log(value);
+    }
+
     render() {
         return (
             <React.Fragment>
@@ -252,7 +257,9 @@ export default class Edit extends React.Component {
                                     );
                                 })
                             }
-
+                            <Pagination current={1}
+                                            total={10}
+                                            onChange={(pageNum) => {this.onPageNumChange(pageNum)}}/>
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Name</th>
