@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Container,Row,Col,Button} from 'react-bootstrap';
-import {withRouter} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import './ShoppingCart.css';
 
 class ShoppingCart extends React.Component {
@@ -11,7 +11,8 @@ class ShoppingCart extends React.Component {
             carts: window.localStorage.getItem("cart")!== null?JSON.parse(window.localStorage.getItem("cart")):[],
             total:0,
             subtotal:0,
-            discountPassdown:0
+            discountPassdown:0,
+            isStaff: window.localStorage.getItem("isstaff")==="true"?true:false,
 
         }
     }
@@ -23,9 +24,9 @@ class ShoppingCart extends React.Component {
             total += value.price;
         }
         let storeage = window.localStorage;
-        let membership = storeage.getItem("membership") === null?1: parseInt(storeage.getItem("membership"))
+        let membership = storeage.getItem("membership") === null? 1: parseInt(storeage.getItem("membership"))
 
-        if(membership >= 100 < 200){
+        if(membership >= 100 && membership < 200){
             discount = 0.9;
             this.setState({
                 discountPassdown:0.9
@@ -38,8 +39,8 @@ class ShoppingCart extends React.Component {
             })
         }
         this.setState({
-            total:total.toFixed(2),
-            subtotal: (total * discount + total * 0.075).toFixed(2)
+            total: (total * 0.0625 + total * discount).toFixed(2),
+            subtotal: (total * 0.0625 + total).toFixed(2)
         })
     }
     pay(){
@@ -79,7 +80,7 @@ class ShoppingCart extends React.Component {
                                 <th scope="col">Price</th>
                                 <th scope ="col">Info</th>
                                 <th scope ="col">Image</th>
-                                <th scope ="col">Operate</th>
+                                <th scope ="col"></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -110,11 +111,31 @@ class ShoppingCart extends React.Component {
                     </Row>
                     <div align="right">
                         <Row className="form-check">
-                            <p>Subtotal: {this.state.total} USD</p>
-                            <p>Tax: 7.5%</p>
-                            <p>Membership Discount: {(this.state.total - this.state.total * this.state.discountPassdown).toFixed(2)} USD</p>
-                            <p>Total: {this.state.subtotal} USD</p>
-                            <Button onClick={this.pay.bind(this)}>CHECKOUT</Button>
+                            {
+                                this.state.isStaff ?
+                                    ""
+                                    :
+                                <div>
+                                    <p>Subtotal: {this.state.subtotal} USD</p>
+                                    <p>Tax: 6.25%</p>
+                                    {
+                                        this.state.discountPassdown === 1  ?
+                                            ""
+                                            :
+                                            <p>Membership Discount: {((1-this.state.discountPassdown) * this.state.total).toFixed(2)} USD</p>
+                                    }
+                                    <p>Total: {this.state.total} USD</p>
+                                </div>
+                            }
+                            {
+                                this.state.isStaff ?
+                                    <Link to="/Staff">
+                                        <button className="btn-primary">Back</button>
+                                    </Link>
+                                    :
+                                    <Button onClick={this.pay.bind(this)}>CHECKOUT</Button>
+                            }
+
                         </Row>
                     </div>
                 </div>

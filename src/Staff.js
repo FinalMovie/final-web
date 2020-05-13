@@ -3,6 +3,9 @@ import {Button, Col, Container, Dropdown, DropdownButton, Modal, Row} from "reac
 import axios from "axios";
 import {Link, withRouter} from "react-router-dom";
 import "./Staff.css"
+import moment from "moment";
+import Datetime from "react-datetime";
+import Details from "./seat/Details";
 
 class Staff extends React.Component {
 
@@ -24,6 +27,11 @@ class Staff extends React.Component {
             userMembership:0,
             displayFood:false,
             displayMovie:false,
+            showSelectDate:false,
+            // isDateSelected:false,
+            showSelectSeat:false,
+            selectedDate: moment().format("YYYY-MM-DD"),
+            currentMovie:{},
             user: {
                 email: ''
             }
@@ -31,7 +39,38 @@ class Staff extends React.Component {
         };
         this.handleSelectDate = this.handleSelectDate.bind(this);
         this.handleChangeEmail = this.handleChangeEmail.bind(this);
+        this.handleDateClose = this.handleDateClose.bind(this);
+        this.handleConfirmDate = this.handleConfirmDate.bind(this);
+        this.handleSeatClose = this.handleSeatClose.bind(this);
     }
+
+    handleSelectTime(){
+        this.setState({
+            show:false,
+            showSelectSeat:true
+        })
+    }
+
+    handleSeatClose(){
+        this.setState({
+            showSelectSeat:false
+        })
+    }
+
+    handleConfirmDate(){
+        this.setState({
+            showSelectDate: false,
+            show: true,
+        })
+    }
+
+    handleDateClose(){
+        this.setState({
+            showSelectDate:false
+        })
+    }
+
+
 
     pay(){
         this.props.history.push({ pathname: "/Pay", state: { total:this.state.subtotal,lists:this.state.carts} })
@@ -73,9 +112,10 @@ class Staff extends React.Component {
         })
     }
 
-    addToCart(value) {
+    addToCart() {
         let storage = window.localStorage;
         let cart = storage.getItem("cart");
+        let value = this.state.currentMovie;
         if(cart===null){
             let cart = [];
             value["type"] = "movie";
@@ -91,8 +131,9 @@ class Staff extends React.Component {
             cart.push(value);
             storage.setItem("cart",JSON.stringify(cart));
         }
+        alert("add success！")
         this.setState({
-            show:false
+            showSelectSeat:false
         })
         storage.setItem("movie_name",value.name)
         // this.props.functionCallFromParent();
@@ -123,8 +164,13 @@ class Staff extends React.Component {
     }
 
     handleShowModal(value){
-        console.log(value);
+        console.log(666666,value);
+        this.setState({
+            currentMovie: value,
+        });
+
         axios.get("/api/movieSchedule?id="+value.id).then(res=>{
+            console.log(3333,res.data);
             if(res.data.success){
                 this.setState({
                     scheduleInfo: res.data.data
@@ -137,7 +183,7 @@ class Staff extends React.Component {
             }
         }).then(res=>{
             this.setState({
-                show:true
+                showSelectDate:true
             })
         })
     }
@@ -173,6 +219,7 @@ class Staff extends React.Component {
 
     staffSubmit(){
         let email = this.state.user.email;
+
         console.log(email);
         let formData = new FormData();
         formData.append("email",email);
@@ -191,18 +238,19 @@ class Staff extends React.Component {
                         isInvalidEmail:true,
                         userMembership: 0
                     })
-                    alert("NO USER")
                     return
                 }
             }).then(res=>{
                 let discount = 1;
                 console.log(this.state.userMembership);
                 if(this.state.userMembership >= 100 && this.state.userMembership < 200){
+
                     discount = 0.9;
                     this.setState({
                         discountPassdown:0.9
                     })
                 } else if( this.state.userMembership >= 200) {
+
                     discount = 0.8;
                     this.setState({
                         discountPassdown:0.8
@@ -219,8 +267,8 @@ class Staff extends React.Component {
                 }
                 console.log(discount);
                 this.setState({
-                    total: total.toFixed(2),
-                    subtotal: (total * discount + total * 0.075).toFixed(2)
+                    total: (total * 0.0625 + total * discount).toFixed(2),
+                    subtotal: (total * 0.0625 + total).toFixed(2)
                 })
             })
         }else{
@@ -246,7 +294,12 @@ class Staff extends React.Component {
         })
     }
 
-
+    handleDateChange(value){
+        console.log(moment(value).format("YYYY-MM-DD"));
+        this.setState({
+            selectedDate: moment(value).format("YYYY-MM-DD"),
+        })
+    }
 
     render() {
         return (
@@ -265,7 +318,9 @@ class Staff extends React.Component {
                             </div>
                     }
                     <button className="btn-primary" onClick={this.handleGetFood.bind(this)}>Get Food</button>
+                        &nbsp;&nbsp;&nbsp;
                     <button className="btn-primary" onClick={this.handleGetMovie.bind(this)}>Get Movie</button>
+                        &nbsp;&nbsp;&nbsp;
                     <Link to="/Signup">
                         <button className="btn-primary">Register  Customer</button>
                     </Link>
@@ -327,20 +382,45 @@ class Staff extends React.Component {
                                                 <th>{value.description}</th>
                                                 <th> <img src={value.image} height={100} width={100}/></th>
                                                 <th> <button onClick={this.handleShowModal.bind(this,value)}>Add</button></th>
+                                                <Modal show={this.state.showSelectDate} onHide={this.handleDateClose}>
+                                                    <Modal.Header closeButton>
+                                                        <Modal.Title>Select the date</Modal.Title>
+                                                    </Modal.Header>
+                                                    <Modal.Body>
+                                                        <Datetime dateFormat="YYYY-MM-DD" defaultValue={moment().format("YYYY-MM-DD")} minYear={new Date().getUTCFullYear()} minMonth={new Date().getUTCMonth() + 1} minDate={new Date().getDate()} timeFormat={false} onChange={(e)=>this.handleDateChange(e)}>
+                                                        </Datetime>
+
+                                                        <Modal.Title>date Selected: {this.state.selectedDate}</Modal.Title>
+                                                    </Modal.Body>
+                                                    <Modal.Footer>
+                                                        <Button variant="secondary" onClick={this.handleDateClose}>
+                                                            Cancel
+                                                        </Button>
+                                                        <Button variant="primary" onClick={this.handleConfirmDate}>
+                                                            next
+                                                        </Button>
+                                                    </Modal.Footer>
+                                                </Modal>
                                                 <Modal show={this.state.show} onHide={this.handleClose.bind(this)}>
                                                     <Modal.Header closeButton>
                                                         <Modal.Title>Select the time</Modal.Title>
                                                     </Modal.Header>
                                                     <Modal.Body>
                                                         <DropdownButton id="dropdown-item-button" title="Available Time">
-                                                            <Dropdown.Item as="button" eventKey="10:00AM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 10:00AM</Dropdown.Item>
-                                                            <Dropdown.Item as="button" eventKey="11:00AM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 11:00AM</Dropdown.Item>
-                                                            <Dropdown.Item as="button" eventKey="13:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 13:00PM</Dropdown.Item>
-                                                            <Dropdown.Item as="button" eventKey="14:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 14:00PM</Dropdown.Item>
-                                                            <Dropdown.Item as="button" eventKey="15:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 15:00PM</Dropdown.Item>
-                                                            <Dropdown.Item as="button" eventKey="16:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 16:00PM</Dropdown.Item>
-                                                            <Dropdown.Item as="button" eventKey="17:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 17:00PM</Dropdown.Item>
-                                                            <Dropdown.Item as="button" eventKey="18:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>{new Date().getUTCFullYear()}-{new Date().getUTCMonth() + 1}-{new Date().getDate()} 18:00PM</Dropdown.Item>
+                                                            {
+                                                                this.state.scheduleInfo.map((value,index)=>{
+                                                                    return (
+                                                                        <Dropdown.Item as="button" key={index}
+                                                                                       eventKey={value.startTime+"@"+value.movie.name+"@"+value.room.capacity}
+                                                                                       onSelect={(key)=>{this.handleSelectDate(key)}}>
+                                                                            {value.startTime}
+                                                                        </Dropdown.Item>
+                                                                    )
+                                                                })
+                                                            }
+                                                            <Dropdown.Item as="button" eventKey="16:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>3:00PM</Dropdown.Item>
+                                                            <Dropdown.Item as="button" eventKey="17:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>5:00PM</Dropdown.Item>
+                                                            <Dropdown.Item as="button" eventKey="18:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>6:00PM</Dropdown.Item>
                                                         </DropdownButton>
                                                         {
                                                             this.state.isDateSelected ?
@@ -353,11 +433,28 @@ class Staff extends React.Component {
                                                         <Button variant="secondary" onClick={this.handleClose.bind(this)}>
                                                             Cancel
                                                         </Button>
-                                                        <Button variant="primary" onClick={this.addToCart.bind(this,value)}>
+                                                        <Button variant="primary" onClick={this.handleSelectTime.bind(this)}>
+                                                            Next
+                                                        </Button>
+                                                    </Modal.Footer>
+                                                </Modal>
+                                                <Modal show={this.state.showSelectSeat} onHide={this.handleSeatClose}>
+                                                    <Modal.Header closeButton>
+                                                        <Modal.Title>Select the Seat</Modal.Title>
+                                                    </Modal.Header>
+                                                    <Modal.Body>
+                                                        <Details></Details>
+                                                    </Modal.Body>
+                                                    <Modal.Footer>
+                                                        <Button variant="secondary" onClick={this.handleSeatClose}>
+                                                            Cancel
+                                                        </Button>
+                                                        <Button variant="primary" onClick={this.addToCart.bind(this)}>
                                                             Add
                                                         </Button>
                                                     </Modal.Footer>
                                                 </Modal>
+
                                             </tr>
                                         )
                                     })
@@ -387,12 +484,22 @@ class Staff extends React.Component {
                                 }
                                 <div align="right">
                                     <Row className="form-check">
-                                        <p>Subtotal: {this.state.total} USD</p>
-                                        <p>Tax: 7.5%</p>
-                                        <p>Total: {(this.state.subtotal)} USD</p>
+                                        <p>Subtotal: {this.state.subtotal} USD</p>
+                                        <p>Tax: 6.25%</p>
+                                        {
+                                            this.state.discountPassdown === 1 ?
+                                                ""
+                                                :
+                                                <p>Membership Discount Applied: {((1 - this.state.discountPassdown) * this.state.subtotal).toFixed(2)}</p>
+                                        }
+                                        <p>Total: {(this.state.total)} USD</p>
                                         <Link to="/ShoppingCart">
-                                            <Button onClick={this.pay.bind(this)}>CHECKOUT</Button>
+                                            <Button>VIEW CART</Button>
                                         </Link>
+                                        <br/>
+                                        <p></p>
+                                            <Button onClick={this.pay.bind(this)}>CHECKOUT</Button>
+
 
                                     </Row>
                                 </div>

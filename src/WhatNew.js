@@ -42,7 +42,7 @@ export default class WhatNew extends  React.Component {
                         </div>
                     </div>
                     <div className = "slides r">
-                        <p>More Movies Coming Soon</p>
+                        <p className="movieText">More Movies Coming Soon</p>
                     </div>
                 </div>
             </React.Fragment>

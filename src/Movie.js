@@ -234,6 +234,7 @@ class Movie extends React.Component {
                             )
                         })
                     }
+
                      <Modal show={this.state.showSelectSeat} onHide={this.handleSeatClose}>
                         <Modal.Header closeButton>
                         <Modal.Title>Select the Seat</Modal.Title>
@@ -250,6 +251,7 @@ class Movie extends React.Component {
                         </Button>
                         </Modal.Footer>
                     </Modal>
+
                     </Row>
                 </Container>
                 </div>

@@ -6,13 +6,13 @@ class Details extends Component {
 		selectSeat:[]
 	}
 	
-	//添加操作
+	//ADD
 	addSeat = (seat)=>{
 		this.setState(prevState=>({
 			selectSeat:[...prevState.selectSeat,seat]
 		}))
 	}
-	//删除操作
+	//DELETE
 	removeSeat = (id)=>{	
 		this.setState({
 			selectSeat:this.state.selectSeat.filter(seat=>seat.id !== id)

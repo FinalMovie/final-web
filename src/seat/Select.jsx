@@ -11,9 +11,9 @@ const CANVAS_HEIGHT = data[data.length-1].y*SET_HEIGHT;
 class Select extends Component {
 	
 	componentDidMount(){
-	//1. 成功加载3张图片
+	//1. LOAD 3 pics
 		this.ctx = this.refs.canvas.getContext('2d');
-		//获取canvas对象
+		//GET canvas object
 
 		const emptyImg = new Image();
 		const selectImg = new Image();
@@ -46,7 +46,7 @@ class Select extends Component {
 		this.drawSelectImage();
 
 	}
-	//用户当前选择的座位
+	//SELECT current seat
 	drawSelectImage = ()=>{
 
 		let selected = this.props.selectSeat;
@@ -61,7 +61,7 @@ class Select extends Component {
 
 	}
 	drawAllImage = ()=>{
-	//2. 渲染图片
+	//2. render pic
 		const seatData = data;
 
 		seatData.forEach((item,index)=>{
@@ -80,23 +80,23 @@ class Select extends Component {
 	}
 	clickSeat = (e)=>{
 
-		//1. 获取canvas距离边界的位置
+		//1. get canvas distance between borders
 		let offset = this.refs.canvas.getBoundingClientRect()
 		
-		//2. 获取当前鼠标的位置
+		//2.get current cursor position
 		let pageX = e.pageX-offset.left;
 		let pageY = e.pageY-offset.top;
 
 		let xPos = Math.ceil(pageX/SET_WIDTH);
 		let yPos = Math.ceil(pageY/SET_HEIGHT);
 
-		//3. 获取点击到的对象，  根据x和y和data中的x和y对比
+		//3. get current clicked position，  compare x,y with teh x y in data
 		let seat = data.find(item=>item.x ===xPos && item.y ===yPos);
-		//4. 已经被选的座位不可以进行任何操作
+		//4. If seat us chosen, do nothinh
 		if(seat === undefined || seat.isSold){
 			return;
 		}
-		//5. 查找当前点击的数据库在数组中是否存在
+		//5. find if the data selected is in the data
 		const selectIndex = this.props.selectSeat.findIndex(item=>item.id == seat.id);
 
 		if(selectIndex>-1){
