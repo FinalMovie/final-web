@@ -56,7 +56,7 @@ class ShoppingCart extends React.Component {
         console.log(carts);
         for(let _value of carts){
             console.log(_value);
-            if(value.id != _value.id && value.name != _value.name){
+            if(value.id != _value.id || value.name != _value.name){
                 newCarts.push(_value);
             }
         }
@@ -79,7 +79,7 @@ class ShoppingCart extends React.Component {
                                 <th scope="col">Name</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Info</th>
-                                <th scope="col">time</th>
+                                <th scope="col">Time Length</th>
                                 <th scope ="col">Image</th>
                                 <th scope ="col"></th>
                             </tr>
@@ -92,7 +92,8 @@ class ShoppingCart extends React.Component {
                                             <th>{index + 1}</th>
                                             <th>{value.name}</th>
                                             <th>${value.price}</th>
-                                            <th>{ value.roomname }:{value.start_time}</th>
+
+                                            <th>{ value.roomname } {value.start_time}</th>
                                             <th>{ value.lasttime }</th>
                                             <th>{<img src={value.image} height={100} width={100}/>}</th>
                                             <th><button onClick={this.deleteCarts.bind(this,value)}>
@@ -121,7 +122,7 @@ class ShoppingCart extends React.Component {
                                     <p>Subtotal: {this.state.subtotal} USD</p>
                                     <p>Tax: 6.25%</p>
                                     {
-                                        this.state.discountPassdown === 1  ?
+                                        this.state.discountPassdown === 1 || this.state.total === this.state.subtotal ?
                                             ""
                                             :
                                             <p>Membership Discount: {((1-this.state.discountPassdown) * this.state.total).toFixed(2)} USD</p>

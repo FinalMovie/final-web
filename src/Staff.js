@@ -116,9 +116,12 @@ class Staff extends React.Component {
         let storage = window.localStorage;
         let cart = storage.getItem("cart");
         let value = this.state.currentMovie;
+        console.log("test",this.state.selectLatestTime,this.state.selectedTime)
         if(cart===null){
             let cart = [];
             value["type"] = "movie";
+            value["roomname"] = this.state.selectRoomName;
+            value["lasttime"] = this.state.selectLatestTime
             value["start_time"] = this.state.selectedTime;
             cart.push(value);
             storage.setItem("cart",JSON.stringify(cart));
@@ -127,6 +130,8 @@ class Staff extends React.Component {
             console.log(222);
             value["type"] = "movie";
             value["start_time"] = this.state.selectedTime;
+            value["roomname"] = this.state.selectRoomName;
+            value["lasttime"] = this.state.selectLatestTime
             let cart = JSON.parse(storage.getItem("cart"));
             cart.push(value);
             storage.setItem("cart",JSON.stringify(cart));
@@ -191,16 +196,18 @@ class Staff extends React.Component {
     handleSelectDate(value){
         console.log(value);
         let movieInfo = value.split("@");
-
+        console.log(movieInfo,"test2");
         if (movieInfo[2] <= 0){
             alert("Tickets sold out");
             return false
         }else{
             let storage = window.localStorage;
-            storage.setItem("start_time",value);
+            storage.setItem("start_time",value[0]);
             this.setState({
                 isDateSelected:true,
-                selectedTime: movieInfo[0]
+                selectedTime: movieInfo[0],
+                selectLatestTime: movieInfo[4],
+                selectRoomName: movieInfo[3]
             })
         }
     }
@@ -267,12 +274,13 @@ class Staff extends React.Component {
                 }
                 console.log(discount);
                 this.setState({
-                    total: (total * 0.0625 + total * discount).toFixed(2),
-                    subtotal: (total * 0.0625 + total).toFixed(2)
+
+                    subtotal: (total * 0.0625 + total).toFixed(2),
+                    total: (total * 0.0625 + total * discount).toFixed(2)
                 })
             })
         }else{
-            alert("please input user email!")
+            // alert("please input user email!")
             this.setState({
                 isInvalidEmail:true
             })
@@ -317,9 +325,9 @@ class Staff extends React.Component {
 
                             </div>
                     }
-                    <button className="btn-primary" onClick={this.handleGetFood.bind(this)}>Get Food</button>
+                    <button className="btn-primary" onClick={this.handleGetFood.bind(this)}>Order Food</button>
                         &nbsp;&nbsp;&nbsp;
-                    <button className="btn-primary" onClick={this.handleGetMovie.bind(this)}>Get Movie</button>
+                    <button className="btn-primary" onClick={this.handleGetMovie.bind(this)}>Order Movie</button>
                         &nbsp;&nbsp;&nbsp;
                     <Link to="/Signup">
                         <button className="btn-primary">Register  Customer</button>
@@ -411,14 +419,14 @@ class Staff extends React.Component {
                                                                 this.state.scheduleInfo.map((value,index)=>{
                                                                     return (
                                                                         <Dropdown.Item as="button" key={index}
-                                                                                       eventKey={value.startTime+"@"+value.movie.name+"@"+value.room.capacity}
+                                                                                       eventKey={value.startTime+"@"+value.movie.name+"@"+value.room.capacity+'@'+value.room.name+'@'+value.lastTime+" mins"}
                                                                                        onSelect={(key)=>{this.handleSelectDate(key)}}>
                                                                             {value.startTime}
                                                                         </Dropdown.Item>
                                                                     )
                                                                 })
                                                             }
-                                                            <Dropdown.Item as="button" eventKey="16:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>3:00PM</Dropdown.Item>
+                                                            <Dropdown.Item as="button" eventKey="15:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>3:00PM</Dropdown.Item>
                                                             <Dropdown.Item as="button" eventKey="17:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>5:00PM</Dropdown.Item>
                                                             <Dropdown.Item as="button" eventKey="18:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>6:00PM</Dropdown.Item>
                                                         </DropdownButton>
@@ -479,7 +487,7 @@ class Staff extends React.Component {
                                 </div>
                                 {
                                     this.state.isInvalidEmail ?
-                                        <p>No matched user found</p> :
+                                        <p style={{ color:'red'}}>No matched user found</p> :
                                         ""
                                 }
                                 <div align="right">

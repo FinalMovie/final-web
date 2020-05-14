@@ -6,7 +6,7 @@ import Details from "./seat/Details";
 import Datetime from 'react-datetime';
 import moment from 'moment';
 import "./Movie.css";
-
+import "./Login";
 
 class Movie extends React.Component {
 
@@ -53,10 +53,10 @@ class Movie extends React.Component {
         document.body.scrollIntoView(true);        
         let storage = window.localStorage;
         console.log(storage.getItem("islogin"));
-        if(storage.getItem("islogin") !== 'true'){
-            alert("Please Login First！");
-            this.props.history.push("/Login");
-        }else{
+        // if(storage.getItem("islogin") !== 'true'){
+        //     alert("Please Login First！");
+        //     this.props.history.push("/Login");
+        // }else{
             axios.get("/api/movieList").then(res => {
                 console.log(res.data)
                 if (res.data.success) {
@@ -65,7 +65,7 @@ class Movie extends React.Component {
                     alert("FAILED to LOAD DATA！");
                 }
             })
-        }
+
     }
 
     handleSelectTime(){
@@ -99,7 +99,7 @@ class Movie extends React.Component {
             cart.push(value);
             storage.setItem("cart",JSON.stringify(cart));
         }
-        alert("add success！")
+        // alert("add success！")
         this.setState({
             showSelectSeat:false
         })
@@ -115,6 +115,12 @@ class Movie extends React.Component {
     }
 
     handleShowModal(value){
+        let storage = window.localStorage;
+        let loggedIn = storage.getItem("islogin");
+        if(loggedIn === "false"){
+            this.props.history.push({pathname:"/Login"});
+            return;
+        }
 
         this.setState({
             currentMovie: value,
@@ -217,10 +223,10 @@ class Movie extends React.Component {
                                                  )
                                                 })
                                             }
-                                            { // 这一段 eventkey 需要你在数据库中存  "16:00PM"   不用写死
-                                            /* <Dropdown.Item as="button" eventKey="16:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>3:00PM</Dropdown.Item>
+
+                                            <Dropdown.Item as="button" eventKey="16:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>3:00PM</Dropdown.Item>
                                             <Dropdown.Item as="button" eventKey="17:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>5:00PM</Dropdown.Item>
-                                            <Dropdown.Item as="button" eventKey="18:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>6:00PM</Dropdown.Item> */}
+                                            <Dropdown.Item as="button" eventKey="18:00PM" onSelect={(key)=>{this.handleSelectDate(key)}}>6:00PM</Dropdown.Item>
                                         </DropdownButton>
                                             {
                                                 this.state.isDateSelected ?

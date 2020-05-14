@@ -73,7 +73,7 @@ class Signup extends React.Component {
 
         axios.post("/api/register",formData,header).then(res=>{
             if(res.data.success){
-                alert("Register Succeed！");
+                // alert("Register Succeed！");
                 let storage = window.localStorage;
                 storage.setItem("islogin",true);
                 this.props.history.push("/Home");

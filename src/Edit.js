@@ -1,7 +1,7 @@
 import React from "react";
 import axios from 'axios';
 import "./Movie.css";
-import Pagination from './pagination/index';
+import Pagination from './pagination/index.jsx';
 import {Modal,Button,Form} from 'react-bootstrap';
 import {unstable_batchedUpdates} from "react-dom";
 
@@ -404,7 +404,6 @@ export default class Edit extends React.Component {
                             </tbody>
                         </table>
                 </div>
-            })
             </React.Fragment>
         );
     }

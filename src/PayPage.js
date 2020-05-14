@@ -41,7 +41,7 @@ export default class Pay extends React.Component {
             username: window.localStorage.getItem("username"),
             movie_name: window.localStorage.getItem("movie_name")
         })
-        // 清空购物车
+
         window.localStorage.setItem("cart",JSON.stringify([]))
     }
 

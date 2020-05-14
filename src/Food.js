@@ -28,6 +28,11 @@ export default class Food extends React.Component {
     addToCart(value) {
         let storage = window.localStorage;
         let cart = storage.getItem("cart");
+        let loggedIn = storage.getItem("islogin");
+        if(loggedIn === "false"){
+            this.props.history.push({pathname:"/Login"});
+            return;
+        }
         if(cart===null){
             let cart = [];
             value["type"] = "food";
@@ -39,7 +44,7 @@ export default class Food extends React.Component {
             cart.push(value);
             storage.setItem("cart",JSON.stringify(cart));
         }
-        alert("Successfully Added！")
+        // alert("Successfully Added！")
     }
 
     render() {
