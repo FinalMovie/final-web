@@ -1,16 +1,16 @@
 import React from 'react';
 import './App.css';
 import Home from "./home";
-import {Route, Switch} from "react-router";
 import {BrowserRouter} from "react-router-dom";
+import {Route, Switch} from "react-router";
 import Login from "./Login";
 import Header from "./Header";
 import Movie from "./Movie";
 import Food from "./Food";
 import Signup from "./Signup";
 import Pay from "./PayPage";
-import ShoppingCart from "./ShoppingCart";
 import 'bootstrap/dist/css/bootstrap.css';
+import ShoppingCart from "./ShoppingCart";
 import Edit from "./Edit";
 import Staff from "./Staff";
 import WhatNew from "./WhatNew";

@@ -93,11 +93,12 @@ input[name="r"] {
 #r5:checked ~ .s1 {
     margin-left: -80%;
 }
-div div  p.movieText{
+
+div div p.movieText {
     font-size: 25px;
     position: center;
     font-family: "American Typewriter";
     font-weight: bold;
     padding-left: 20px;
-    text-shadow:0.5px 0.5px #f5f5f5;
+    text-shadow: 0.5px 0.5px #f5f5f5;
 }
