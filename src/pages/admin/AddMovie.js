@@ -1,75 +1,75 @@
 import React from "react";
 import axios from 'axios';
-import "./Movie.css";
+import "../movie/Movie.css";
 import {Modal} from 'react-bootstrap';
 import Pagination from 'rc-pagination';
 
 
-export default class AddFood extends React.Component {
+export default class AddMovie extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            listFood: [],
+            listMovie: [],
             currentPage: 0,
             pageSize: 10,
             total: 10,
+            movieEidtShow: false,
             foodEditShow: false,
             current: {},
-            foodAddFlag: false
+            movieAddFlag: false,
+
         };
         this.handleChange = this.handleChange.bind(this);
+        this.handleMovieEditClose = this.handleMovieEditClose.bind(this);
 
-        this.handleFoodEditClose = this.handleFoodEditClose.bind(this);
+        this.handleMovieEditSubmit = this.handleMovieEditSubmit.bind(this);
 
-        this.handleFoodEditSubmit = this.handleFoodEditSubmit.bind(this);
+        this.handleshowMovieAdd = this.handleshowMovieAdd.bind(this);
 
-        this.handleshowFoodAdd = this.handleshowFoodAdd.bind(this);
     }
 
     componentDidMount() {
-        axios.get("/api/foodList?size=" + this.state.pageSize + "&page=" + this.state.currentPage).then(res => {
-            console.log(res.data)
+        axios.get("/api/movieList?size=" + this.state.pageSize + "&page=" + this.state.currentPage).then(res => {
+            console.log(123, res.data, res.data.data.totalPages)
             if (res.data.success) {
                 this.setState({
-                    listFood: res.data.data.content,
+                    listMovie: res.data.data.content,
                     total: res.data.data.totalPages * this.state.pageSize
                 });
-                console.log(res.data.data);
             } else {
                 alert("FAILED to LOAD DATA！");
             }
         })
+
     }
 
-    handleFoodEditClose() {
+
+    handleMovieEditClose() {
         this.setState({
-            foodEditShow: false
+            movieEidtShow: false
         })
     }
 
-
-    handleshowFoodEdit(value) {
+    handleshowMovieEdit(value) {
         console.log(value);
         this.setState({
-            foodEditShow: true,
+            movieEidtShow: true,
             current: value
         })
     }
 
-
-    handleFoodEditSubmit() {
-        if (this.state.foodAddflag) {
+    handleMovieEditSubmit() {
+        if (this.state.movieAddFlag) {
             let formData = new FormData();
-            console.log(this.state.current.name, this.state.current.price, this.state.current.calories, this.state.current.image)
             formData.append("name", this.state.current.name);
-            formData.append("price", parseInt(this.state.current.price));
-            formData.append("calories", this.state.current.calories);
+            formData.append("price", this.state.current.price);
+            formData.append("description", this.state.current.description);
             formData.append("image", this.state.current.image);
             let header = {
                 headers: {'content-type': 'multipart/form-data'}
             };
-            axios.post("/api/addFood", formData, header).then(res => {
+            axios.post("/api/addMovie", formData, header).then(res => {
                 if (res.data.success) {
                     alert("Add Succeed")
                 } else {
@@ -77,22 +77,23 @@ export default class AddFood extends React.Component {
                 }
             }).then(res => {
                 this.setState({
-                    foodAddFlag: false,
-                    foodEditShow: false,
+                    movieEidtShow: false,
+                    movieAddFlag: false,
                     current: {}
                 })
             })
         } else {
+            console.log(this.state.current)
             let formData = new FormData();
             formData.append("name", this.state.current.name);
             formData.append("price", this.state.current.price);
             formData.append("id", this.state.current.id);
-            formData.append("calories", this.state.current.calories);
+            formData.append("description", this.state.current.description);
             formData.append("image", this.state.current.image);
             let header = {
                 headers: {'content-type': 'multipart/form-data'}
             };
-            axios.post("/api/editFood", formData, header).then(res => {
+            axios.post("/api/editMovie", formData, header).then(res => {
                 if (res.data.success) {
                     alert("Edit Succeed")
                 } else {
@@ -101,6 +102,7 @@ export default class AddFood extends React.Component {
             })
         }
     }
+
 
     handleChange(event) {
         event.preventDefault();
@@ -112,14 +114,15 @@ export default class AddFood extends React.Component {
         })
     }
 
-    DeleteFood(value) {
+    DeleteMovie(value) {
+        console.log(value);
         let formData = new FormData();
         let header = {
             headers: {'content-type': 'multipart/form-data'}
         };
         formData.append("id", parseInt(value.id));
 
-        axios.post("/api/deleteFood", formData, header).then(res => {
+        axios.post("/api/deleteMovie", formData, header).then(res => {
             if (res.data.success) {
                 alert("Delete Succeed！")
             } else {
@@ -129,13 +132,12 @@ export default class AddFood extends React.Component {
     }
 
 
-    handleshowFoodAdd() {
+    handleshowMovieAdd() {
         this.setState({
-            foodEditShow: true,
-            foodAddflag: true,
+            movieEidtShow: true,
+            movieAddFlag: true,
         })
     }
-
 
     onPageNumChange(value) {
         console.log(value);
@@ -143,7 +145,7 @@ export default class AddFood extends React.Component {
             currentPage: value - 1,
         })
         let page = value - 1;
-        axios.get("/api/foodList?size=" + this.state.pageSize + "&page=" + page).then(res => {
+        axios.get("/api/movieList?size=" + this.state.pageSize + "&page=" + page).then(res => {
             console.log(123, res.data, res.data.data.totalPages)
             if (res.data.success) {
                 this.setState({
@@ -160,36 +162,38 @@ export default class AddFood extends React.Component {
         return (
             <React.Fragment>
                 <div className="container-md">
-                    <button onClick={this.handleshowFoodAdd}>Add Food</button>
+                    <button onClick={this.handleshowMovieAdd}>Add Movie</button>
                     <table className="table table-dark table-striped">
-                        <tbody>
+                        <thead>
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
                             <th scope="col">Price</th>
-                            <th scope="col">Calories</th>
+                            <th scope="col">Description</th>
                             <th scope="col">Image</th>
                         </tr>
+                        </thead>
+                        <tbody>
                         {
-                            this.state.listFood.map((value, index) => {
+                            this.state.listMovie.map((value, index) => {
                                 return (
                                     <tr key={index}>
                                         <th>{value.id}</th>
                                         <th>{value.name}</th>
-                                        <th>${value.price}</th>
-                                        <th>{value.calories}</th>
+                                        <th>{value.price}</th>
+                                        <th>{value.description}</th>
                                         <th>{<img src={value.image} height={100} width={100}/>}</th>
                                         <th>
-                                            <button onClick={this.handleshowFoodEdit.bind(this, value)}>Modify</button>
-                                            - <button onClick={this.DeleteFood.bind(this, value)}>Delete</button></th>
+                                            <button onClick={this.handleshowMovieEdit.bind(this, value)}>Modify</button>
+                                            - <button onClick={this.DeleteMovie.bind(this, value)}>Delete</button></th>
                                     </tr>
                                 );
                             })
                         }
 
-                        <Modal show={this.state.foodEditShow} onHide={this.handleFoodEditClose}>
+                        <Modal show={this.state.movieEidtShow} onHide={this.handleMovieEditClose}>
                             <Modal.Header closeButton>
-                                <Modal.Title>Edit Food Info</Modal.Title>
+                                <Modal.Title>Edit Movie Info</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
                                 <form>
@@ -223,11 +227,11 @@ export default class AddFood extends React.Component {
                                     </div>
                                     <div className="form-group">
                                         <label>
-                                            Calories
+                                            Description
                                             <input type="text"
                                                    className="form-control"
-                                                   name="calories"
-                                                   value={this.state.current.calories}
+                                                   name="description"
+                                                   value={this.state.current.description}
                                                    onChange={this.handleChange}
                                             />
                                         </label>
@@ -244,7 +248,7 @@ export default class AddFood extends React.Component {
                                         </label>
                                     </div>
                                 </form>
-                                <button className="btn btn-primary" onClick={this.handleFoodEditSubmit}>Submit</button>
+                                <button className="btn btn-primary" onClick={this.handleMovieEditSubmit}>Submit</button>
                             </Modal.Body>
                         </Modal>
                         </tbody>

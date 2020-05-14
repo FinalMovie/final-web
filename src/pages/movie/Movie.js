@@ -2,11 +2,11 @@ import * as React from "react";
 import axios from "axios";
 import {withRouter} from "react-router-dom";
 import {Button, Col, Container, Dropdown, DropdownButton, Modal, Row} from 'react-bootstrap';
-import Details from "./seat/Details";
+import Details from "../../seat/Details";
 import Datetime from 'react-datetime';
 import moment from 'moment';
 import "./Movie.css";
-import "./Login";
+import "../login/Login";
 
 class Movie extends React.Component {
 

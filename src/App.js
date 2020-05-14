@@ -3,19 +3,19 @@ import './App.css';
 import Home from "./home";
 import {BrowserRouter} from "react-router-dom";
 import {Route, Switch} from "react-router";
-import Login from "./Login";
+import Login from "./pages/login/Login";
 import Header from "./Header";
-import Movie from "./Movie";
-import Food from "./Food";
-import Signup from "./Signup";
-import Pay from "./PayPage";
+import Movie from "./pages/movie/Movie";
+import Food from "./pages/food/Food";
+import Signup from "./pages/login/Signup";
+import Pay from "./pages/pay/PayPage";
 import 'bootstrap/dist/css/bootstrap.css';
-import ShoppingCart from "./ShoppingCart";
-import Edit from "./Edit";
-import Staff from "./Staff";
+import ShoppingCart from "./pages/cart/ShoppingCart";
+import Edit from "./pages/admin/Edit";
+import Staff from "./pages/staff/Staff";
 import WhatNew from "./WhatNew";
-import AddMovie from "./AddMovie";
-import AddFood from "./AddFood";
+import AddMovie from "./pages/admin/AddMovie";
+import AddFood from "./pages/admin/AddFood";
 
 
 export default class App extends React.Component {

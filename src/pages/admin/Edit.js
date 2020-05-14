@@ -1,7 +1,7 @@
 import React from "react";
 import axios from 'axios';
-import "./Movie.css";
-import Pagination from './pagination/index.jsx';
+import "../movie/Movie.css";
+import Pagination from '../../pagination/index.jsx';
 import {Modal} from 'react-bootstrap';
 
 

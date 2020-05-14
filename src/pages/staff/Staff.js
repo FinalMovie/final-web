@@ -5,7 +5,7 @@ import {Link, withRouter} from "react-router-dom";
 import "./Staff.css"
 import moment from "moment";
 import Datetime from "react-datetime";
-import Details from "./seat/Details";
+import Details from "../../seat/Details";
 
 class Staff extends React.Component {
 
