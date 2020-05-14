@@ -73,7 +73,7 @@ class Login extends React.Component {
                 );
                 this.props.getLoginStatus(true);
                 storage.setItem("islogin",true);
-                alert("Welcome " + this.state.user.username)
+                // alert("Welcome " + this.state.user.username)
 
                 storage.setItem("username",this.state.user.username);
                 this.props.history.push('/Home');

@@ -11,8 +11,8 @@ class Signup extends React.Component {
             user: {
                 username: '',
                 password: '',
-                confirmedPassword: '',
-                email: ''
+                confirmedPassword:'',
+                email:''
             },
             flag: false, // indicate whether clicked on login button
             status: false, // check if the username and password valid or not
@@ -25,6 +25,8 @@ class Signup extends React.Component {
         this.handleChangeEmail = this.handleChangeEmail.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+
+
 
 
     handleChangeUsername(event) {
@@ -48,6 +50,7 @@ class Signup extends React.Component {
     }
 
 
+
     handleChangeEmail(event) {
         let email = event.target.value;
         this.setState({
@@ -58,7 +61,7 @@ class Signup extends React.Component {
         })
     }
 
-    handleSubmit(event) {
+    handleSubmit(event){
         event.preventDefault();
         let formData = new FormData();
         let header = {
@@ -68,13 +71,13 @@ class Signup extends React.Component {
         formData.append("password", this.state.user.password);
         formData.append("email", this.state.user.email);
 
-        axios.post("/api/register", formData, header).then(res => {
-            if (res.data.success) {
-                alert("Register Succeed！");
+        axios.post("/api/register",formData,header).then(res=>{
+            if(res.data.success){
+                // alert("Register Succeed！");
                 let storage = window.localStorage;
-                storage.setItem("islogin", true);
+                storage.setItem("islogin",true);
                 this.props.history.push("/Home");
-            } else {
+            }else{
                 this.setState({
                     duplicateUsernameFailed: true,
                 })
@@ -87,54 +90,54 @@ class Signup extends React.Component {
             <React.Fragment>
                 <div className="splitSignup leftSignup">
                     <div className="centeredSignup">
-                        <h2>Signup</h2>
+                    <h2>Signup</h2>
 
-                        <form onSubmit={this.handleSubmit}>
+                    <form onSubmit={this.handleSubmit}>
 
-                            <div className="form-group">
-                                <label>
-                                    Username
-                                    <input type="text"
-                                           className="form-control"
-                                           name="username"
-                                           value={this.state.user.username}
-                                           onChange={this.handleChangeUsername}
-                                    />
-                                </label>
-                            </div>
-                            {
-                                this.state.duplicateUsernameFailed ?
-                                    <p style={{"color": "red"}}>Username is already in use, please try again</p>
-                                    :
-                                    ""
-                            }
-                            <div className="form-group">
-                                <label>
-                                    Password
-                                    <input type="password"
-                                           className="form-control"
-                                           name="password"
-                                           value={this.state.user.password}
-                                           onChange={this.handleChangePassword}
-                                    />
-                                </label>
-                            </div>
+                        <div className="form-group">
+                            <label>
+                                Username
+                                <input type="text"
+                                       className="form-control"
+                                       name="username"
+                                       value={this.state.user.username}
+                                       onChange={this.handleChangeUsername}
+                                />
+                            </label>
+                        </div>
+                        {
+                            this.state.duplicateUsernameFailed ?
+                                <p style={{"color":"red"}}>Username is already in use, please try again</p>
+                                :
+                                ""
+                        }
+                        <div className="form-group">
+                            <label>
+                                Password
+                                <input type="password"
+                                       className="form-control"
+                                       name="password"
+                                       value={this.state.user.password}
+                                       onChange={this.handleChangePassword}
+                                />
+                            </label>
+                        </div>
 
-                            <div className="form-group">
-                                <label>
-                                    Email
-                                    <input type="email"
-                                           className="form-control"
-                                           name="email"
-                                           value={this.state.user.email}
-                                           onChange={this.handleChangeEmail}
-                                    />
-                                </label>
-                            </div>
-                            <button className="btn btn-primary" type="submit">Submit</button>
-                        </form>
-                    </div>
+                        <div className="form-group">
+                            <label>
+                                Email
+                                <input type="email"
+                                       className="form-control"
+                                       name="email"
+                                       value={this.state.user.email}
+                                       onChange={this.handleChangeEmail}
+                                />
+                            </label>
+                        </div>
+                        <button className="btn btn-primary" type="submit">Submit</button>
+                    </form>
                 </div>
+                    </div>
                 <div className="splitSignup rightSignup">
                     <div className="centeredSignup">
                         <p>on the right</p>
