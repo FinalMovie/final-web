@@ -1,6 +1,7 @@
 import * as React from "react";
 import {Button, Col, FormControl, InputGroup, Row} from 'react-bootstrap';
 import './PayPage.css';
+import axios from "axios";
 
 export default class Pay extends React.Component {
     constructor(props) {
@@ -41,8 +42,13 @@ export default class Pay extends React.Component {
             username: window.localStorage.getItem("username"),
             movie_name: window.localStorage.getItem("movie_name")
         })
-
+        axios.get(`/api/pay?amount=${this.state.total}`).then(res => {
+            if (res.data.success) {
+            } else {
+            }
+        })
         window.localStorage.setItem("cart", JSON.stringify([]))
+
     }
 
     render() {
@@ -72,7 +78,7 @@ export default class Pay extends React.Component {
                                             placeholder="Credit Card"
                                             aria-label="card number"
                                             aria-describedby="basic-addon1"
-                                        /> <span className="oi oi-credit-card"></span>
+                                        /> <span className="oi oi-credit-card"/>
                                     </InputGroup>
                                 </Col>
                             </Row>

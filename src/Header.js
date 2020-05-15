@@ -27,7 +27,7 @@ class Header extends React.Component {
     }
 
     componentWillReceiveProps() {
-        console.log(window.localStorage.getItem("isadmin"), window.localStorage.getItem("islogin"), 1213);
+        console.log("loginStatus:",this.props.loginStatus,"localstorage:",window.localStorage.getItem("islogin"))
         this.setState({
             loginStatus: this.props.loginStatus,
             isAdmin: window.localStorage.getItem("isadmin") === "true",
@@ -172,7 +172,7 @@ class Header extends React.Component {
                         <li className="nav-item">
                             {
                                 this.state.loginStatus ?
-                                    <Link to="/Profile" onClick={this.handleLogout.bind(this)}>Profile</Link>
+                                    <Link to="/Profile" >Profile</Link>
                                     :
                                     <div/>
                             }
