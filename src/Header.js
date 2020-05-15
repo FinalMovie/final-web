@@ -3,12 +3,13 @@ import {Link} from "react-router-dom";
 
 
 class Header extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
-            loginStatus: window.localStorage.getItem("islogin") === "true" ? true : false,
-            isAdmin: window.localStorage.getItem("isadmin") === "true" ? true : false,
-            isStaff: window.localStorage.getItem("isstaff") === "true" ? true : false,
+            loginStatus: window.localStorage.getItem("islogin") === "true",
+            isAdmin: window.localStorage.getItem("isadmin") === "true",
+            isStaff: window.localStorage.getItem("isstaff") === "true",
         }
     }
 
@@ -29,8 +30,8 @@ class Header extends React.Component {
         console.log(window.localStorage.getItem("isadmin"), window.localStorage.getItem("islogin"), 1213);
         this.setState({
             loginStatus: this.props.loginStatus,
-            isAdmin: window.localStorage.getItem("isadmin") === "true" ? true : false,
-            isStaff: window.localStorage.getItem("isstaff") === "true" ? true : false
+            isAdmin: window.localStorage.getItem("isadmin") === "true",
+            isStaff: window.localStorage.getItem("isstaff") === "true"
         })
     }
 
@@ -126,9 +127,9 @@ class Header extends React.Component {
                                 this.state.loginStatus ?
                                     <svg className="bi bi-person-dash-fill" width="1em" height="1em" viewBox="0 0 16 16"
                                          fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
+                                        <path fillRule="evenodd"
                                               d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 100-6 3 3 0 000 6zm5-.5a.5.5 0 01.5-.5h4a.5.5 0 010 1h-4a.5.5 0 01-.5-.5z"
-                                              clip-rule="evenodd"/>
+                                              clipRule="evenodd"/>
                                     </svg>
                                     :
                                     <svg className="bi bi-person-fill" width="1em" height="1em" viewBox="0 0 16 16"
@@ -147,7 +148,6 @@ class Header extends React.Component {
                                     )
                                     : <Link to="/Signup">Signup</Link>
                             }
-
                             {
                                 this.state.loginStatus ? (
                                         this.state.isAdmin || this.state.isStaff ? "" :
@@ -168,6 +168,31 @@ class Header extends React.Component {
                                               clipRule="evenodd"/>
                                     </svg>
                             }
+                        </li>
+                        <li className="nav-item">
+                            {
+                                this.state.loginStatus ?
+                                    <Link to="/Profile" onClick={this.handleLogout.bind(this)}>Profile</Link>
+                                    :
+                                    <div/>
+                            }
+                            {
+                                this.state.loginStatus ?
+                                    <svg className="bi bi-person-dash-fill" width="1em" height="1em" viewBox="0 0 16 16"
+                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fillRule="evenodd"
+                                              d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 100-6 3 3 0 000 6zm5-.5a.5.5 0 01.5-.5h4a.5.5 0 010 1h-4a.5.5 0 01-.5-.5z"
+                                              clipRule="evenodd"/>
+                                    </svg>
+                                    :
+                                    <svg className="bi bi-person-fill" width="1em" height="1em" viewBox="0 0 16 16"
+                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fillRule="evenodd"
+                                              d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 100-6 3 3 0 000 6z"
+                                              clipRule="evenodd"/>
+                                    </svg>
+                            }
+
                         </li>
                     </ul>
                 </div>

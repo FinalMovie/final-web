@@ -2,7 +2,7 @@ import React from "react";
 import "./home.css";
 import {Link} from "react-router-dom";
 
-const URL = "http://getwallpapers.com/wallpaper/full/9/8/8/529635.jpg";
+// const URL = "http://getwallpapers.com/wallpaper/full/9/8/8/529635.jpg";
 
 
 export default class home extends React.Component {

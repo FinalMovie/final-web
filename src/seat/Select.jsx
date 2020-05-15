@@ -22,7 +22,7 @@ class Select extends Component {
         let count = 0;
         const loadCallback = () => {
             count++;
-            if (count == 3) {
+            if (count === 3) {
                 this.emptyImg = emptyImg;
                 this.selectImg = selectImg;
                 this.soldImg = soldImg;
@@ -53,7 +53,7 @@ class Select extends Component {
         let selected = this.props.selectSeat;
         selected.forEach((item, index) => {
 
-            const {isSold, x, y} = item;
+            const {x, y} = item;
             const offsetLeft = (x - 1) * SET_WIDTH;
             const offsetTop = (y - 1) * SET_HEIGHT;
             this.ctx.drawImage(this.selectImg, offsetLeft, offsetTop, SET_WIDTH, SET_HEIGHT);
@@ -98,7 +98,7 @@ class Select extends Component {
             return;
         }
         //5. find if the data selected is in the data
-        const selectIndex = this.props.selectSeat.findIndex(item => item.id == seat.id);
+        const selectIndex = this.props.selectSeat.findIndex(item => item.id === seat.id);
 
         if (selectIndex > -1) {
             //5.1 IF in the list 【DELETE】

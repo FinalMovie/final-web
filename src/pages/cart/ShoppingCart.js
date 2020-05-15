@@ -12,8 +12,7 @@ class ShoppingCart extends React.Component {
             total: 0,
             subtotal: 0,
             discountPassdown: 0,
-            isStaff: window.localStorage.getItem("isstaff") === "true" ? true : false,
-
+            isStaff: window.localStorage.getItem("isstaff") === "true",
         }
     }
 
@@ -57,7 +56,7 @@ class ShoppingCart extends React.Component {
         console.log(carts);
         for (let _value of carts) {
             console.log(_value);
-            if (value.id != _value.id || value.name != _value.name) {
+            if (value.id !== _value.id || value.name !== _value.name) {
                 newCarts.push(_value);
             }
         }
@@ -82,7 +81,7 @@ class ShoppingCart extends React.Component {
                                 <th scope="col">Info</th>
                                 <th scope="col">Time Length</th>
                                 <th scope="col">Image</th>
-                                <th scope="col"></th>
+                                <th scope="col"/>
                             </tr>
                             </thead>
                             <tbody>
@@ -96,15 +95,15 @@ class ShoppingCart extends React.Component {
 
                                             <th>{value.roomname} {value.start_time}</th>
                                             <th>{value.lasttime}</th>
-                                            <th>{<img src={value.image} height={100} width={100}/>}</th>
+                                            <th>{<img src={value.image} height={100} width={100} alt=""/>}</th>
                                             <th>
                                                 <button onClick={this.deleteCarts.bind(this, value)}>
                                                     <svg className="bi bi-trash-fill" width="1em" height="1em"
                                                          viewBox="0 0 16 16" fill="currentColor"
                                                          xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd"
+                                                        <path fillRule="evenodd"
                                                               d="M2.5 1a1 1 0 00-1 1v1a1 1 0 001 1H3v9a2 2 0 002 2h6a2 2 0 002-2V4h.5a1 1 0 001-1V2a1 1 0 00-1-1H10a1 1 0 00-1-1H7a1 1 0 00-1 1H2.5zm3 4a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7a.5.5 0 01.5-.5zM8 5a.5.5 0 01.5.5v7a.5.5 0 01-1 0v-7A.5.5 0 018 5zm3 .5a.5.5 0 00-1 0v7a.5.5 0 001 0v-7z"
-                                                              clip-rule="evenodd"/>
+                                                              clipRule="evenodd"/>
                                                     </svg>
                                                 </button>
                                             </th>

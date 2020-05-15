@@ -182,7 +182,7 @@ class Movie extends React.Component {
                                     return (
                                         <Col key={index}>
                                             <div className="card">
-                                                <img src={value.image} height={300} width={300}/>
+                                                <img src={value.image} height={300} width={300} alt=""/>
                                                 <h1>{value.name}</h1>
                                                 <p className="price">${value.price}</p>
                                                 <p>{value.description}</p>
@@ -271,7 +271,7 @@ class Movie extends React.Component {
                                     <Modal.Title>Select the Seat</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
-                                    <Details></Details>
+                                    <Details/>
                                 </Modal.Body>
                                 <Modal.Footer>
                                     <Button variant="secondary" onClick={this.handleSeatClose}>

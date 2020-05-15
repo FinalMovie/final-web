@@ -57,7 +57,7 @@ export default class Food extends React.Component {
                                     return (
                                         <Col key={index}>
                                             <div className="card">
-                                                <img src={value.image} height={300} width={300}/>
+                                                <img src={value.image} height={300} width={300} alt=""/>
                                                 <h1>{value.name}</h1>
                                                 <p className="price">${value.price}</p>
                                                 <p className="price">{value.calories} Calories</p>

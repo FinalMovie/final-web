@@ -86,7 +86,7 @@ class Login extends React.Component {
         }).then(res => {
             axios.get("/api/currentUser").then(res => {
                 if (res.status === 200) {
-
+                    storage.setItem("current", res.data);
                     storage.setItem("membership", res.data.membership);
                     storage.setItem("email", res.data.email);
                     if (res.data.role === "admin") {

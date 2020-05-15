@@ -56,7 +56,7 @@ export default class Pay extends React.Component {
                         <div className="card-header"><strong className="paymentInfo">Payment Info</strong>
                             <img className="img-responsive cc-img"
                                  src="http://www.prepbootstrap.com/Content/images/shared/misc/creditcardicons.png" height={50}
-                                 width={260}/>
+                                 width={260} alt=""/>
                         </div>
                         <div className="card-body">
                             <Row>

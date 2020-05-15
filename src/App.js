@@ -4,7 +4,6 @@ import Home from "./home";
 import {BrowserRouter} from "react-router-dom";
 import {Route, Switch} from "react-router";
 import Login from "./pages/login/Login";
-import Header from "./Header";
 import Movie from "./pages/movie/Movie";
 import Food from "./pages/food/Food";
 import Signup from "./pages/login/Signup";
@@ -16,6 +15,9 @@ import Staff from "./pages/staff/Staff";
 import WhatNew from "./WhatNew";
 import AddMovie from "./pages/admin/AddMovie";
 import AddFood from "./pages/admin/AddFood";
+import Profile from "./pages/profile/Profile";
+import {Layout} from "antd";
+import Header from "./Header";
 
 
 export default class App extends React.Component {
@@ -56,21 +58,16 @@ export default class App extends React.Component {
 
 
     render() {
-        const login = props => {
+        const login = () => {
             return <Login getLoginStatus={this.getLoginStatus} isAdminUser={this.isAdminUser} isStaffUser={this.isStaffUser}/>
         }
-        // const admin = props=>{
-        //     return <Header isAdminUser={this.isAdminUser}>
-        // }
-
-        // virtual root element will not be rendered to DOM tree. 
         return (
-            <React.Fragment>
+            <Layout>
                 <BrowserRouter>
                     <Header
-                        loginStatus={this.state.loginStatus || window.localStorage.getItem("islogin") === "true" ? true : false}
-                        isAdmin={this.state.isAdmin || window.localStorage.getItem("isadmin") === "true" ? true : false}
-                        isStaff={this.state.isStaff || window.localStorage.getItem("isstaff") === "true" ? true : false}>
+                        loginStatus={this.state.loginStatus || window.localStorage.getItem("islogin") === "true"}
+                        isAdmin={this.state.isAdmin || window.localStorage.getItem("isadmin") === "true"}
+                        isStaff={this.state.isStaff || window.localStorage.getItem("isstaff") === "true"}>
                     </Header>
                     <Switch>
                         <Route exact path="/Home" component={Home}/>
@@ -85,11 +82,11 @@ export default class App extends React.Component {
                         <Route exact path="/Pay" component={Pay}/>
                         <Route exact path="/Signup" component={Signup}/>
                         <Route exact path="/Staff" component={Staff}/>
+                        <Route exact path="/Profile" component={Profile}/>
                         <Route exact path="/" component={Home}/>
-
                     </Switch>
                 </BrowserRouter>
-            </React.Fragment>
+            </Layout>
         );
     }
 }
