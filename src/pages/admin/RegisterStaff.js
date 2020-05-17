@@ -1,10 +1,10 @@
 import React from "react";
 import axios from 'axios';
 import {withRouter} from 'react-router-dom';
-import "./Signup.css";
+import "./RegisterStaff.css";
 import {notification} from "antd";
 
-class Signup extends React.Component {
+class RegisterStaff extends React.Component {
 
     constructor(props) {
         super(props);
@@ -12,8 +12,8 @@ class Signup extends React.Component {
             user: {
                 username: '',
                 password: '',
-                confirmedPassword: '',
-                email: ''
+                confirmedPassword:'',
+                email:''
             },
             flag: false, // indicate whether clicked on login button
             status: false, // check if the username and password valid or not
@@ -26,6 +26,8 @@ class Signup extends React.Component {
         this.handleChangeEmail = this.handleChangeEmail.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
+
+
 
 
     handleChangeUsername(event) {
@@ -49,6 +51,7 @@ class Signup extends React.Component {
     }
 
 
+
     handleChangeEmail(event) {
         let email = event.target.value;
         this.setState({
@@ -59,7 +62,7 @@ class Signup extends React.Component {
         })
     }
 
-    handleSubmit(event) {
+    handleSubmit(event){
         event.preventDefault();
         let formData = new FormData();
         let header = {
@@ -69,16 +72,15 @@ class Signup extends React.Component {
         formData.append("password", this.state.user.password);
         formData.append("email", this.state.user.email);
 
-        axios.post("/api/register", formData, header).then(res => {
-            if (res.data.success) {
-                // alert("Register Succeed！");
-                // let storage = window.localStorage;
-                // storage.setItem("islogin", true);
+
+        axios.post("/api/registerStaff",formData,header).then(res=>{
+            if(res.data.success){
                 notification['success']({
-                    message: 'User Registered!',
+                    message: 'Staff Successfully Registered!',
                 });
                 this.props.history.push("/Home");
-            } else {
+            }else{
+
                 this.setState({
                     duplicateUsernameFailed: true,
                 })
@@ -89,9 +91,9 @@ class Signup extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className="splitSignup leftSignup">
-                    <div className="centeredSignup">
-                        <h2>Signup</h2>
+                <div className="splitSignupStaff leftSignupStaff">
+                    <div className="centeredSignupStaff">
+                        <h2>Signup Staff</h2>
 
                         <form onSubmit={this.handleSubmit}>
 
@@ -108,7 +110,7 @@ class Signup extends React.Component {
                             </div>
                             {
                                 this.state.duplicateUsernameFailed ?
-                                    <p style={{"color": "red"}}>Username is already in use, please try again</p>
+                                    <p style={{"color":"red"}}>Username is already in use, please try again</p>
                                     :
                                     ""
                             }
@@ -139,8 +141,9 @@ class Signup extends React.Component {
                         </form>
                     </div>
                 </div>
-                <div className="splitSignup rightSignup">
-                    <div className="centeredSignup">
+                <div className="splitSignupStaff rightSignupStaff">
+                    <div className="centeredSignupStaff">
+
 
                     </div>
                 </div>
@@ -150,4 +153,4 @@ class Signup extends React.Component {
     }
 }
 
-export default withRouter(Signup);
+export default withRouter(RegisterStaff);

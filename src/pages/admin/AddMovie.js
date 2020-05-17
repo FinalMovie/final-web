@@ -3,6 +3,7 @@ import axios from 'axios';
 import "../movie/Movie.css";
 import {Modal} from 'react-bootstrap';
 import Pagination from 'rc-pagination';
+import {notification} from "antd";
 
 
 export default class AddMovie extends React.Component {
@@ -71,9 +72,14 @@ export default class AddMovie extends React.Component {
             };
             axios.post("/api/addMovie", formData, header).then(res => {
                 if (res.data.success) {
-                    alert("Add Succeed")
+                    notification['success']({
+                        message: 'New Movie Added!',
+                    });
+                    window.location.reload(true);
                 } else {
-                    alert(res.data.msg);
+                    notification['error']({
+                        message: 'Failed to Add Movie!',
+                    });
                 }
             }).then(res => {
                 this.setState({
@@ -95,9 +101,14 @@ export default class AddMovie extends React.Component {
             };
             axios.post("/api/editMovie", formData, header).then(res => {
                 if (res.data.success) {
-                    alert("Edit Succeed")
+                    notification['success']({
+                        message: 'Change Saved',
+                    });
+                    window.location.reload(true);
                 } else {
-                    alert(res.data.msg);
+                    notification['error']({
+                        message: 'Change Failed to Save!',
+                    });
                 }
             })
         }
@@ -124,9 +135,14 @@ export default class AddMovie extends React.Component {
 
         axios.post("/api/deleteMovie", formData, header).then(res => {
             if (res.data.success) {
-                alert("Delete Succeed！")
+                notification['success']({
+                    message: 'Movie Deleted!',
+                });
+                window.location.reload(true);
             } else {
-                alert("Delete Failed！")
+                notification['error']({
+                    message: 'Failed to Delete Movie!',
+                });
             }
         })
     }
@@ -184,8 +200,8 @@ export default class AddMovie extends React.Component {
                                         <th>{value.description}</th>
                                         <th>{<img src={value.image} height={100} width={100}/>}</th>
                                         <th>
-                                            <button onClick={this.handleshowMovieEdit.bind(this, value)}>Modify</button>
-                                            - <button onClick={this.DeleteMovie.bind(this, value)}>Delete</button></th>
+                                            <button style={{color: "black"}} onClick={this.handleshowMovieEdit.bind(this, value)}>Modify</button>
+                                            - <button style={{color: "black"}} onClick={this.DeleteMovie.bind(this, value)}>Delete</button></th>
                                     </tr>
                                 );
                             })

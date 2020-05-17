@@ -18,6 +18,7 @@ import AddFood from "./pages/admin/AddFood";
 import Profile from "./pages/profile/Profile";
 import {Layout} from "antd";
 import Header from "./Header";
+import RegisterStaff from "./pages/admin/RegisterStaff";
 
 
 export default class App extends React.Component {
@@ -62,7 +63,7 @@ export default class App extends React.Component {
             return <Login getLoginStatus={this.getLoginStatus} isAdminUser={this.isAdminUser} isStaffUser={this.isStaffUser}/>
         }
         return (
-            <Layout>
+            // <Layout>
                 <BrowserRouter>
                     <Header
                         loginStatus={this.state.loginStatus || window.localStorage.getItem("islogin") === "true"}
@@ -71,12 +72,13 @@ export default class App extends React.Component {
                     </Header>
                     <Switch>
                         <Route exact path="/Home" component={Home}/>
-                        <Route exact path="/Edit" component={Edit}/>
+                        {/*<Route exact path="/Edit" component={Edit}/>*/}
                         <Route exact path="/Login" component={login}/>
                         <Route exact path="/Movie" component={Movie}/>
                         <Route exact path="/Food" component={Food}/>
                         <Route exact path="/AddMovie" component={AddMovie}/>
                         <Route exact path="/AddFood" component={AddFood}/>
+                        <Route exact path="/RegisterStaff" component={RegisterStaff}/>
                         <Route exact path="/WhatNew" component={WhatNew}/>
                         <Route exact path="/ShoppingCart" component={ShoppingCart}/>
                         <Route exact path="/Pay" component={Pay}/>
@@ -86,7 +88,7 @@ export default class App extends React.Component {
                         <Route exact path="/" component={Home}/>
                     </Switch>
                 </BrowserRouter>
-            </Layout>
+            // </Layout>
         );
     }
 }

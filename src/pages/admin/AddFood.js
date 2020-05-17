@@ -3,6 +3,7 @@ import axios from 'axios';
 import "../movie/Movie.css";
 import {Modal} from 'react-bootstrap';
 import Pagination from 'rc-pagination';
+import {notification} from "antd";
 
 
 export default class AddFood extends React.Component {
@@ -71,9 +72,15 @@ export default class AddFood extends React.Component {
             };
             axios.post("/api/addFood", formData, header).then(res => {
                 if (res.data.success) {
-                    alert("Add Succeed")
+                    notification['success']({
+                        message: 'New Food Added!',
+                    });
+                    window.location.reload(true);
                 } else {
-                    alert(res.data.msg);
+
+                    notification['error']({
+                        message: res.data.msg,
+                    });
                 }
             }).then(res => {
                 this.setState({
@@ -94,9 +101,14 @@ export default class AddFood extends React.Component {
             };
             axios.post("/api/editFood", formData, header).then(res => {
                 if (res.data.success) {
-                    alert("Edit Succeed")
+                    notification['success']({
+                        message: 'Change Saved',
+                    });
+                    window.location.reload(true);
                 } else {
-                    alert(res.data.msg);
+                    notification['error']({
+                        message: res.data.msg,
+                    });
                 }
             })
         }
@@ -121,9 +133,14 @@ export default class AddFood extends React.Component {
 
         axios.post("/api/deleteFood", formData, header).then(res => {
             if (res.data.success) {
-                alert("Delete Succeed！")
+                notification['success']({
+                    message: "Food is Deleted",
+                });
+                window.location.reload(true);
             } else {
-                alert("Delete Failed！")
+                notification['error']({
+                    message: 'Failed to Delete!',
+                });
             }
         })
     }
@@ -147,7 +164,7 @@ export default class AddFood extends React.Component {
             console.log(123, res.data, res.data.data.totalPages)
             if (res.data.success) {
                 this.setState({
-                    listMovie: res.data.data.content,
+                    listFood: res.data.data.content,
                     total: res.data.data.totalPages * this.state.pageSize
                 });
             } else {
@@ -180,8 +197,11 @@ export default class AddFood extends React.Component {
                                         <th>{value.calories}</th>
                                         <th>{<img src={value.image} height={100} width={100}/>}</th>
                                         <th>
-                                            <button onClick={this.handleshowFoodEdit.bind(this, value)}>Modify</button>
-                                            - <button onClick={this.DeleteFood.bind(this, value)}>Delete</button></th>
+                                            <button style={{color: "black"}} onClick={this.handleshowFoodEdit.bind(this, value)}>Modify</button>
+                                            <br/>
+                                            -
+                                            <br/>
+                                            <button style={{color: "black"}} onClick={this.DeleteFood.bind(this, value)}>Delete</button></th>
                                     </tr>
                                 );
                             })

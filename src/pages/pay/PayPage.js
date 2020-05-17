@@ -2,6 +2,7 @@ import * as React from "react";
 import {Button, Col, FormControl, InputGroup, Row} from 'react-bootstrap';
 import './PayPage.css';
 import axios from "axios";
+import {notification} from "antd";
 
 export default class Pay extends React.Component {
     constructor(props) {
@@ -47,8 +48,10 @@ export default class Pay extends React.Component {
             } else {
             }
         })
+        notification['success']({
+            message: 'Payment Submitted!',
+        });
         window.localStorage.setItem("cart", JSON.stringify([]))
-
     }
 
     render() {

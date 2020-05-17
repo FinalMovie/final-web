@@ -6,6 +6,7 @@ import "./Staff.css"
 import moment from "moment";
 import Datetime from "react-datetime";
 import Details from "../../seat/Details";
+import {notification} from "antd";
 
 class Staff extends React.Component {
 
@@ -32,6 +33,7 @@ class Staff extends React.Component {
             showSelectSeat: false,
             selectedDate: moment().format("YYYY-MM-DD"),
             currentMovie: {},
+            isCheckedOut:false,
             user: {
                 email: ''
             }
@@ -72,10 +74,21 @@ class Staff extends React.Component {
 
 
     pay() {
-        this.props.history.push({pathname: "/Pay", state: {total: this.state.subtotal, lists: this.state.carts}})
+        window.localStorage.setItem("cart", JSON.stringify([]))
+        // window.location.reload();
+        //this.props.history.push({pathname: "/Pay", state: {total: this.state.subtotal, lists: this.state.carts}})
+        notification['success']({
+            message: 'Order is Placed!',
+        });
+        setTimeout(function () {
+            window.location.reload(1);
+        }, 2000);
     }
 
     componentDidMount() {
+        notification['info']({
+            message: 'Ready to Serve Next Customer!',
+        });
         axios.get("/api/foodList").then(res => {
             console.log(res.data)
             if (res.data.success) {
@@ -88,7 +101,9 @@ class Staff extends React.Component {
         let storage = window.localStorage;
         console.log(storage.getItem("islogin"));
         if (storage.getItem("islogin") !== 'true') {
-            alert("Please Login First！");
+            notification['success']({
+                message: 'Please Login!',
+            });
             this.props.history.push("/Login");
         } else {
             axios.get("/api/movieList").then(res => {
@@ -135,7 +150,9 @@ class Staff extends React.Component {
             cart.push(value);
             storage.setItem("cart", JSON.stringify(cart));
         }
-        alert("add success！")
+        notification['success']({
+            message: 'Movie Added to Cart!',
+        });
         this.setState({
             showSelectSeat: false
         })
@@ -157,7 +174,9 @@ class Staff extends React.Component {
             cart.push(value);
             storage.setItem("cart", JSON.stringify(cart));
         }
-        alert("Successfully Added！")
+        notification['success']({
+            message: 'Food Added to Cart!',
+        });
     }
 
     handleClose() {
@@ -197,7 +216,9 @@ class Staff extends React.Component {
         let movieInfo = value.split("@");
         console.log(movieInfo, "test2");
         if (movieInfo[2] <= 0) {
-            alert("Tickets sold out");
+            notification['error']({
+                message: 'Tickets are Sold Out!',
+            });
             return false
         } else {
             let storage = window.localStorage;
@@ -273,7 +294,6 @@ class Staff extends React.Component {
                 }
                 console.log(discount);
                 this.setState({
-
                     subtotal: (total * 0.0625 + total).toFixed(2),
                     total: (total * 0.0625 + total * discount).toFixed(2)
                 })
@@ -519,8 +539,8 @@ class Staff extends React.Component {
                                                 this.state.discountPassdown === 1 ?
                                                     ""
                                                     :
-                                                    <p>Membership Discount
-                                                        Applied: {((1 - this.state.discountPassdown) * this.state.subtotal).toFixed(2)}</p>
+                                                    <p>Membership Discount:
+                                                        {((1 - this.state.discountPassdown) * this.state.subtotal).toFixed(2)} USD</p>
                                             }
                                             <p>Total: {(this.state.total)} USD</p>
                                             <Link to="/ShoppingCart">
@@ -529,8 +549,6 @@ class Staff extends React.Component {
                                             <br/>
                                             <p></p>
                                             <Button onClick={this.pay.bind(this)}>CHECKOUT</Button>
-
-
                                         </Row>
                                     </div>
                                 </div>
