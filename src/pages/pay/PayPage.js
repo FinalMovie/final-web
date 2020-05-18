@@ -2,6 +2,7 @@ import * as React from "react";
 import {Button, Col, FormControl, InputGroup, Row} from 'react-bootstrap';
 import './PayPage.css';
 import axios from "axios";
+import {notification} from "antd";
 
 export default class Pay extends React.Component {
     constructor(props) {
@@ -47,7 +48,22 @@ export default class Pay extends React.Component {
             } else {
             }
         })
-        window.localStorage.setItem("cart", JSON.stringify([]))
+        console.log(window.localStorage);
+        let formData = new FormData();
+        formData.append("email", window.localStorage.getItem("email"));
+        formData.append("cart", window.localStorage.getItem("cart"));
+        axios.post("/api/sendEmail", formData).then(res => {
+            if (res.status === 200 && res.data.success) {
+                notification['success']({
+                    message: 'Success!',
+                });
+            } else {
+                notification['error']({
+                    message: res.data.msg ? res.data.msg : 'Error',
+                });
+            }
+        })
+        // window.localStorage.setItem("cart", JSON.stringify([]))
 
     }
 
