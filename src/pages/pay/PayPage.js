@@ -48,7 +48,9 @@ export default class Pay extends React.Component {
             } else {
             }
         })
-        console.log(window.localStorage);
+        notification['success']({
+            message: 'Payment Submitted!',
+        });
         let formData = new FormData();
         formData.append("email", window.localStorage.getItem("email"));
         formData.append("cart", window.localStorage.getItem("cart"));
@@ -63,8 +65,7 @@ export default class Pay extends React.Component {
                 });
             }
         })
-        // window.localStorage.setItem("cart", JSON.stringify([]))
-
+        window.localStorage.setItem("cart", JSON.stringify([]))
     }
 
     render() {

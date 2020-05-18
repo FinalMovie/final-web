@@ -25,7 +25,7 @@ const Profile = (props) => {
     let infoList = [
         {key: 'username', name: 'UserName'},
         {key: 'email', name: 'Email'},
-        {key: 'membership', name: 'Membership'},
+        {key: 'membership', name: 'Membership Points'},
         {key: 'role', name: 'Role'},
     ]
 
@@ -88,7 +88,7 @@ const Profile = (props) => {
                 <Form.Item
                     label="Password"
                     name="password"
-                    rules={[{required: true, message: 'Please input your password!'}]}
+                    rules={[{required: true, message: 'Please input old your password!'}]}
                 >
                     <Input.Password/>
                 </Form.Item>

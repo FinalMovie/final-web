@@ -7,6 +7,7 @@ import Datetime from 'react-datetime';
 import moment from 'moment';
 import "./Movie.css";
 import "../login/Login";
+import {notification} from "antd";
 
 class Movie extends React.Component {
 
@@ -105,7 +106,9 @@ class Movie extends React.Component {
             showSelectSeat: false
         })
         storage.setItem("movie_name", value.name)
-        // this.props.functionCallFromParent();
+        notification['success']({
+            message: 'Movie Added to Cart!',
+        });
     }
 
     handleClose() {
@@ -119,6 +122,9 @@ class Movie extends React.Component {
         let storage = window.localStorage;
         let loggedIn = storage.getItem("islogin");
         if (loggedIn === "false") {
+            notification['error']({
+                message: 'Please Login!',
+            });
             this.props.history.push({pathname: "/Login"});
             return;
         }

@@ -92,9 +92,9 @@ class ShoppingCart extends React.Component {
                                             <th>{index + 1}</th>
                                             <th>{value.name}</th>
                                             <th>${value.price}</th>
-
                                             <th>{value.roomname} {value.start_time}</th>
-                                            <th>{value.lasttime}</th>
+                                            <th>{value.lasttime}
+                                            </th>
                                             <th>{<img src={value.image} height={100} width={100} alt=""/>}</th>
                                             <th>
                                                 <button onClick={this.deleteCarts.bind(this, value)}>

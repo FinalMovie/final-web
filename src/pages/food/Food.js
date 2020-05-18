@@ -2,6 +2,7 @@ import * as React from "react";
 import axios from "axios";
 import {Col, Container, Row} from 'react-bootstrap';
 import "./Food.css";
+import {notification} from "antd";
 
 export default class Food extends React.Component {
 
@@ -29,6 +30,9 @@ export default class Food extends React.Component {
         let cart = storage.getItem("cart");
         let loggedIn = storage.getItem("islogin");
         if (loggedIn === "false") {
+            notification['error']({
+                message: 'Please Login!',
+            });
             this.props.history.push({pathname: "/Login"});
             return;
         }
@@ -43,6 +47,9 @@ export default class Food extends React.Component {
             cart.push(value);
             storage.setItem("cart", JSON.stringify(cart));
         }
+        notification['success']({
+            message: 'Food Added to Cart!',
+        });
         // alert("Successfully Added！")
     }
 
